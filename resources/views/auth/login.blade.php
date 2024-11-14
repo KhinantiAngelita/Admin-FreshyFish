@@ -90,15 +90,15 @@
         data: JSON.stringify({ email: email, password: password }),
         contentType: 'application/json',
         success: function(response) {
-            if (response.success) {
-              console.log(response);
-            window.location.href = '/dashboard';  // Arahkan ke halaman dashboard
+            console.log("Response dari API:", response);
+            if (response.token) {
+              window.location.href = '/dashboard';  // Arahkan ke halaman dashboard
             } else {
-              console.log(response); //benerin ini
-            $('#error-message').text('Email atau password salah');
+              $('#error-message').text('Email atau password salah');
             }
         },
         error: function(xhr) {
+            console.log("Error:", xhr);
             $('#error-message').text('Terjadi kesalahan. Silakan coba lagi.');
         }
         });
