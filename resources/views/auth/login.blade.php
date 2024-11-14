@@ -94,7 +94,7 @@
               console.log(response);
             window.location.href = '/dashboard';  // Arahkan ke halaman dashboard
             } else {
-              console.log(response);
+              console.log(response); //benerin ini
             $('#error-message').text('Email atau password salah');
             }
         },
