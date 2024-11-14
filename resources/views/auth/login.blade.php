@@ -85,14 +85,16 @@
 
         // Kirimkan data ke API menggunakan AJAX
         $.ajax({
-        url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/login', // URL dengan CORS proxy
+        url: 'https://freshyfishapi.ydns.eu/api/auth/login', // URL dengan CORS proxy
         method: 'POST',
         data: JSON.stringify({ email: email, password: password }),
         contentType: 'application/json',
         success: function(response) {
             if (response.success) {
+              console.log(response);
             window.location.href = '/dashboard';  // Arahkan ke halaman dashboard
             } else {
+              console.log(response);
             $('#error-message').text('Email atau password salah');
             }
         },
