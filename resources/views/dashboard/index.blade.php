@@ -39,20 +39,11 @@
               <img src="../../images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
+              <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
+                  <i class="ti-power-off text-primary"></i>
+                  Logout
               </a>
             </div>
-          </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
           </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -125,7 +116,7 @@
                       </div>
                   </div>
               </div>
-              
+
               <!-- Order Details Section -->
               <div class="row">
                   <div class="col-lg-12 grid-margin stretch-card">
@@ -151,7 +142,7 @@
                           </div>
                       </div>
                   </div>
-                  
+
                   <!-- Pie Chart -->
                   <div class="col-lg-6 grid-margin stretch-card">
                       <div class="card">
@@ -166,9 +157,9 @@
       </div> <!-- End of Main Panel -->
 
 
-        
 
-            
+
+
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- <footer class="footer">
@@ -180,7 +171,7 @@
         <!-- partial -->
       </div>
       <!-- main-panel ends -->
-    </div>   
+    </div>
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
@@ -209,8 +200,42 @@
   <script src="../../js/chart.js"></script>
   <!-- End custom js for this page-->
   <!-- End custom js for this page-->
+
+  <script>
+    $(document).ready(function() {
+        // Fungsi untuk menangani klik pada tombol logout
+        $('#logoutButton').on('click', function() {
+            // Ambil token dari LocalStorage
+            const token = localStorage.getItem('token');
+
+            // Jika token tidak ada, langsung arahkan ke halaman login
+            if (!token) {
+                window.location.href = '/auth/login';
+                return;
+            }
+
+            // Kirim permintaan logout ke API
+            $.ajax({
+              url: 'https://freshyfishapi.ydns.eu/api/auth/logout',  // Ganti dengan URL logout API Anda
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
+                    localStorage.removeItem('token');
+                    window.location.href = '/auth/login';
+                },
+                error: function(xhr) {
+                    // Tangani error jika ada masalah dengan API
+                    console.log("Error:", xhr);
+                    // Arahkan tetap ke login meski ada error
+                    window.location.href = '/auth/login';
+                }
+            });
+        });
+    });
+</script>
 </body>
 
 </html>
-
-a

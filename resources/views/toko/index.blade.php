@@ -26,8 +26,8 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="images/romawei.png" class="mr-1" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/loioy.png" alt="logo"/></a>
+            <a class="navbar-brand brand-logo mr-2"><img src="images/romawei.png" class="mr-1" alt="logo"/></a>
+            <a class="navbar-brand brand-logo-mini"><img src="images/loioy.png" alt="logo"/></a>
         </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -39,20 +39,11 @@
               <img src="../../images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
+              <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
+                  <i class="ti-power-off text-primary"></i>
+                  Logout
               </a>
             </div>
-          </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
           </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -60,6 +51,7 @@
         </button>
       </div>
     </nav>
+
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:../../partials/_settings-panel.html -->
@@ -121,11 +113,6 @@
                             <p class="card-description">Detail Toko Anda</p>
                             <form id="editStoreForm" class="forms-sample" method="POST" action="#" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-group">
-                                    <label for="id_toko">Id Toko</label>
-                                    <input type="text" class="form-control" id="id_toko" name="id_toko" placeholder="Id Toko" required readonly>
-                                </div>
-
                                 <div class="form-group">
                                     <label for="nama_toko">Nama Toko</label>
                                     <input type="text" class="form-control" id="nama_toko" name="nama_toko" placeholder="Nama Toko" required readonly>
@@ -211,75 +198,107 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var storeId = '123'; // Ganti dengan id toko yang sesuai atau ambil dari URL/variabel
+  <script type="text/javascript">
+    $(document).ready(function () {
+        var storeId = '123'; // Ganti dengan id toko yang sesuai atau ambil dari URL/variabel
 
-            // CORS Proxy URL
-            const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+        // CORS Proxy URL
+        const corsProxy = 'https://cors-anywhere.herokuapp.com/';
 
-            // Load data toko saat halaman dimuat
-            function loadStoreData() {
-                $.ajax({
-                    url: corsProxy + 'https://freshyfishapi.ydns.eu/api/toko/' + storeId, // Menggunakan CORS Proxy
-                    type: 'GET',
-                    success: function (response) {
-                        // Tampilkan data toko di form (hanya untuk menampilkan, readonly)
-                        $('#id_toko').val(response.data.id_toko);
-                        $('#nama_toko').val(response.data.nama_toko);
-                        $('#alamat_toko').val(response.data.alamat_toko);
-                        $('#kategori_toko').val(response.data.kategori_toko);
-                    },
-                    error: function (xhr, status, error) {
-                        alert('Terjadi kesalahan saat memuat data toko. Coba lagi.');
-                    }
-                });
-            }
-
-            // Load data toko saat halaman dimuat
-            loadStoreData();
-
-            // Fungsi untuk mengaktifkan input form ketika tombol Edit diklik
-            $('#editButton').click(function () {
-                // Aktifkan input form
-                $('#nama_toko').prop('readonly', false);
-                $('#alamat_toko').prop('readonly', false);
-                $('#kategori_toko').prop('disabled', false);
-
-                // Ganti tombol Edit dengan tombol Update
-                $('#editButton').text('Update').attr('id', 'updateButton');
+        // Load data toko saat halaman dimuat
+        function loadStoreData() {
+            $.ajax({
+                url: corsProxy + 'https://freshyfishapi.ydns.eu/api/toko/' + storeId, // Menggunakan CORS Proxy
+                type: 'GET',
+                success: function (response) {
+                    // Tampilkan data toko di form (hanya untuk menampilkan, readonly)
+                    $('#nama_toko').val(response.data.nama_toko);
+                    $('#alamat_toko').val(response.data.alamat_toko);
+                    $('#kategori_toko').val(response.data.kategori_toko);
+                },
+                error: function (xhr, status, error) {
+                    alert('Terjadi kesalahan saat memuat data toko. Coba lagi.');
+                }
             });
+        }
 
-            // Fungsi untuk mengupdate data toko
-            $(document).on('click', '#updateButton', function () {
-                var storeData = {
-                    id_toko: $('#id_toko').val(),
-                    nama_toko: $('#nama_toko').val(),
-                    alamat_toko: $('#alamat_toko').val(),
-                    kategori_toko: $('#kategori_toko').val(),
-                };
+        // Load data toko saat halaman dimuat
+        loadStoreData();
 
-                $.ajax({
-                    url: corsProxy + 'https://freshyfishapi.ydns.eu/api/toko/' + storeId, // Menggunakan CORS Proxy
-                    type: 'PUT',
-                    data: storeData,
-                    success: function (response) {
-                        // Tampilkan modal sukses
-                        $('#modalSuccess').modal('show');
-                        
-                        // Setelah 2 detik, refresh data toko dan kembalikan form ke readonly
-                        setTimeout(function () {
-                            loadStoreData();
-                            $('#modalSuccess').modal('hide');
-                        }, 2000);
-                    },
-                    error: function (xhr, status, error) {
-                        alert('Terjadi kesalahan saat memperbarui data toko. Coba lagi.');
-                    }
-                });
+        // Fungsi untuk mengaktifkan input form ketika tombol Edit diklik
+        $('#editButton').click(function () {
+            // Aktifkan input form
+            $('#nama_toko').prop('readonly', false);
+            $('#alamat_toko').prop('readonly', false);
+            $('#kategori_toko').prop('disabled', false);
+
+            // Ganti tombol Edit dengan tombol Update
+            $('#editButton').text('Update').attr('id', 'updateButton');
+        });
+
+        // Fungsi untuk mengupdate data toko
+        $(document).on('click', '#updateButton', function () {
+            var storeData = {
+                id_toko: $('#id_toko').val(),
+                nama_toko: $('#nama_toko').val(),
+                alamat_toko: $('#alamat_toko').val(),
+                kategori_toko: $('#kategori_toko').val(),
+            };
+
+            $.ajax({
+                url: corsProxy + 'https://freshyfishapi.ydns.eu/api/toko/' + storeId, // Menggunakan CORS Proxy
+                type: 'PUT',
+                data: storeData,
+                success: function (response) {
+                    // Tampilkan modal sukses
+                    $('#modalSuccess').modal('show');
+
+                    // Setelah 2 detik, refresh data toko dan kembalikan form ke readonly
+                    setTimeout(function () {
+                        loadStoreData();
+                        $('#modalSuccess').modal('hide');
+                    }, 2000);
+                },
+                error: function (xhr, status, error) {
+                    alert('Terjadi kesalahan saat memperbarui data toko. Coba lagi.');
+                }
             });
         });
-    </script>
+
+        // Fungsi untuk menangani klik pada tombol logout
+        $('#logoutButton').on('click', function () {
+            // Ambil token dari LocalStorage
+            const token = localStorage.getItem('token');
+
+            // Jika token tidak ada, langsung arahkan ke halaman login
+            if (!token) {
+                window.location.href = '/auth/login';
+                return;
+            }
+
+            // Kirim permintaan logout ke API
+            $.ajax({
+                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (response) {
+                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
+                    localStorage.removeItem('token');
+                    window.location.href = '/auth/login';
+                },
+                error: function (xhr) {
+                    // Tangani error jika ada masalah dengan API
+                    console.log("Error:", xhr);
+                    // Arahkan tetap ke login meski ada error
+                    window.location.href = '/auth/login';
+                }
+            });
+        });
+    });
+</script>
+
 
 
 </body>

@@ -32,73 +32,16 @@
           <span class="icon-menu"></span>
         </button>
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="ti-settings mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="ti-user mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="../../images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
+              <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
+                  <i class="ti-power-off text-primary"></i>
+                  Logout
               </a>
             </div>
-          </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
           </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -127,7 +70,7 @@
                   </div>
                 </div>
               </div>
-            
+
         <!-- partial -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
@@ -331,13 +274,13 @@
     function editPesanan(id) {
         // Mengambil status dari dropdown status pada baris pesanan tertentu
         var status = $('#pesanan-' + id).find('.status-select').val();
-        
+
         // Set status pada modal input untuk diedit
         $('#status').val(status);
-        
+
         // Set ID pesanan pada hidden input untuk menyimpan ID pesanan
         $('#pesanan_id').val(id);
-        
+
         // Menampilkan modal untuk edit pesanan
         $('#editModal').modal('show');
     }
@@ -346,7 +289,7 @@
     function saveEditPesanan() {
         var pesananId = $('#pesanan_id').val(); // Ambil ID pesanan
         var status = $('#status').val();  // Ambil status baru dari input text
-        
+
         // Kirimkan data menggunakan AJAX
         $.ajax({
             url: 'https://freshyfishapi.ydns.eu/pesanan/' + pesananId, // URL API untuk mengedit pesanan
@@ -360,7 +303,7 @@
                 $('#pesanan-' + pesananId).find('.status-select').val(status);
                 // Tutup modal setelah penyimpanan
                 $('#editModal').modal('hide');
-                
+
                 // Tampilkan notifikasi sukses
                 alert('Pesanan berhasil diperbarui');
             },
@@ -375,7 +318,7 @@
     function deletePesanan(id) {
         // Set ID pesanan pada hidden input
         $('#pesanan_id').val(id);
-        
+
         // Tampilkan modal konfirmasi untuk hapus pesanan
         $('#deleteModal').modal('show');
     }
@@ -386,24 +329,58 @@
 
         // Kirimkan request AJAX untuk menghapus pesanan
         $.ajax({
-        url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/pesanan/' + pesananId, // Menambahkan CORS proxy
-        type: 'PUT',
-        data: {
-            status: status,
-            _token: '{{ csrf_token() }}',
-        },
-        success: function(response) {
-            // Update status pesanan dan tutup modal
-            $('#pesanan-' + pesananId).find('.status-select').val(status);
-            $('#editModal').modal('hide');
-            alert('Pesanan berhasil diperbarui');
-        },
-        error: function() {
-            alert('Gagal memperbarui pesanan');
-        }
+            url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/pesanan/' + pesananId, // Menambahkan CORS proxy
+            type: 'DELETE',  // Menggunakan method DELETE untuk menghapus data
+            data: {
+                _token: '{{ csrf_token() }}', // Kirimkan token CSRF untuk keamanan
+            },
+            success: function(response) {
+                // Update tampilan dan tutup modal
+                $('#pesanan-' + pesananId).remove();
+                $('#deleteModal').modal('hide');
+                alert('Pesanan berhasil dihapus');
+            },
+            error: function() {
+                alert('Gagal menghapus pesanan');
+            }
         });
     }
+
+    // Fungsi untuk menangani klik pada tombol logout
+    $(document).ready(function() {
+        $('#logoutButton').on('click', function() {
+            // Ambil token dari LocalStorage
+            const token = localStorage.getItem('token');
+
+            // Jika token tidak ada, langsung arahkan ke halaman login
+            if (!token) {
+                window.location.href = '/auth/login';
+                return;
+            }
+
+            // Kirim permintaan logout ke API
+            $.ajax({
+                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
+                    localStorage.removeItem('token');
+                    window.location.href = '/auth/login';
+                },
+                error: function(xhr) {
+                    // Tangani error jika ada masalah dengan API
+                    console.log("Error:", xhr);
+                    // Arahkan tetap ke login meski ada error
+                    window.location.href = '/auth/login';
+                }
+            });
+        });
+    });
 </script>
+
 
 
 </body>

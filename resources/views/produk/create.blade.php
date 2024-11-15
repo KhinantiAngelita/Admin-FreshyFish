@@ -39,20 +39,11 @@
               <img src="../../images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
+              <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
+                  <i class="ti-power-off text-primary"></i>
+                  Logout
               </a>
             </div>
-          </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
           </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -113,7 +104,7 @@
             </ul>
         </nav>
       <!-- partial -->
-        <div class="main-panel">        
+        <div class="main-panel">
             <div class="content-wrapper">
                 <div class="row">
                     <div class="col-12 grid-margin stretch-card">
@@ -124,14 +115,6 @@
                                     Tambahkan Produk Anda
                                 </p>
                                 <form class="forms-sample" id="productForm">
-                                    <div class="form-group">
-                                        <label for="productId">Id Produk</label>
-                                        <input type="text" class="form-control" id="productId" placeholder="Id Produk" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="storeId">Id Toko</label>
-                                        <input type="email" class="form-control" id="storeId" placeholder="Id Toko" required>
-                                    </div>
                                     <div class="form-group">
                                         <label for="fishName">Nama Ikan</label>
                                         <input type="text" class="form-control" id="fishName" placeholder="Nama Ikan" required>
@@ -176,7 +159,7 @@
                 </div>
             </div>
             <!-- content-wrapper ends -->
-            
+
             <!-- Modal -->
             <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -234,47 +217,80 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // Ketika tombol "Simpan Produk" diklik
-            $('#saveProductBtn').click(function () {
-                // Ambil data dari form
-                let productData = {
-                    id_produk: $('#productId').val(),
-                    id_toko: $('#storeId').val(),
-                    nama_ikan: $('#fishName').val(),
-                    berat_ikan: $('#fishWeight').val(),
-                    harga_ikan: $('#fishPrice').val(),
-                    kategori_ikan: $('#fishCategory').val(),
-                    deskripsi_ikan: $('#fishDescription').val(),
-                };
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Ketika tombol "Simpan Produk" diklik
+        $('#saveProductBtn').click(function () {
+            // Ambil data dari form
+            let productData = {
+                // id_produk: $('#productId').val(),
+                // id_toko: $('#storeId').val(),
+                nama_ikan: $('#fishName').val(),
+                berat_ikan: $('#fishWeight').val(),
+                harga_ikan: $('#fishPrice').val(),
+                kategori_ikan: $('#fishCategory').val(),
+                deskripsi_ikan: $('#fishDescription').val(),
+            };
 
-                // Validasi form
-                if (!productData.id_produk || !productData.id_toko || !productData.nama_ikan || !productData.berat_ikan || !productData.harga_ikan || !productData.kategori_ikan || !productData.deskripsi_ikan) {
-                    alert('Harap lengkapi semua field');
-                    return;
+            // Validasi form
+            if (!productData.id_produk || !productData.id_toko || !productData.nama_ikan || !productData.berat_ikan || !productData.harga_ikan || !productData.kategori_ikan || !productData.deskripsi_ikan) {
+                alert('Harap lengkapi semua field');
+                return;
+            }
+
+            // Kirim data ke API menggunakan AJAX
+            $.ajax({
+                url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk', // Menggunakan proxy CORS
+                type: 'POST',
+                data: productData, // Data yang dikirimkan
+                success: function (response) {
+                    // Jika berhasil, tampilkan modal dan alihkan ke produk.show
+                    $('#modalSuccess').modal('show'); // Tampilkan modal
+                    setTimeout(function () {
+                        window.location.href = "{{ route('produk.show') }}"; // Redirect ke halaman produk
+                    }, 2000); // Redirect setelah 2 detik
+                },
+                error: function (xhr, status, error) {
+                    // Jika terjadi error
+                    alert('Terjadi kesalahan saat menyimpan produk. Coba lagi.');
                 }
-
-                // Kirim data ke API menggunakan AJAX
-                $.ajax({
-                    url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk', // Menggunakan proxy CORS
-                    type: 'POST',
-                    data: productData, // Data yang dikirimkan
-                    success: function (response) {
-                        // Jika berhasil, tampilkan modal dan alihkan ke produk.show
-                        $('#modalSuccess').modal('show'); // Tampilkan modal
-                        setTimeout(function () {
-                            window.location.href = "{{ route('produk.show') }}"; // Redirect ke halaman produk
-                        }, 2000); // Redirect setelah 2 detik
-                    },
-                    error: function (xhr, status, error) {
-                        // Jika terjadi error
-                        alert('Terjadi kesalahan saat menyimpan produk. Coba lagi.');
-                    }
-                });
             });
         });
-    </script>
+
+        // Fungsi untuk menangani klik pada tombol logout
+        $('#logoutButton').on('click', function () {
+            // Ambil token dari LocalStorage
+            const token = localStorage.getItem('token');
+
+            // Jika token tidak ada, langsung arahkan ke halaman login
+            if (!token) {
+                window.location.href = '/auth/login';
+                return;
+            }
+
+            // Kirim permintaan logout ke API
+            $.ajax({
+                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
+                    localStorage.removeItem('token');
+                    window.location.href = '/auth/login';
+                },
+                error: function(xhr) {
+                    // Tangani error jika ada masalah dengan API
+                    console.log("Error:", xhr);
+                    // Arahkan tetap ke login meski ada error
+                    window.location.href = '/auth/login';
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 
 </html>

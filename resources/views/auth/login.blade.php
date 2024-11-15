@@ -38,7 +38,7 @@
                   <input type="password" class="form-control form-control-lg" id="password" placeholder="Password" required>
                 </div>
                 <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Sign In</button>
                 </div>
               </form>
               <p id="error-message" class="text-danger mt-2"></p>
@@ -57,54 +57,61 @@
   <script src="../../js/template.js"></script>
   <script src="../../js/settings.js"></script>
   <script src="../../js/todolist.js"></script>
-  
+
   <script>
     $(document).ready(function() {
-    // Event listener untuk form submission
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault(); // Mencegah reload halaman
+        // Event listener untuk form submission
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault(); // Mencegah reload halaman
 
-        // Ambil nilai email dan password dari input form
-        const email = $('#email').val().trim();
-        const password = $('#password').val().trim();
-        let isValid = true;
+            // Ambil nilai email dan password dari input form
+            const email = $('#email').val().trim();
+            const password = $('#password').val().trim();
+            let isValid = true;
 
-        // Validasi inputan email dan password
-        if (!email) {
-        $('#email').addClass('border-red placeholder-red').attr('placeholder', 'Email diperlukan');
-        isValid = false;
-        }
-
-        if (!password) {
-        $('#password').addClass('border-red placeholder-red').attr('placeholder', 'Password diperlukan');
-        isValid = false;
-        }
-
-        // Jika validasi gagal, hentikan proses
-        if (!isValid) return;
-
-        // Kirimkan data ke API menggunakan AJAX
-        $.ajax({
-        url: 'https://freshyfishapi.ydns.eu/api/auth/login', // URL dengan CORS proxy
-        method: 'POST',
-        data: JSON.stringify({ email: email, password: password }),
-        contentType: 'application/json',
-        success: function(response) {
-            console.log("Response dari API:", response);
-            if (response.token) {
-              window.location.href = '/dashboard';  // Arahkan ke halaman dashboard
-            } else {
-              $('#error-message').text('Email atau password salah');
+            // Validasi inputan email dan password
+            if (!email) {
+                $('#email').addClass('border-red placeholder-red').attr('placeholder', 'Email diperlukan');
+                isValid = false;
             }
-        },
-        error: function(xhr) {
-            console.log("Error:", xhr);
-            $('#error-message').text('Terjadi kesalahan. Silakan coba lagi.');
-        }
+
+            if (!password) {
+                $('#password').addClass('border-red placeholder-red').attr('placeholder', 'Password diperlukan');
+                isValid = false;
+            }
+
+            // Jika validasi gagal, hentikan proses
+            if (!isValid) return;
+
+            // Kirimkan data ke API menggunakan AJAX
+            $.ajax({
+                url: 'https://freshyfishapi.ydns.eu/api/auth/login',
+                method: 'POST',
+                data: JSON.stringify({ email: email, password: password }),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log("Response dari API:", response);
+
+                    // Cek apakah token ada di response
+                    if (response.token) {
+                        // Simpan token ke Local Storage
+                        localStorage.setItem('token', response.token);
+
+                        // Redirect ke halaman create
+                        window.location.href = '/auth/create';
+                    } else {
+                        $('#error-message').text('Email atau password salah');
+                    }
+                },
+                error: function(xhr) {
+                    console.log("Error:", xhr);
+                    $('#error-message').text('Terjadi kesalahan. Silakan coba lagi.');
+                }
+            });
         });
     });
-    });
-
   </script>
+
+
 </body>
 </html>
