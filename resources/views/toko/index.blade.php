@@ -133,6 +133,7 @@
                                 </div>
 
                                 <button type="button" id="editButton" class="btn btn-primary mr-2">Edit</button>
+                                <button type="button" id="updateButton" class="btn btn-primary mr-2" style="display:none;">Update</button>
                                 <button type="reset" class="btn btn-light">Cancel</button>
                             </form>
                         </div>
@@ -160,6 +161,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
@@ -197,108 +199,164 @@
   <!-- End custom js for this page-->
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Link SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
-  <script type="text/javascript">
-    $(document).ready(function () {
-        var storeId = '123'; // Ganti dengan id toko yang sesuai atau ambil dari URL/variabel
+    <!-- Script SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-        // CORS Proxy URL
-        const corsProxy = 'https://cors-anywhere.herokuapp.com/';
 
-        // Load data toko saat halaman dimuat
-        function loadStoreData() {
-            $.ajax({
-                url: corsProxy + 'https://freshyfishapi.ydns.eu/api/toko/' + storeId, // Menggunakan CORS Proxy
-                type: 'GET',
-                success: function (response) {
-                    // Tampilkan data toko di form (hanya untuk menampilkan, readonly)
-                    $('#nama_toko').val(response.data.nama_toko);
-                    $('#alamat_toko').val(response.data.alamat_toko);
-                    $('#kategori_toko').val(response.data.kategori_toko);
-                },
-                error: function (xhr, status, error) {
-                    alert('Terjadi kesalahan saat memuat data toko. Coba lagi.');
-                }
-            });
-        }
-
-        // Load data toko saat halaman dimuat
-        loadStoreData();
-
-        // Fungsi untuk mengaktifkan input form ketika tombol Edit diklik
-        $('#editButton').click(function () {
-            // Aktifkan input form
-            $('#nama_toko').prop('readonly', false);
-            $('#alamat_toko').prop('readonly', false);
-            $('#kategori_toko').prop('disabled', false);
-
-            // Ganti tombol Edit dengan tombol Update
-            $('#editButton').text('Update').attr('id', 'updateButton');
-        });
-
-        // Fungsi untuk mengupdate data toko
-        $(document).on('click', '#updateButton', function () {
-            var storeData = {
-                id_toko: $('#id_toko').val(),
-                nama_toko: $('#nama_toko').val(),
-                alamat_toko: $('#alamat_toko').val(),
-                kategori_toko: $('#kategori_toko').val(),
-            };
-
-            $.ajax({
-                url: corsProxy + 'https://freshyfishapi.ydns.eu/api/toko/' + storeId, // Menggunakan CORS Proxy
-                type: 'PUT',
-                data: storeData,
-                success: function (response) {
-                    // Tampilkan modal sukses
-                    $('#modalSuccess').modal('show');
-
-                    // Setelah 2 detik, refresh data toko dan kembalikan form ke readonly
-                    setTimeout(function () {
-                        loadStoreData();
-                        $('#modalSuccess').modal('hide');
-                    }, 2000);
-                },
-                error: function (xhr, status, error) {
-                    alert('Terjadi kesalahan saat memperbarui data toko. Coba lagi.');
-                }
-            });
-        });
-
-        // Fungsi untuk menangani klik pada tombol logout
-        $('#logoutButton').on('click', function () {
-            // Ambil token dari LocalStorage
+    <script type="text/javascript">
+        $(document).ready(function () {
             const token = localStorage.getItem('token');
-
-            // Jika token tidak ada, langsung arahkan ke halaman login
             if (!token) {
-                window.location.href = '/auth/login';
+                alert('Anda harus login terlebih dahulu.');
+                window.location.href = '/auth/login'; // Alihkan ke halaman login
                 return;
             }
 
-            // Kirim permintaan logout ke API
-            $.ajax({
-                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
-                type: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                success: function (response) {
-                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
-                    localStorage.removeItem('token');
-                    window.location.href = '/auth/login';
-                },
-                error: function (xhr) {
-                    // Tangani error jika ada masalah dengan API
-                    console.log("Error:", xhr);
-                    // Arahkan tetap ke login meski ada error
-                    window.location.href = '/auth/login';
+            function getUserData() {
+                $.ajax({
+                    url: 'https://freshyfishapi.ydns.eu/api/auth/me',
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.data.ID_role !== 2) {
+                            alert('Anda tidak memiliki izin untuk mengakses data ini.');
+                            window.location.href = '/dashboard'; // Alihkan ke dashboard jika role bukan 2
+                            return;
+                        }
+
+                        const ID_toko = response.data.ID_toko;
+                        localStorage.setItem('ID_toko', ID_toko);
+                        loadStoreData(ID_toko);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Terjadi kesalahan saat mengambil data user. Coba lagi.');
+                        console.log("Error:", error);
+                        window.location.href = '/auth/login';
+                    }
+                });
+            }
+
+            getUserData();
+
+            function loadStoreData(ID_toko) {
+                $.ajax({
+                    url: 'https://freshyfishapi.ydns.eu/api/toko/' + ID_toko,
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('#nama_toko').val(response.store_name);
+                        $('#alamat_toko').val(response.store_address);
+                        $('#kategori_toko').val(response.product_category);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Terjadi kesalahan saat memuat data toko. Coba lagi.');
+                    }
+                });
+            }
+
+            // Bagian ini mengubah tombol Edit menjadi tombol Update saat klik
+            $('#editButton').click(function () {
+                if ($('#nama_toko').prop('readonly')) {
+                    $('#nama_toko').prop('readonly', false);
                 }
+                if ($('#alamat_toko').prop('readonly')) {
+                    $('#alamat_toko').prop('readonly', false);
+                }
+                if ($('#kategori_toko').prop('disabled')) {
+                    $('#kategori_toko').prop('disabled', false);
+                }
+
+                // Ganti tombol Edit dengan tombol Update
+                $('#editButton').hide(); // Sembunyikan tombol Edit
+                $('#updateButton').show(); // Tampilkan tombol Update
+            });
+
+            // Bagian ini memindahkan SweetAlert ke dalam klik tombol Update
+            $(document).on('click', '#updateButton', function () {
+                const ID_toko = localStorage.getItem('ID_toko');
+                var storeData = {};
+
+                if ($('#nama_toko').prop('readonly') === false) {
+                    storeData.store_name = $('#nama_toko').val();
+                }
+                if ($('#alamat_toko').prop('readonly') === false) {
+                    storeData.store_address = $('#alamat_toko').val();
+                }
+                if ($('#kategori_toko').prop('disabled') === false) {
+                    storeData.product_category = $('#kategori_toko').val();
+                }
+
+                $.ajax({
+                    url: 'https://freshyfishapi.ydns.eu/api/toko/' + ID_toko,
+                    type: 'PUT',
+                    data: JSON.stringify(storeData),
+                    contentType: 'application/json',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
+                    },
+                    success: function (response) {
+                        // SweetAlert muncul setelah Update berhasil
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Data Toko Berhasil Diperbaharui',
+                            text: 'Data toko Anda berhasil diperbaharui. Halaman akan diperbarui dengan data terbaru.',
+                            confirmButtonText: 'Tutup'
+                        }).then(() => {
+                            // Setelah SweetAlert ditutup, refresh data toko dan kembalikan form ke readonly
+                            loadStoreData(ID_toko);
+                            $('#nama_toko, #alamat_toko, #kategori_toko').prop('readonly', true);
+
+                            // Kembalikan tombol ke Edit setelah update selesai
+                            $('#editButton').show(); // Tampilkan tombol Edit
+                            $('#updateButton').hide(); // Sembunyikan tombol Update
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        let errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Terjadi kesalahan saat memperbarui data toko. Coba lagi.';
+                        alert(errorMessage);
+                        console.log("Error:", error);
+                    }
+                });
+            });
+
+            $('#logoutButton').on('click', function () {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = '/auth/login';
+                    return;
+                }
+
+                $.ajax({
+                    url: 'https://freshyfishapi.ydns.eu/api/auth/logout',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function (response) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('ID_toko');
+                        window.location.href = '/auth/login';
+                    },
+                    error: function (xhr) {
+                        console.log("Error:", xhr);
+                        window.location.href = '/auth/login';
+                    }
+                });
             });
         });
-    });
-</script>
-
+    </script>
 
 
 </body>

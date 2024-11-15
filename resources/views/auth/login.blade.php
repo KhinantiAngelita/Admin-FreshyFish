@@ -97,8 +97,14 @@
                         // Simpan token ke Local Storage
                         localStorage.setItem('token', response.token);
 
-                        // Redirect ke halaman create
-                        window.location.href = '/auth/create';
+                        // Periksa id_role dari respon
+                        if (response.user.ID_role === 2) {
+                            // Jika id_role adalah 2, alihkan ke dashboard
+                            window.location.href = '/dashboard';
+                        } else {
+                            // Jika id_role bukan 2, arahkan ke halaman lain atau beri pesan
+                            window.location.href = '/auth/create'; // Sesuaikan dengan halaman lainnya
+                        }
                     } else {
                         $('#error-message').text('Email atau password salah');
                     }
@@ -110,7 +116,8 @@
             });
         });
     });
-  </script>
+</script>
+
 
 
 </body>

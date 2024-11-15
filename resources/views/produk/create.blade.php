@@ -217,79 +217,79 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        // Ketika tombol "Simpan Produk" diklik
-        $('#saveProductBtn').click(function () {
-            // Ambil data dari form
-            let productData = {
-                // id_produk: $('#productId').val(),
-                // id_toko: $('#storeId').val(),
-                nama_ikan: $('#fishName').val(),
-                berat_ikan: $('#fishWeight').val(),
-                harga_ikan: $('#fishPrice').val(),
-                kategori_ikan: $('#fishCategory').val(),
-                deskripsi_ikan: $('#fishDescription').val(),
-            };
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Ketika tombol "Simpan Produk" diklik
+            $('#saveProductBtn').click(function () {
+                // Ambil data dari form
+                let productData = {
+                    // id_produk: $('#productId').val(),
+                    // id_toko: $('#storeId').val(),
+                    nama_ikan: $('#fishName').val(),
+                    berat_ikan: $('#fishWeight').val(),
+                    harga_ikan: $('#fishPrice').val(),
+                    kategori_ikan: $('#fishCategory').val(),
+                    deskripsi_ikan: $('#fishDescription').val(),
+                };
 
-            // Validasi form
-            if (!productData.id_produk || !productData.id_toko || !productData.nama_ikan || !productData.berat_ikan || !productData.harga_ikan || !productData.kategori_ikan || !productData.deskripsi_ikan) {
-                alert('Harap lengkapi semua field');
-                return;
-            }
-
-            // Kirim data ke API menggunakan AJAX
-            $.ajax({
-                url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk', // Menggunakan proxy CORS
-                type: 'POST',
-                data: productData, // Data yang dikirimkan
-                success: function (response) {
-                    // Jika berhasil, tampilkan modal dan alihkan ke produk.show
-                    $('#modalSuccess').modal('show'); // Tampilkan modal
-                    setTimeout(function () {
-                        window.location.href = "{{ route('produk.show') }}"; // Redirect ke halaman produk
-                    }, 2000); // Redirect setelah 2 detik
-                },
-                error: function (xhr, status, error) {
-                    // Jika terjadi error
-                    alert('Terjadi kesalahan saat menyimpan produk. Coba lagi.');
+                // Validasi form
+                if (!productData.id_produk || !productData.id_toko || !productData.nama_ikan || !productData.berat_ikan || !productData.harga_ikan || !productData.kategori_ikan || !productData.deskripsi_ikan) {
+                    alert('Harap lengkapi semua field');
+                    return;
                 }
+
+                // Kirim data ke API menggunakan AJAX
+                $.ajax({
+                    url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk', // Menggunakan proxy CORS
+                    type: 'POST',
+                    data: productData, // Data yang dikirimkan
+                    success: function (response) {
+                        // Jika berhasil, tampilkan modal dan alihkan ke produk.show
+                        $('#modalSuccess').modal('show'); // Tampilkan modal
+                        setTimeout(function () {
+                            window.location.href = "{{ route('produk.show') }}"; // Redirect ke halaman produk
+                        }, 2000); // Redirect setelah 2 detik
+                    },
+                    error: function (xhr, status, error) {
+                        // Jika terjadi error
+                        alert('Terjadi kesalahan saat menyimpan produk. Coba lagi.');
+                    }
+                });
+            });
+
+            // Fungsi untuk menangani klik pada tombol logout
+            $('#logoutButton').on('click', function () {
+                // Ambil token dari LocalStorage
+                const token = localStorage.getItem('token');
+
+                // Jika token tidak ada, langsung arahkan ke halaman login
+                if (!token) {
+                    window.location.href = '/auth/login';
+                    return;
+                }
+
+                // Kirim permintaan logout ke API
+                $.ajax({
+                    url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(response) {
+                        // Jika logout berhasil, hapus token dan arahkan ke halaman login
+                        localStorage.removeItem('token');
+                        window.location.href = '/auth/login';
+                    },
+                    error: function(xhr) {
+                        // Tangani error jika ada masalah dengan API
+                        console.log("Error:", xhr);
+                        // Arahkan tetap ke login meski ada error
+                        window.location.href = '/auth/login';
+                    }
+                });
             });
         });
-
-        // Fungsi untuk menangani klik pada tombol logout
-        $('#logoutButton').on('click', function () {
-            // Ambil token dari LocalStorage
-            const token = localStorage.getItem('token');
-
-            // Jika token tidak ada, langsung arahkan ke halaman login
-            if (!token) {
-                window.location.href = '/auth/login';
-                return;
-            }
-
-            // Kirim permintaan logout ke API
-            $.ajax({
-                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
-                type: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                success: function(response) {
-                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
-                    localStorage.removeItem('token');
-                    window.location.href = '/auth/login';
-                },
-                error: function(xhr) {
-                    // Tangani error jika ada masalah dengan API
-                    console.log("Error:", xhr);
-                    // Arahkan tetap ke login meski ada error
-                    window.location.href = '/auth/login';
-                }
-            });
-        });
-    });
-</script>
+    </script>
 
 </body>
 

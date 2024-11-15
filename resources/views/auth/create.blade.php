@@ -45,9 +45,9 @@
                     <p><b>Kategori Toko</b></p>
                     <select class="form-control form-control-lg" id="kategori_toko" name="kategori_toko" required>
                         <option value="">Pilih Kategori Toko</option>
-                        <option value="fashion">Ikan Laut</option>
-                        <option value="elektronik">Ikan Payau</option>
-                        <option value="makanan">Ikan Tawar</option>
+                        <option value="Ikan Laut">Ikan Laut</option>
+                        <option value="Ikan Payau">Ikan Payau</option>
+                        <option value="Ikan Tawar">Ikan Tawar</option>
                     </select>
                 </div>
 
@@ -74,7 +74,7 @@
   <script src="../../js/todolist.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+    <script>
     $(document).ready(function() {
         $('#loginForm').on('submit', function(e) {
             e.preventDefault();
@@ -102,18 +102,20 @@
                 type: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept' : 'application/json'
                 },
                 data: JSON.stringify({
-                    nama_toko: nama_toko,
-                    alamat_toko: alamat_toko,
-                    kategori_toko: kategori_toko,
-                    id_role: 2
+                    store_name: nama_toko,
+                    store_address: alamat_toko,
+                    product_category: kategori_toko,
                 }),
                 success: function(response) {
                     console.log("Response dari API:", response);
 
                     if (response.success) {
+                        localStorage.setItem('ID_toko', response.user.ID_toko);
+
                         Swal.fire({
                             title: 'Berhasil!',
                             text: 'Toko berhasil dibuka',

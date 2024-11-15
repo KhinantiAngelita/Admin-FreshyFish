@@ -216,7 +216,7 @@
 
             // Kirim permintaan logout ke API
             $.ajax({
-              url: 'https://freshyfishapi.ydns.eu/api/auth/logout',  // Ganti dengan URL logout API Anda
+                url: 'https://freshyfishapi.ydns.eu/api/auth/logout',  // Ganti dengan URL logout API Anda
                 type: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token
