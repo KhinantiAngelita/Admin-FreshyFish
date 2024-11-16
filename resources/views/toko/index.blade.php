@@ -63,6 +63,7 @@
           <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
           <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
           <p class="settings-heading mt-2">HEADER SKINS</p>
+          
           <div class="color-tiles mx-0 px-4">
             <div class="tiles success"></div>
             <div class="tiles warning"></div>
@@ -124,12 +125,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="kategori_toko">Kategori Toko</label>
-                                    <select class="form-control" id="kategori_toko" name="kategori_toko" required disabled>
-                                        <option value="Ikan Payau">Ikan Payau</option>
-                                        <option value="Ikan Laut">Ikan Laut</option>
-                                        <option value="Ikan Tawar">Ikan Tawar</option>
-                                    </select>
+                                    <label for="deskripsi_toko">Deskripsi Ikan</label>
+                                    <textarea class="form-control" id="deskripsi_toko" rows=4 name="deskripsi_toko" placeholder="Deskripsi Toko" required readonly></textarea>
                                 </div>
 
                                 <button type="button" id="editButton" class="btn btn-primary mr-2">Edit</button>
@@ -257,7 +254,7 @@
                         console.log(response);
                         $('#nama_toko').val(response.store_name);
                         $('#alamat_toko').val(response.store_address);
-                        $('#kategori_toko').val(response.product_category);
+                        $('#deskripsi_toko').val(response.description_store);
                     },
                     error: function(xhr, status, error) {
                         alert('Terjadi kesalahan saat memuat data toko. Coba lagi.');
@@ -273,8 +270,8 @@
                 if ($('#alamat_toko').prop('readonly')) {
                     $('#alamat_toko').prop('readonly', false);
                 }
-                if ($('#kategori_toko').prop('disabled')) {
-                    $('#kategori_toko').prop('disabled', false);
+                if ($('#deskripsi_toko').prop('readonly')) {
+                    $('#deskripsi_toko').prop('readonly', false);
                 }
 
                 // Ganti tombol Edit dengan tombol Update
@@ -293,8 +290,8 @@
                 if ($('#alamat_toko').prop('readonly') === false) {
                     storeData.store_address = $('#alamat_toko').val();
                 }
-                if ($('#kategori_toko').prop('disabled') === false) {
-                    storeData.product_category = $('#kategori_toko').val();
+                if ($('#deskripsi_toko').prop('readonly') === false) {
+                    storeData.description_store = $('#deskripsi_toko').val();
                 }
 
                 $.ajax({
@@ -316,7 +313,7 @@
                         }).then(() => {
                             // Setelah SweetAlert ditutup, refresh data toko dan kembalikan form ke readonly
                             loadStoreData(ID_toko);
-                            $('#nama_toko, #alamat_toko, #kategori_toko').prop('readonly', true);
+                            $('#nama_toko, #alamat_toko, #deskripsi_toko').prop('readonly', true);
 
                             // Kembalikan tombol ke Edit setelah update selesai
                             $('#editButton').show(); // Tampilkan tombol Edit

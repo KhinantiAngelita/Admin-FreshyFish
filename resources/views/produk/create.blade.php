@@ -26,8 +26,13 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="images/romawei.png" class="mr-1" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/loioy.png" alt="logo"/></a>
+            <a class="navbar-brand brand-logo mr-2" href="index.html">
+                <img src="images/rororo.png" class="mr-1" alt="Romawei Logo" loading="lazy"/>
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="index.html">
+                <img src="images/lololo.png" alt="Loioy Logo" loading="lazy"/>
+            </a>
+
         </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -114,44 +119,54 @@
                                 <p class="card-description">
                                     Tambahkan Produk Anda
                                 </p>
-                                <form class="forms-sample" id="productForm">
+                                <form class="forms-sample" id="productForm" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label for="fishName">Nama Ikan</label>
-                                        <input type="text" class="form-control" id="fishName" placeholder="Nama Ikan" required>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="fishWeight">Berat Ikan</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="fishWeight" placeholder="Berat Ikan" required>
-                                        <div class="input-group-append">
-                                        <span class="input-group-text">kg</span>
+                                        <label for="fish_photo">Foto Produk</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="fish_photo" accept="image/*" required>
+                                            <label class="custom-file-label" for="fish_photo">Pilih Foto</label>
                                         </div>
-                                    </div>
+                                        <small class="form-text text-muted">Unggah foto produk dengan format JPG, PNG, atau JPEG.</small>
+                                        <div class="mt-3">
+                                            <img id="photoPreview" src="" alt="Preview Foto" class="img-thumbnail" style="display: none; max-height: 200px;">
+                                        </div>
                                     </div>
 
                                     <div class="form-group">
-                                    <label for="fishPrice">Harga Ikan</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="fishPrice" placeholder="Harga Ikan" required>
-                                        <div class="input-group-append">
-                                        <span class="input-group-text">Rp / kg</span>
-                                        </div>
-                                    </div>
+                                        <label for="fish_type">Nama Ikan</label>
+                                        <input type="text" class="form-control" id="fish_type" placeholder="Nama Ikan" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="fishCategory">Kategori Ikan</label>
-                                        <select class="form-control" id="fishCategory" required>
+                                        <label for="fish_weight">Berat Ikan</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="fish_weight" placeholder="Berat Ikan" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">kg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fish_price">Harga Ikan</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="fish_price" placeholder="Harga Ikan" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">Rp / kg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="habitat">Kategori Ikan</label>
+                                        <select class="form-control" id="habitat" required>
                                             <option value="Ikan Laut">Ikan Laut</option>
                                             <option value="Ikan Tawar">Ikan Tawar</option>
                                             <option value="Ikan Payau">Ikan Payau</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="fishDescription">Deskripsi Ikan</label>
-                                        <textarea class="form-control" id="fishDescription" rows="4" required></textarea>
+                                        <label for="fish_description">Deskripsi Ikan</label>
+                                        <textarea class="form-control" id="fish_description" rows="4" required></textarea>
                                     </div>
-                                    <button type="button" id="saveProductBtn" class="btn btn-primary mr-2">Simpan Produk</button>
-                                    <a href="{{ route('produk.show') }}" class="btn btn-light">Cancel</a>
+                                    <button type="button" id="saveProductBtn" class="btn btn-primary">Simpan Produk</button>
                                 </form>
                             </div>
                         </div>
@@ -216,79 +231,104 @@
   <!-- End custom js for this page-->
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            // Ketika tombol "Simpan Produk" diklik
-            $('#saveProductBtn').click(function () {
-                // Ambil data dari form
-                let productData = {
-                    // id_produk: $('#productId').val(),
-                    // id_toko: $('#storeId').val(),
-                    nama_ikan: $('#fishName').val(),
-                    berat_ikan: $('#fishWeight').val(),
-                    harga_ikan: $('#fishPrice').val(),
-                    kategori_ikan: $('#fishCategory').val(),
-                    deskripsi_ikan: $('#fishDescription').val(),
+    $(document).ready(function () {
+        const apiUrl = 'https://freshyfishapi.ydns.eu/api/produk';
+        const token = localStorage.getItem('token');
+
+        // Jika pengguna belum login
+        if (!token) {
+            alert('Anda harus login terlebih dahulu.');
+            window.location.href = '/auth/login';
+            return;
+        }
+
+        // Preview Foto Produk
+        $('#fish_photo').on('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#photoPreview').attr('src', e.target.result).show();
                 };
+                reader.readAsDataURL(file);
+            }
+        });
 
-                // Validasi form
-                if (!productData.id_produk || !productData.id_toko || !productData.nama_ikan || !productData.berat_ikan || !productData.harga_ikan || !productData.kategori_ikan || !productData.deskripsi_ikan) {
-                    alert('Harap lengkapi semua field');
-                    return;
+        // Simpan Produk
+        $('#saveProductBtn').click(function () {
+            // Validasi input
+            if (!$('#fish_photo')[0].files.length || !$('#fish_type').val() || !$('#fish_weight').val() || !$('#fish_price').val() || !$('#habitat').val() || !$('#fish_description').val()) {
+                alert('Harap lengkapi semua field.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('fish_photo', $('#fish_photo')[0].files[0]);
+            formData.append('fish_type', $('#fish_type').val());
+            formData.append('fish_weight', $('#fish_weight').val());
+            formData.append('fish_price', $('#fish_price').val());
+            formData.append('habitat', $('#habitat').val());
+            formData.append('fish_description', $('#fish_description').val());
+            formData.append('ID_toko', localStorage.getItem('ID_toko')); // Ambil ID_toko dari LocalStorage
+
+            // Kirim data ke API menggunakan AJAX
+            $.ajax({
+                url: apiUrl,
+                type: 'POST',
+                data: formData,
+                processData: false, // Mencegah jQuery memproses data
+                contentType: false, // Membiarkan browser mengatur content type
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                },
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Produk Berhasil Ditambahkan',
+                        text: 'Produk Anda berhasil ditambahkan. Anda akan diarahkan ke halaman daftar produk.',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.href = "{{ route('produk.show') }}";
+                    });
+                },
+                error: function (xhr, status, error) {
+                    const errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Terjadi kesalahan saat menyimpan produk. Coba lagi.';
+                    alert(errorMessage);
+                    console.log("Error:", error);
                 }
-
-                // Kirim data ke API menggunakan AJAX
-                $.ajax({
-                    url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk', // Menggunakan proxy CORS
-                    type: 'POST',
-                    data: productData, // Data yang dikirimkan
-                    success: function (response) {
-                        // Jika berhasil, tampilkan modal dan alihkan ke produk.show
-                        $('#modalSuccess').modal('show'); // Tampilkan modal
-                        setTimeout(function () {
-                            window.location.href = "{{ route('produk.show') }}"; // Redirect ke halaman produk
-                        }, 2000); // Redirect setelah 2 detik
-                    },
-                    error: function (xhr, status, error) {
-                        // Jika terjadi error
-                        alert('Terjadi kesalahan saat menyimpan produk. Coba lagi.');
-                    }
-                });
-            });
-
-            // Fungsi untuk menangani klik pada tombol logout
-            $('#logoutButton').on('click', function () {
-                // Ambil token dari LocalStorage
-                const token = localStorage.getItem('token');
-
-                // Jika token tidak ada, langsung arahkan ke halaman login
-                if (!token) {
-                    window.location.href = '/auth/login';
-                    return;
-                }
-
-                // Kirim permintaan logout ke API
-                $.ajax({
-                    url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
-                    type: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function(response) {
-                        // Jika logout berhasil, hapus token dan arahkan ke halaman login
-                        localStorage.removeItem('token');
-                        window.location.href = '/auth/login';
-                    },
-                    error: function(xhr) {
-                        // Tangani error jika ada masalah dengan API
-                        console.log("Error:", xhr);
-                        // Arahkan tetap ke login meski ada error
-                        window.location.href = '/auth/login';
-                    }
-                });
             });
         });
+
+        // Logout
+        $('#logoutButton').on('click', function () {
+            $.ajax({
+                url: 'https://freshyfishapi.ydns.eu/api/auth/logout',
+                type: 'POST',
+                headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
+                    },
+                success: function () {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('ID_toko');
+                    alert('Logout berhasil. Anda akan diarahkan ke halaman login.');
+                    window.location.href = '/auth/login';
+                },
+                error: function (xhr) {
+                    console.log('Logout Error:', xhr);
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('ID_toko');
+                    window.location.href = '/auth/login';
+                }
+            });
+        });
+    });
+
     </script>
 
 </body>

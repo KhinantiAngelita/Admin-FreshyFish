@@ -42,13 +42,8 @@
                 </div>
 
                 <div class="form-group">
-                    <p><b>Kategori Toko</b></p>
-                    <select class="form-control form-control-lg" id="kategori_toko" name="kategori_toko" required>
-                        <option value="">Pilih Kategori Toko</option>
-                        <option value="Ikan Laut">Ikan Laut</option>
-                        <option value="Ikan Payau">Ikan Payau</option>
-                        <option value="Ikan Tawar">Ikan Tawar</option>
-                    </select>
+                    <p><b>Deskripsi Toko</b></p>
+                    <textarea class="form-control form-control-lg" id="deskripsi_toko" rows=3 name="deskripsi_toko" placeholder="Deskripsi Toko" required></textarea>
                 </div>
 
                 <!-- Tombol Submit -->
@@ -81,7 +76,7 @@
 
             var nama_toko = $('#nama_toko').val();
             var alamat_toko = $('#alamat_toko').val();
-            var kategori_toko = $('#kategori_toko').val();
+            var deskripsi_toko = $('#deskripsi_toko').val();
 
             const token = localStorage.getItem('token');
 
@@ -108,7 +103,7 @@
                 data: JSON.stringify({
                     store_name: nama_toko,
                     store_address: alamat_toko,
-                    product_category: kategori_toko,
+                    description_store: deskripsi_toko,
                 }),
                 success: function(response) {
                     console.log("Response dari API:", response);
