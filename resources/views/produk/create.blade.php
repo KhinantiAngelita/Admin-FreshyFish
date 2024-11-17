@@ -126,7 +126,7 @@
                                             <input type="file" class="custom-file-input" id="fish_photo" accept="image/*" required>
                                             <label class="custom-file-label" for="fish_photo">Pilih Foto</label>
                                         </div>
-                                        <small class="form-text text-muted">Unggah foto produk dengan format JPG, PNG, atau JPEG.</small>
+                                        <small class="form-text text-muted">Unggah foto produk dengan format JPG, PNG, atau JPEG, max 2 mb.</small>
                                         <div class="mt-3">
                                             <img id="photoPreview" src="" alt="Preview Foto" class="img-thumbnail" style="display: none; max-height: 200px;">
                                         </div>
@@ -284,7 +284,7 @@
                 contentType: false, // Membiarkan browser mengatur content type
                 headers: {
                     'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/json'
+                    // 'Accept': 'application/json'
                 },
                 success: function (response) {
                     Swal.fire({

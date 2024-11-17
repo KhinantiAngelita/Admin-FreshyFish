@@ -270,100 +270,162 @@
   <!-- End custom js for this page-->
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script type="text/javascript">
+
+  <!-- Tambahkan library jQuery dan SweetAlert jika belum ada -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="text/javascript">
     $(document).ready(function () {
-        // Function to load products from API using proxy
+        // Ambil token dari localStorage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            Swal.fire(
+                'Gagal!',
+                'Token tidak ditemukan. Anda akan diarahkan ke halaman login.',
+                'error'
+            ).then(() => {
+                window.location.href = '/auth/login';
+            });
+            return;
+        }
+
+        // Fungsi untuk memuat produk dari API
         function loadProducts() {
             $.ajax({
-                url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk', // URL API dengan proxy
+                url: 'https://freshyfishapi.ydns.eu/api/produk', // URL API untuk mengambil data produk
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                },
                 success: function (response) {
-                    var productList = '';
-                    // Loop through the response data and display products
-                    response.data.forEach(function (product) {
-                        productList += '<tr>';
-                        productList += '<td>' + product.id_toko + '</td>';
-                        productList += '<td>' + product.id_produk + '</td>';
-                        productList += '<td class="py-1"><img src="' + product.foto_ikan + '" alt="Ikan" /></td>';
-                        productList += '<td>' + product.tipe_ikan + '</td>';
-                        productList += '<td>' + product.harga_ikan + '</td>';
-                        productList += '<td>' + product.berat_ikan + '</td>';
-                        productList += '<td>' + product.habitat + '</td>';
-                        productList += '<td>' + product.deskripsi_ikan + '</td>';
-                        productList += '<td>';
-                        productList += '<a href="produk/' + product.id_produk + '/edit" class="btn btn-warning btn-sm">Edit</a>';
-                        productList += '<button class="btn btn-danger btn-sm deleteProduct" data-id="' + product.id_produk + '">Delete</button>';
-                        productList += '</td>';
-                        productList += '</tr>';
-                    });
-                    $('#productList').html(productList); // Insert the products into the table
+                    let productList = '';
+                    console.log(response);
+
+                    // Validasi respons data
+                    if (response && Array.isArray(response)) { // Pastikan response adalah array
+                        response.forEach(function (produk) {
+                            productList += `
+                                <tr>
+                                    <td>${produk.ID_toko}</td>
+                                    <td>${produk.ID_produk}</td>
+                                    <td class="py-1"><img src="${produk.fish_photo}" alt="Ikan" style="width: 50px; height: 50px;" /></td>
+                                    <td>${produk.fish_type}</td>
+                                    <td>${produk.fish_price}</td>
+                                    <td>${produk.fish_weight}</td>
+                                    <td>${produk.habitat}</td>
+                                    <td>${produk.fish_description}</td>
+                                    <td>
+                                        <a href="produk/${produk.ID_produk}/edit" class="btn btn-warning btn-sm">Edit</a>
+                                        <button class="btn btn-danger btn-sm deleteProduct" data-id="${produk.ID_produk}">Delete</button>
+                                    </td>
+                                </tr>`;
+                        });
+                    } else {
+                        productList = '<tr><td colspan="9">Tidak ada data produk.</td></tr>';
+                    }
+
+                    $('#productList').html(productList);
                 },
                 error: function (xhr, status, error) {
-                    alert('Terjadi kesalahan saat memuat produk. Coba lagi.');
+                    console.error('Error:', error);
+                    Swal.fire(
+                        'Gagal!',
+                        'Terjadi kesalahan saat memuat produk. Silakan coba lagi.',
+                        'error'
+                    );
                 }
             });
         }
 
-        // Load products on page load
+        // Muat produk ketika halaman selesai dimuat
         loadProducts();
 
-        // Delete product functionality
+        // Fungsi untuk menghapus produk
         $(document).on('click', '.deleteProduct', function () {
-            var productId = $(this).data('id');
+            const ID_produk = $(this).data('id');
 
-            // Konfirmasi penghapusan
-            if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-                $.ajax({
-                    url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk/' + productId, // URL untuk menghapus produk dengan proxy
-                    type: 'DELETE',
-                    success: function (response) {
-                        // Tampilkan modal sukses dan refresh data produk
-                        $('#modalSuccess').modal('show');
-                        setTimeout(function () {
-                            loadProducts(); // Reload products after deletion
-                        }, 2000); // Reload setelah 2 detik
-                    },
-                    error: function (xhr, status, error) {
-                        alert('Terjadi kesalahan saat menghapus produk. Coba lagi.');
-                    }
-                });
-            }
+            // Konfirmasi penghapusan menggunakan SweetAlert
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Produk ini akan dihapus secara permanen!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Accept': 'application/json'
+                        },
+                        success: function (response) {
+                            console.log('Produk berhasil dihapus:', response);
+                            Swal.fire(
+                                'Terhapus!',
+                                'Produk berhasil dihapus.',
+                                'success'
+                            );
+                            loadProducts(); // Refresh data produk setelah penghapusan
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                            Swal.fire(
+                                'Gagal!',
+                                'Terjadi kesalahan saat menghapus produk. Silakan coba lagi.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
         });
 
-        // Fungsi untuk menangani klik pada tombol logout
+        // Fungsi untuk logout
         $('#logoutButton').on('click', function () {
-            // Ambil token dari LocalStorage
-            const token = localStorage.getItem('token');
-
-            // Jika token tidak ada, langsung arahkan ke halaman login
-            if (!token) {
-                window.location.href = '/auth/login';
-                return;
-            }
-
-            // Kirim permintaan logout ke API
             $.ajax({
-                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
+                url: 'https://freshyfishapi.ydns.eu/api/logout',
                 type: 'POST',
                 headers: {
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
                 },
-                success: function(response) {
-                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
+                success: function (response) {
+                    console.log('Logout berhasil:', response);
                     localStorage.removeItem('token');
-                    window.location.href = '/auth/login';
+                    Swal.fire(
+                        'Logout Berhasil!',
+                        'Anda telah berhasil logout.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = '/auth/login';
+                    });
                 },
-                error: function(xhr) {
-                    // Tangani error jika ada masalah dengan API
-                    console.log("Error:", xhr);
-                    // Arahkan tetap ke login meski ada error
-                    window.location.href = '/auth/login';
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    localStorage.removeItem('token');
+                    Swal.fire(
+                        'Gagal!',
+                        'Terjadi kesalahan saat logout. Anda akan diarahkan ke halaman login.',
+                        'error'
+                    ).then(() => {
+                        window.location.href = '/auth/login';
+                    });
                 }
             });
         });
     });
 </script>
+
+
 
 </body>
 
