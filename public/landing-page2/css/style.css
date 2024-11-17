@@ -272,14 +272,14 @@ a:focus {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 15px;
-  margin-left: 70px;
+  margin-left: 100px;
   color: white;
 }
 
 .slider_section .detail-box p {
   color: white;
   font-size: 14px;
-  margin-left: 70px;
+  margin-left: 100px;
 }
 
 .slider_section .detail-box .btn-box {
@@ -332,9 +332,9 @@ a:focus {
 }
 
 .slider_section .img-box img {
-  width: 50%;
+  width: 60%;
   height: auto;
-  margin-left: 130px;
+  margin-left: 50px;
 }
 
 .slider_section .carousel-indicators {
@@ -370,7 +370,7 @@ a:focus {
   flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
-  background-color: #BFE4F1;
+  background-color: #0096C8;
 }
 
 .service_section .box {
@@ -389,34 +389,10 @@ a:focus {
 }
 
 .service_section .box:hover {
-  background-color: #0096C8;
-  color: white;
+  background-color: #BFE4F1;
+  color: #0096C8;
 }
 
-.service_section .box .img-box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  width: 125px;
-  min-width: 75px;
-  height: 75px;
-  margin-bottom: 15px;
-}
-
-.service_section .box .img-box img {
-  max-width: 100%;
-  max-height: 100%;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  justify-content: center;
-  align-items: center;
-}
 
 .service_section .box .detail-box h5 {
   font-weight: bold;
@@ -460,20 +436,48 @@ a:focus {
 .mission_section {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
+  align-items: center;
   background-color: white;
-  }
+  padding: 50px 15px;
+}
+
+.mission_section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
 .mission_section h1 {
   font-weight: bold;
+  font-size: 36px;
+  margin-left: 120px;
 }
 
-.mission_section p{
+.mission_section p {
   max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
+  margin: 0;
+  line-height: 1.8;
+  margin-left: 120px;
+  margin-right: 0px;
+}
+
+.mission_section .row {
+  display: flex;
+  align-items: center;
+}
+
+.mission_section .col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.mission_section .img-box {
+  margin: 45px 0;
+}
+
+.mission_section .img-box img {
+  width: 115%;
+  height: auto;
+  margin-left: 50px;
 }
 
 /*** Feature ***/
