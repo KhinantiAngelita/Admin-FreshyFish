@@ -71,7 +71,7 @@
                             <h1>
                                 Tentang Kami
 
-                            </h1>
+                            </h1><br>
                             <p>
                                 Kami hadir dengan mimpi memberikan kemudahan bagi mereka yang bergaya hidup padat, sibuk, digital-savvy, dan menghindari kerepotan dalam membeli ikan. Tidak hanya itu, FreshyFish dapat membantu para penjual ikan dalam melariskan dagangannya denggan menghadirkan sarana penjualan digital.
                             </p>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="img-box">
-                            <img src="landing-page2/images/slider-img.png" alt="">
+                            <img src="landing-page2/images/banner-img.png" alt="Ikan di Keranjang">
                         </div>
                     </div>
                 </div>

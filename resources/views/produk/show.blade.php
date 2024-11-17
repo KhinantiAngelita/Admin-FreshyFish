@@ -23,10 +23,10 @@
   <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo"/></a>
-        </div>
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
+      </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="icon-menu"></span>
@@ -34,12 +34,12 @@
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="../../images/faces/face28.jpg" alt="profile"/>
+              <img src="../../images/faces/face28.jpg" alt="profile" />
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
-                  <i class="ti-power-off text-primary"></i>
-                  Logout
+                <i class="ti-power-off text-primary"></i>
+                Logout
               </a>
             </div>
           </li>
@@ -57,8 +57,12 @@
         <div id="theme-settings" class="settings-panel">
           <i class="settings-close ti-close"></i>
           <p class="settings-heading">SIDEBAR SKINS</p>
-          <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
-          <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
+          <div class="sidebar-bg-options selected" id="sidebar-light-theme">
+            <div class="img-ss rounded-circle bg-light border mr-3"></div>Light
+          </div>
+          <div class="sidebar-bg-options" id="sidebar-dark-theme">
+            <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
+          </div>
           <p class="settings-heading mt-2">HEADER SKINS</p>
           <div class="color-tiles mx-0 px-4">
             <div class="tiles success"></div>
@@ -165,32 +169,40 @@
       <!-- partial:../../partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('dashboard.index') }}">
-                    <i class="icon-grid menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('toko.index') }}">
-                    <i class="icon-layout menu-icon"></i>
-                    <span class="menu-title">Toko</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('produk.show') }}">
-                    <i class="icon-columns menu-icon"></i>
-                    <span class="menu-title">Produk</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('pesanan.show') }}">
-                    <i class="icon-bar-graph menu-icon"></i>
-                    <span class="menu-title">Pesanan</span>
-                </a>
-            </li>
+          <!-- Dashboard Menu Item -->
+          <li class="nav-item @if(request()->is('dashboard*')) active @endif">
+            <a class="nav-link" href="{{ route('dashboard.index') }}">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+
+          <!-- Toko Menu Item -->
+          <li class="nav-item @if(request()->is('toko*')) active @endif">
+            <a class="nav-link" href="{{ route('toko.index') }}">
+              <i class="icon-layout menu-icon"></i>
+              <span class="menu-title">Toko</span>
+            </a>
+          </li>
+
+          <!-- Produk Menu Item -->
+          <li class="nav-item @if(request()->is('produk*')) active @endif">
+            <a class="nav-link" href="{{ route('produk.show') }}">
+              <i class="icon-columns menu-icon"></i>
+              <span class="menu-title">Produk</span>
+            </a>
+          </li>
+
+          <!-- Pesanan Menu Item -->
+          <li class="nav-item @if(request()->is('pesanan*')) active @endif">
+            <a class="nav-link" href="{{ route('pesanan.show') }}">
+              <i class="icon-bar-graph menu-icon"></i>
+              <span class="menu-title">Pesanan</span>
+            </a>
+          </li>
         </ul>
-    </nav>
+      </nav>
+
       <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
@@ -256,6 +268,68 @@
         </div>
       </div>
     </div>
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">List Produk Anda</h4>
+                    <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm">Tambah Produk Baru</a>
+                  </div>
+                  <p class="card-description"></p>
+                  <div class="table-responsive">
+                    <div class="table-scroll" style="overflow-x: auto;">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>id Toko</th>
+                            <th>id Produk</th>
+                            <th>Foto Ikan</th>
+                            <th>Tipe Ikan</th>
+                            <th>Harga Ikan</th>
+                            <th>Berat Ikan</th>
+                            <th>Habitat</th>
+                            <th>Deskripsi</th>
+                            <th>Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody id="productList">
+                          <!-- Produk akan dimuat di sini menggunakan Ajax -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Success for Delete -->
+        <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalSuccessLabel">Produk Berhasil Diedit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Produk berhasil diedit. Halaman akan diperbarui.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
@@ -282,6 +356,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -297,6 +373,20 @@
             });
             return;
         }
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // Ambil token dari localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        Swal.fire(
+          'Gagal!',
+          'Token tidak ditemukan. Anda akan diarahkan ke halaman login.',
+          'error'
+        ).then(() => {
+          window.location.href = '/auth/login';
+        });
+        return;
+      }
 
         // Fungsi untuk memuat produk dari API
         function loadProducts(callback) {
@@ -310,11 +400,23 @@
                 success: function (response) {
                     let productList = '';
                     console.log(response);
+      // Fungsi untuk memuat produk dari API
+      function loadProducts() {
+        $.ajax({
+          url: 'https://freshyfishapi.ydns.eu/api/produk', // URL API untuk mengambil data produk
+          type: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+          },
+          success: function(response) {
+            let productList = '';
+            console.log(response);
 
-                    // Validasi respons data
-                    if (response && Array.isArray(response)) { // Pastikan response adalah array
-                        response.forEach(function (produk) {
-                            productList += `
+            // Validasi respons data
+            if (response && Array.isArray(response)) { // Pastikan response adalah array
+              response.forEach(function(produk) {
+                productList += `
                                 <tr>
                                     <td>${produk.ID_toko}</td>
                                     <td>${produk.ID_produk}</td>
@@ -329,10 +431,10 @@
                                         <button class="btn btn-danger btn-sm deleteProduct" data-id="${produk.ID_produk}">Delete</button>
                                     </td>
                                 </tr>`;
-                        });
-                    } else {
-                        productList = '<tr><td colspan="9">Tidak ada data produk.</td></tr>';
-                    }
+              });
+            } else {
+              productList = '<tr><td colspan="9">Tidak ada data produk.</td></tr>';
+            }
 
                     $('#productList').html(productList);
 
@@ -393,6 +495,13 @@
         $(document).on('click', '.deleteProduct', function () {
             const ID_produk = $(this).data('id');
 
+      // Muat produk ketika halaman selesai dimuat
+      loadProducts();
+
+      // Fungsi untuk menghapus produk
+      $(document).on('click', '.deleteProduct', function() {
+        const ID_produk = $(this).data('id');
+
             // Konfirmasi penghapusan menggunakan SweetAlert
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -436,6 +545,50 @@
                 }
             });
         });
+        // Konfirmasi penghapusan menggunakan SweetAlert
+        Swal.fire({
+          title: 'Apakah Anda yakin?',
+          text: 'Produk ini akan dihapus secara permanen!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya, hapus!',
+          cancelButtonText: 'Batal',
+          customClass: {
+            popup: 'custom-swal-popup' // CSS class for the popup
+          }
+
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
+              type: 'DELETE',
+              headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json'
+              },
+              success: function(response) {
+                console.log('Produk berhasil dihapus:', response);
+                Swal.fire(
+                  'Terhapus!',
+                  'Produk berhasil dihapus.',
+                  'success'
+                );
+                loadProducts(); // Refresh data produk setelah penghapusan
+              },
+              error: function(xhr, status, error) {
+                console.error('Error:', error);
+                Swal.fire(
+                  'Gagal!',
+                  'Terjadi kesalahan saat menghapus produk. Silakan coba lagi.',
+                  'error'
+                );
+              }
+            });
+          }
+        });
+      });
 
         // Fungsi untuk logout
         $('#logoutButton').on('click', function () {
@@ -473,8 +626,41 @@
 
         // Muat produk ketika halaman selesai dimuat
         loadProducts();
+      // Fungsi untuk logout
+      $('#logoutButton').on('click', function() {
+        $.ajax({
+          url: 'https://freshyfishapi.ydns.eu/api/logout',
+          type: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+          },
+          success: function(response) {
+            console.log('Logout berhasil:', response);
+            localStorage.removeItem('token');
+            Swal.fire(
+              'Logout Berhasil!',
+              'Anda telah berhasil logout.',
+              'success'
+            ).then(() => {
+              window.location.href = '/auth/login';
+            });
+          },
+          error: function(xhr, status, error) {
+            console.error('Error:', error);
+            localStorage.removeItem('token');
+            Swal.fire(
+              'Gagal!',
+              'Terjadi kesalahan saat logout. Anda akan diarahkan ke halaman login.',
+              'error'
+            ).then(() => {
+              window.location.href = '/auth/login';
+            });
+          }
+        });
+      });
     });
-</script>
+  </script>
 
 
 
