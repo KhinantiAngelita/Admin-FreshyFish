@@ -24,8 +24,8 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="images/romawei.png" class="mr-1" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/loioy.png" alt="logo"/></a>
+            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo"/></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo"/></a>
         </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -338,6 +338,7 @@
                         'Gagal!',
                         'Terjadi kesalahan saat memuat produk. Silakan coba lagi.',
                         'error'
+
                     );
                 }
             });
@@ -360,14 +361,18 @@
 
             // Konfirmasi penghapusan menggunakan SweetAlert
             Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: 'Produk ini akan dihapus secara permanen!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
+            title: 'Apakah Anda yakin?',
+            text: 'Produk ini akan dihapus secara permanen!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: 'custom-swal-popup' // CSS class for the popup
+            }
+
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({

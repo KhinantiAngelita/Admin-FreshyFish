@@ -26,13 +26,8 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html">
-                <img src="images/rororo.png" class="mr-1" alt="Romawei Logo" loading="lazy"/>
-            </a>
-            <a class="navbar-brand brand-logo-mini" href="index.html">
-                <img src="images/lololo.png" alt="Loioy Logo" loading="lazy"/>
-            </a>
-
+            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo"/></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo"/></a>
         </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -288,13 +283,16 @@
                 },
                 success: function (response) {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Produk Berhasil Ditambahkan',
-                        text: 'Produk Anda berhasil ditambahkan. Anda akan diarahkan ke halaman daftar produk.',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.href = "{{ route('produk.show') }}";
-                    });
+                    icon: 'success',
+                    title: 'Produk Berhasil Ditambahkan',
+                    text: 'Produk Anda berhasil ditambahkan. Anda akan diarahkan ke halaman daftar produk.',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        popup: 'custom-swal-popup' // Kelas CSS untuk popup
+                    }
+                }).then(() => {
+                    window.location.href = "{{ route('produk.show') }}";
+                });
                 },
                 error: function (xhr, status, error) {
                     const errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Terjadi kesalahan saat menyimpan produk. Coba lagi.';

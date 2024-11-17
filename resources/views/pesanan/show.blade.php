@@ -23,25 +23,94 @@
   <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="images/romawei.png" class="mr-1" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/loioy.png" alt="logo"/></a>
-        </div>
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo"/></a>
+      </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="icon-menu"></span>
         </button>
+        <ul class="navbar-nav mr-lg-2">
+          <li class="nav-item nav-search d-none d-lg-block">
+            <div class="input-group">
+              <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                <span class="input-group-text" id="search">
+                  <i class="icon-search"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
+            </div>
+          </li>
+        </ul>
         <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+              <i class="icon-bell mx-0"></i>
+              <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-success">
+                    <i class="ti-info-alt mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    Just now
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-warning">
+                    <i class="ti-settings mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">Settings</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    Private message
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-info">
+                    <i class="ti-user mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    2 days ago
+                  </p>
+                </div>
+              </a>
+            </div>
+          </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="../../images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
-                  <i class="ti-power-off text-primary"></i>
-                  Logout
+              <a class="dropdown-item">
+                <i class="ti-settings text-primary"></i>
+                Settings
+              </a>
+              <a class="dropdown-item">
+                <i class="ti-power-off text-primary"></i>
+                Logout
               </a>
             </div>
+          </li>
+          <li class="nav-item nav-settings d-none d-lg-flex">
+            <a class="nav-link" href="#">
+              <i class="icon-ellipsis"></i>
+            </a>
           </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -50,117 +119,267 @@
       </div>
     </nav>
     <!-- partial -->
-            <div class="container-fluid page-body-wrapper">
-              <!-- partial:../../partials/_settings-panel.html -->
-              <div class="theme-setting-wrapper">
-                <div id="settings-trigger"><i class="ti-settings"></i></div>
-                <div id="theme-settings" class="settings-panel">
-                  <i class="settings-close ti-close"></i>
-                  <p class="settings-heading">SIDEBAR SKINS</p>
-                  <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
-                  <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
-                  <p class="settings-heading mt-2">HEADER SKINS</p>
-                  <div class="color-tiles mx-0 px-4">
-                    <div class="tiles success"></div>
-                    <div class="tiles warning"></div>
-                    <div class="tiles danger"></div>
-                    <div class="tiles info"></div>
-                    <div class="tiles dark"></div>
-                    <div class="tiles default"></div>
-                  </div>
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:../../partials/_settings-panel.html -->
+      <div class="theme-setting-wrapper">
+        <div id="settings-trigger"><i class="ti-settings"></i></div>
+        <div id="theme-settings" class="settings-panel">
+          <i class="settings-close ti-close"></i>
+          <p class="settings-heading">SIDEBAR SKINS</p>
+          <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
+          <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
+          <p class="settings-heading mt-2">HEADER SKINS</p>
+          <div class="color-tiles mx-0 px-4">
+            <div class="tiles success"></div>
+            <div class="tiles warning"></div>
+            <div class="tiles danger"></div>
+            <div class="tiles info"></div>
+            <div class="tiles dark"></div>
+            <div class="tiles default"></div>
+          </div>
+        </div>
+      </div>
+      <div id="right-sidebar" class="settings-panel">
+        <i class="settings-close ti-close"></i>
+        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="chats-tab" data-toggle="tab" href="#chats-section" role="tab" aria-controls="chats-section">CHATS</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="setting-content">
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
+            <div class="add-items d-flex px-3 mb-0">
+              <form class="form w-100">
+                <div class="form-group d-flex">
+                  <input type="text" class="form-control todo-list-input" placeholder="Add To-do">
+                  <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task">Add</button>
                 </div>
+              </form>
+            </div>
+            <div class="list-wrapper px-3">
+              <ul class="d-flex flex-column-reverse todo-list">
+                <li>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="checkbox" type="checkbox">
+                      Team review meeting at 3.00 PM
+                    </label>
+                  </div>
+                  <i class="remove ti-close"></i>
+                </li>
+                <li>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="checkbox" type="checkbox">
+                      Prepare for presentation
+                    </label>
+                  </div>
+                  <i class="remove ti-close"></i>
+                </li>
+                <li>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="checkbox" type="checkbox">
+                      Resolve all the low priority tickets due today
+                    </label>
+                  </div>
+                  <i class="remove ti-close"></i>
+                </li>
+                <li class="completed">
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="checkbox" type="checkbox" checked>
+                      Schedule meeting for next week
+                    </label>
+                  </div>
+                  <i class="remove ti-close"></i>
+                </li>
+                <li class="completed">
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="checkbox" type="checkbox" checked>
+                      Project review
+                    </label>
+                  </div>
+                  <i class="remove ti-close"></i>
+                </li>
+              </ul>
+            </div>
+            <h4 class="px-3 text-muted mt-5 font-weight-light mb-0">Events</h4>
+            <div class="events pt-4 px-3">
+              <div class="wrapper d-flex mb-2">
+                <i class="ti-control-record text-primary mr-2"></i>
+                <span>Feb 11 2018</span>
               </div>
-
-        <!-- partial -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('toko.index') }}">
-                        <i class="icon-layout menu-icon"></i>
-                        <span class="menu-title">Toko</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('produk.show') }}">
-                        <i class="icon-columns menu-icon"></i>
-                        <span class="menu-title">Produk</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pesanan.show') }}">
-                        <i class="icon-bar-graph menu-icon"></i>
-                        <span class="menu-title">Pesanan</span>
-                    </a>
-                </li>
+              <p class="mb-0 font-weight-thin text-gray">Creating component page build a js</p>
+              <p class="text-gray mb-0">The total number of sessions</p>
+            </div>
+            <div class="events pt-4 px-3">
+              <div class="wrapper d-flex mb-2">
+                <i class="ti-control-record text-primary mr-2"></i>
+                <span>Feb 7 2018</span>
+              </div>
+              <p class="mb-0 font-weight-thin text-gray">Meeting with Alisa</p>
+              <p class="text-gray mb-0 ">Call Sarah Graves</p>
+            </div>
+          </div>
+          <!-- To do section tab ends -->
+          <div class="tab-pane fade" id="chats-section" role="tabpanel" aria-labelledby="chats-section">
+            <div class="d-flex align-items-center justify-content-between border-bottom">
+              <p class="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0">Friends</p>
+              <small class="settings-heading border-top-0 mb-3 pt-0 border-bottom-0 pb-0 pr-3 font-weight-normal">See All</small>
+            </div>
+            <ul class="chat-list">
+              <li class="list active">
+                <div class="profile"><img src="../../images/faces/face1.jpg" alt="image"><span class="online"></span></div>
+                <div class="info">
+                  <p>Thomas Douglas</p>
+                  <p>Available</p>
+                </div>
+                <small class="text-muted my-auto">19 min</small>
+              </li>
+              <li class="list">
+                <div class="profile"><img src="../../images/faces/face2.jpg" alt="image"><span class="offline"></span></div>
+                <div class="info">
+                  <div class="wrapper d-flex">
+                    <p>Catherine</p>
+                  </div>
+                  <p>Away</p>
+                </div>
+                <div class="badge badge-success badge-pill my-auto mx-2">4</div>
+                <small class="text-muted my-auto">23 min</small>
+              </li>
+              <li class="list">
+                <div class="profile"><img src="../../images/faces/face3.jpg" alt="image"><span class="online"></span></div>
+                <div class="info">
+                  <p>Daniel Russell</p>
+                  <p>Available</p>
+                </div>
+                <small class="text-muted my-auto">14 min</small>
+              </li>
+              <li class="list">
+                <div class="profile"><img src="../../images/faces/face4.jpg" alt="image"><span class="offline"></span></div>
+                <div class="info">
+                  <p>James Richardson</p>
+                  <p>Away</p>
+                </div>
+                <small class="text-muted my-auto">2 min</small>
+              </li>
+              <li class="list">
+                <div class="profile"><img src="../../images/faces/face5.jpg" alt="image"><span class="online"></span></div>
+                <div class="info">
+                  <p>Madeline Kennedy</p>
+                  <p>Available</p>
+                </div>
+                <small class="text-muted my-auto">5 min</small>
+              </li>
+              <li class="list">
+                <div class="profile"><img src="../../images/faces/face6.jpg" alt="image"><span class="online"></span></div>
+                <div class="info">
+                  <p>Sarah Graves</p>
+                  <p>Available</p>
+                </div>
+                <small class="text-muted my-auto">47 min</small>
+              </li>
             </ul>
-        </nav>
-        <!-- partial -->
-        <div class="main-panel">
-        <div class="content-wrapper">
-            <div class="row">
-                <div class="col-lg-12 grid-margin">
-                    <div class="card" style="max-width: 100%; overflow: hidden;">
-                        <div class="card-body">
-                            <h4 class="card-title">List Pesanan</h4>
-                            <p class="card-description">
-                            </p>
-                            <div class="table-responsive">
-                                <!-- Tambahkan overflow-x pada div ini -->
-                                <div class="table-scroll" style="overflow-x: auto;">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>id Pesanan</th>
-                                                <th>id User</th>
-                                                <th>id Keranjang</th>
-                                                <th>Tanggal Pemesanan</th>
-                                                <th>Metode Pembayaran</th>
-                                                <th>Total Harga</th>
-                                                <th>Status</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="pesanan-list">
-                                            <!-- Data Pesanan Dummy -->
-                                            <tr id="pesanan-101">
-                                                <td>1</td>
-                                                <td>101</td>
-                                                <td class="py-1">11</td>
-                                                <td>2024-11-12</td>
-                                                <td>BCA</td>
-                                                <td>$245.30</td>
-                                                <td>
-                                                    <span class="status-text" id="status-101">Pending</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-warning btn-sm" onclick="editPesanan(101)">Edit</button>
-                                                    <button class="btn btn-danger btn-sm" onclick="deletePesanan(101)">Delete</button>
-                                                </td>
-                                            </tr>
-                                            <tr id="pesanan-102">
-                                                <td>2</td>
-                                                <td>102</td>
-                                                <td class="py-1">22</td>
-                                                <td>2024-11-12</td>
-                                                <td>COD</td>
-                                                <td>$300.00</td>
-                                                <td>
-                                                    <span class="status-text" id="status-102">Completed</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-warning btn-sm" onclick="editPesanan(102)">Edit</button>
-                                                    <button class="btn btn-danger btn-sm" onclick="deletePesanan(102)">Delete</button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+          </div>
+          <!-- chat tab ends -->
+        </div>
+      </div>
+      <!-- partial -->
+      <!-- partial:../../partials/_sidebar.html -->
+
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('dashboard.index') }}">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('toko.index') }}">
+              <i class="icon-layout menu-icon"></i>
+              <span class="menu-title">Toko</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('produk.show') }}">
+              <i class="icon-columns menu-icon"></i>
+              <span class="menu-title">Produk</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('pesanan.show') }}">
+              <i class="icon-bar-graph menu-icon"></i>
+              <span class="menu-title">Pesanan</span>
+            </a>
+          </li>
+      </nav>
+
+    <!-- partial -->
+    <div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin">
+                <div class="card" style="max-width: 100%; overflow: hidden;">
+                    <div class="card-body">
+                        <h4 class="card-title">List Pesanan</h4>
+                        <p class="card-description">
+                        </p>
+                        <div class="table-responsive">
+                            <!-- Tambahkan overflow-x pada div ini -->
+                            <div class="table-scroll" style="overflow-x: auto;">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>id Pesanan</th>
+                                            <th>id User</th>
+                                            <th>id Keranjang</th>
+                                            <th>Tanggal Pemesanan</th>
+                                            <th>Metode Pembayaran</th>
+                                            <th>Total Harga</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pesanan-list">
+                                        <!-- Data Pesanan Dummy -->
+                                        <tr id="pesanan-101">
+                                            <td>1</td>
+                                            <td>101</td>
+                                            <td class="py-1">11</td>
+                                            <td>2024-11-12</td>
+                                            <td>BCA</td>
+                                            <td>$245.30</td>
+                                            <td>
+                                                <span class="status-text" id="status-101">Pending</span>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-warning btn-sm" onclick="editPesanan(101)">Edit</button>
+                                                <button class="btn btn-danger btn-sm" onclick="deletePesanan(101)">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr id="pesanan-102">
+                                            <td>2</td>
+                                            <td>102</td>
+                                            <td class="py-1">22</td>
+                                            <td>2024-11-12</td>
+                                            <td>COD</td>
+                                            <td>$300.00</td>
+                                            <td>
+                                                <span class="status-text" id="status-102">Completed</span>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-warning btn-sm" onclick="editPesanan(102)">Edit</button>
+                                                <button class="btn btn-danger btn-sm" onclick="deletePesanan(102)">Delete</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -168,220 +387,219 @@
             </div>
         </div>
     </div>
+</div>
 
 
 
-      <!-- Modal Edit Pesanan -->
-      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="editModalLabel">Edit Pesanan</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <form id="editForm">
-                          <div class="form-group">
-                              <label for="status">Status</label>
-                              <select id="status" class="form-control">
-                                  <option value="pending">Pending</option>
-                                  <option value="completed">Completed</option>
-                                  <option value="canceled">Canceled</option>
-                              </select>
-                          </div>
-                          <input type="hidden" id="pesanan_id" />
-                      </form>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" onclick="saveEditPesanan()">Save changes</button>
-                  </div>
+  <!-- Modal Edit Pesanan -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="editModalLabel">Edit Pesanan</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <form id="editForm">
+                      <div class="form-group">
+                          <label for="status">Status</label>
+                          <select id="status" class="form-control">
+                              <option value="pending">Pending</option>
+                              <option value="completed">Completed</option>
+                              <option value="canceled">Canceled</option>
+                          </select>
+                      </div>
+                      <input type="hidden" id="pesanan_id" />
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" onclick="saveEditPesanan()">Save changes</button>
               </div>
           </div>
       </div>
-
-      <!-- Modal Delete Confirmation -->
-      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      Apakah Anda yakin ingin menghapus pesanan ini?
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                      <button type="button" class="btn btn-danger" onclick="deletePesananConfirm()">Hapus</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <!-- Modal Edit Pesanan -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="editModalLabel">Edit Pesanan</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <form id="editForm">
-                          <div class="form-group">
-                              <label for="status">Status Pesanan</label>
-                              <input type="text" id="status" class="form-control" readonly />
-                          </div>
-                          <input type="hidden" id="pesanan_id" />
-                      </form>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" onclick="saveEditPesanan()">Save changes</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <!-- <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-          </div>
-        </footer> -->
-      </div>
-    </div>
   </div>
 
-  <script src="../../vendors/js/vendor.bundle.base.js"></script>
-  <script src="../../js/off-canvas.js"></script>
-  <script src="../../js/hoverable-collapse.js"></script>
-  <script src="../../js/template.js"></script>
-  <script src="../../js/settings.js"></script>
-  <script src="../../js/todolist.js"></script>
+  <!-- Modal Delete Confirmation -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  Apakah Anda yakin ingin menghapus pesanan ini?
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                  <button type="button" class="btn btn-danger" onclick="deletePesananConfirm()">Hapus</button>
+              </div>
+          </div>
+      </div>
+  </div>
 
-  <script>
-    // Fungsi untuk mengedit pesanan
-    function editPesanan(id) {
-        // Mengambil status dari dropdown status pada baris pesanan tertentu
-        var status = $('#pesanan-' + id).find('.status-select').val();
+  <!-- Modal Edit Pesanan -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="editModalLabel">Edit Pesanan</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <form id="editForm">
+                      <div class="form-group">
+                          <label for="status">Status Pesanan</label>
+                          <input type="text" id="status" class="form-control" readonly />
+                      </div>
+                      <input type="hidden" id="pesanan_id" />
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" onclick="saveEditPesanan()">Save changes</button>
+              </div>
+          </div>
+      </div>
+  </div>
 
-        // Set status pada modal input untuk diedit
-        $('#status').val(status);
+    <!-- content-wrapper ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <!-- <footer class="footer">
+      <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+      </div>
+    </footer> -->
+  </div>
+</div>
+</div>
 
-        // Set ID pesanan pada hidden input untuk menyimpan ID pesanan
-        $('#pesanan_id').val(id);
+<script src="../../vendors/js/vendor.bundle.base.js"></script>
+<script src="../../js/off-canvas.js"></script>
+<script src="../../js/hoverable-collapse.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/settings.js"></script>
+<script src="../../js/todolist.js"></script>
 
-        // Menampilkan modal untuk edit pesanan
-        $('#editModal').modal('show');
-    }
+<script>
+// Fungsi untuk mengedit pesanan
+function editPesanan(id) {
+    // Mengambil status dari dropdown status pada baris pesanan tertentu
+    var status = $('#pesanan-' + id).find('.status-select').val();
 
-    // Fungsi untuk menyimpan perubahan status pesanan
-    function saveEditPesanan() {
-        var pesananId = $('#pesanan_id').val(); // Ambil ID pesanan
-        var status = $('#status').val();  // Ambil status baru dari input text
+    // Set status pada modal input untuk diedit
+    $('#status').val(status);
 
-        // Kirimkan data menggunakan AJAX
+    // Set ID pesanan pada hidden input untuk menyimpan ID pesanan
+    $('#pesanan_id').val(id);
+
+    // Menampilkan modal untuk edit pesanan
+    $('#editModal').modal('show');
+}
+
+// Fungsi untuk menyimpan perubahan status pesanan
+function saveEditPesanan() {
+    var pesananId = $('#pesanan_id').val(); // Ambil ID pesanan
+    var status = $('#status').val();  // Ambil status baru dari input text
+
+    // Kirimkan data menggunakan AJAX
+    $.ajax({
+        url: 'https://freshyfishapi.ydns.eu/pesanan/' + pesananId, // URL API untuk mengedit pesanan
+        type: 'PUT',  // Menggunakan method PUT untuk update data
+        data: {
+            status: status, // Kirimkan status baru
+            _token: '{{ csrf_token() }}', // Kirimkan token CSRF untuk keamanan
+        },
+        success: function(response) {
+            // Update status pesanan di tampilan
+            $('#pesanan-' + pesananId).find('.status-select').val(status);
+            // Tutup modal setelah penyimpanan
+            $('#editModal').modal('hide');
+
+            // Tampilkan notifikasi sukses
+            alert('Pesanan berhasil diperbarui');
+        },
+        error: function(xhr) {
+            // Tampilkan notifikasi jika terjadi error
+            alert('Gagal memperbarui pesanan');
+        }
+    });
+}
+
+// Fungsi untuk menghapus pesanan
+function deletePesanan(id) {
+    // Set ID pesanan pada hidden input
+    $('#pesanan_id').val(id);
+
+    // Tampilkan modal konfirmasi untuk hapus pesanan
+    $('#deleteModal').modal('show');
+}
+
+// Fungsi untuk mengonfirmasi penghapusan pesanan
+function deletePesananConfirm() {
+    var pesananId = $('#pesanan_id').val();  // Ambil ID pesanan
+
+    // Kirimkan request AJAX untuk menghapus pesanan
+    $.ajax({
+        url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/pesanan/' + pesananId, // Menambahkan CORS proxy
+        type: 'DELETE',  // Menggunakan method DELETE untuk menghapus data
+        data: {
+            _token: '{{ csrf_token() }}', // Kirimkan token CSRF untuk keamanan
+        },
+        success: function(response) {
+            // Update tampilan dan tutup modal
+            $('#pesanan-' + pesananId).remove();
+            $('#deleteModal').modal('hide');
+            alert('Pesanan berhasil dihapus');
+        },
+        error: function() {
+            alert('Gagal menghapus pesanan');
+        }
+    });
+}
+
+// Fungsi untuk menangani klik pada tombol logout
+$(document).ready(function() {
+    $('#logoutButton').on('click', function() {
+        // Ambil token dari LocalStorage
+        const token = localStorage.getItem('token');
+
+        // Jika token tidak ada, langsung arahkan ke halaman login
+        if (!token) {
+            window.location.href = '/auth/login';
+            return;
+        }
+
+        // Kirim permintaan logout ke API
         $.ajax({
-            url: 'https://freshyfishapi.ydns.eu/pesanan/' + pesananId, // URL API untuk mengedit pesanan
-            type: 'PUT',  // Menggunakan method PUT untuk update data
-            data: {
-                status: status, // Kirimkan status baru
-                _token: '{{ csrf_token() }}', // Kirimkan token CSRF untuk keamanan
+            url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
+            type: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
             },
             success: function(response) {
-                // Update status pesanan di tampilan
-                $('#pesanan-' + pesananId).find('.status-select').val(status);
-                // Tutup modal setelah penyimpanan
-                $('#editModal').modal('hide');
-
-                // Tampilkan notifikasi sukses
-                alert('Pesanan berhasil diperbarui');
+                // Jika logout berhasil, hapus token dan arahkan ke halaman login
+                localStorage.removeItem('token');
+                window.location.href = '/auth/login';
             },
             error: function(xhr) {
-                // Tampilkan notifikasi jika terjadi error
-                alert('Gagal memperbarui pesanan');
-            }
-        });
-    }
-
-    // Fungsi untuk menghapus pesanan
-    function deletePesanan(id) {
-        // Set ID pesanan pada hidden input
-        $('#pesanan_id').val(id);
-
-        // Tampilkan modal konfirmasi untuk hapus pesanan
-        $('#deleteModal').modal('show');
-    }
-
-    // Fungsi untuk mengonfirmasi penghapusan pesanan
-    function deletePesananConfirm() {
-        var pesananId = $('#pesanan_id').val();  // Ambil ID pesanan
-
-        // Kirimkan request AJAX untuk menghapus pesanan
-        $.ajax({
-            url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/pesanan/' + pesananId, // Menambahkan CORS proxy
-            type: 'DELETE',  // Menggunakan method DELETE untuk menghapus data
-            data: {
-                _token: '{{ csrf_token() }}', // Kirimkan token CSRF untuk keamanan
-            },
-            success: function(response) {
-                // Update tampilan dan tutup modal
-                $('#pesanan-' + pesananId).remove();
-                $('#deleteModal').modal('hide');
-                alert('Pesanan berhasil dihapus');
-            },
-            error: function() {
-                alert('Gagal menghapus pesanan');
-            }
-        });
-    }
-
-    // Fungsi untuk menangani klik pada tombol logout
-    $(document).ready(function() {
-        $('#logoutButton').on('click', function() {
-            // Ambil token dari LocalStorage
-            const token = localStorage.getItem('token');
-
-            // Jika token tidak ada, langsung arahkan ke halaman login
-            if (!token) {
+                // Tangani error jika ada masalah dengan API
+                console.log("Error:", xhr);
+                // Arahkan tetap ke login meski ada error
                 window.location.href = '/auth/login';
-                return;
             }
-
-            // Kirim permintaan logout ke API
-            $.ajax({
-                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
-                type: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                success: function(response) {
-                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
-                    localStorage.removeItem('token');
-                    window.location.href = '/auth/login';
-                },
-                error: function(xhr) {
-                    // Tangani error jika ada masalah dengan API
-                    console.log("Error:", xhr);
-                    // Arahkan tetap ke login meski ada error
-                    window.location.href = '/auth/login';
-                }
-            });
         });
     });
+});
 </script>
-
-
 
 </body>
 
