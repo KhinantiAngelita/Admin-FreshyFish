@@ -108,14 +108,14 @@
           <div class="content-wrapper">
               <!-- Welcome Section -->
               <div class="row">
-                  <div class="col-md-12 grid-margin">
-                      <div class="row">
-                          <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                              <h3 class="font-weight-bold">Selamat Datang Admin!</h3>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                <div class="col-md-12 grid-margin">
+                    <div class="row">
+                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                            <h3 class="font-weight-bold" id="welcomeMessage">Selamat Datang Admin!</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
               <!-- Order Details Section -->
               <div class="row">
@@ -137,7 +137,7 @@
                   <div class="col-lg-6 grid-margin stretch-card">
                       <div class="card">
                           <div class="card-body">
-                              <h4 class="card-title">Doughnut Chart</h4>
+                              <h4 class="card-title">Presentase Keuangan</h4>
                               <canvas id="doughnutChart"></canvas>
                           </div>
                       </div>
@@ -147,7 +147,7 @@
                   <div class="col-lg-6 grid-margin stretch-card">
                       <div class="card">
                           <div class="card-body">
-                              <h4 class="card-title">Pie Chart</h4>
+                              <h4 class="card-title">Presentase Total Penjualan</h4>
                               <canvas id="pieChart"></canvas>
                           </div>
                       </div>
