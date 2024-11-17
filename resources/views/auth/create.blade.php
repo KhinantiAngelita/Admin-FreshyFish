@@ -49,6 +49,8 @@
                 <!-- Tombol Submit -->
                 <div class="mt-3">
                     <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Buka Toko</button>
+                    <a href="{{ route('auth.login') }}" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Log In</a>
+
                 </div>
               </form>
               <p id="error-message" class="text-danger mt-2"></p>

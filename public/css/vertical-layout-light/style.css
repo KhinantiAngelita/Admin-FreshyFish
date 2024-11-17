@@ -21384,13 +21384,13 @@ code {
 }
 
 .btn-inverse-info:not(.btn-inverse-light) {
-  color: #248AFD;
+  color: #B9D7FA;
 }
 
 .btn-inverse-info:hover {
   color: #ffffff;
-  background-color: #248AFD;
-  border-color: #248AFD;
+  background-color: #B9D7FA;
+  border-color: #B9D7FA;
 }
 
 .btn-inverse-info.focus, .btn-inverse-info:focus {
