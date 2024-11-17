@@ -28518,6 +28518,15 @@ div.tagsinput span.tag a {
   color: inherit;
 }
 
+.sidebar .nav .nav-link.active {
+  background-color: #0096C8;
+  color: #fff;
+}
+
+.sidebar .nav-item.active .menu-icon {
+  color: white;
+}
+
 .sidebar .nav .nav-item .nav-link i.menu-icon {
   font-size: 1rem;
   line-height: 1;
