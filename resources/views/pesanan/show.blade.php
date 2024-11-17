@@ -119,6 +119,7 @@
             </div>
         </nav>
         <!-- partial -->
+
         <div class="container-fluid page-body-wrapper">
             <!-- partial:../../partials/_settings-panel.html -->
             <div class="theme-setting-wrapper">
@@ -298,30 +299,38 @@
 
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
-                    <li class="nav-item">
+                    <!-- Dashboard Menu Item -->
+                    <li class="nav-item @if(request()->is('dashboard*')) active @endif">
                         <a class="nav-link" href="{{ route('dashboard.index') }}">
                             <i class="icon-grid menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+
+                    <!-- Toko Menu Item -->
+                    <li class="nav-item @if(request()->is('toko*')) active @endif">
                         <a class="nav-link" href="{{ route('toko.index') }}">
                             <i class="icon-layout menu-icon"></i>
                             <span class="menu-title">Toko</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+
+                    <!-- Produk Menu Item -->
+                    <li class="nav-item @if(request()->is('produk*')) active @endif">
                         <a class="nav-link" href="{{ route('produk.show') }}">
                             <i class="icon-columns menu-icon"></i>
                             <span class="menu-title">Produk</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+
+                    <!-- Pesanan Menu Item -->
+                    <li class="nav-item @if(request()->is('pesanan*')) active @endif">
                         <a class="nav-link" href="{{ route('pesanan.show') }}">
                             <i class="icon-bar-graph menu-icon"></i>
                             <span class="menu-title">Pesanan</span>
                         </a>
                     </li>
+                </ul>
             </nav>
 
             <!-- partial -->
