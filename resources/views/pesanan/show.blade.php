@@ -82,19 +82,19 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('toko.index') }}">
-                        <i class="icon-grid menu-icon"></i>
+                        <i class="icon-layout menu-icon"></i>
                         <span class="menu-title">Toko</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('produk.show') }}">
-                        <i class="icon-grid menu-icon"></i>
+                        <i class="icon-columns menu-icon"></i>
                         <span class="menu-title">Produk</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('pesanan.show') }}">
-                        <i class="icon-grid menu-icon"></i>
+                        <i class="icon-bar-graph menu-icon"></i>
                         <span class="menu-title">Pesanan</span>
                     </a>
                 </li>

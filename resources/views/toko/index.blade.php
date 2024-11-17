@@ -63,7 +63,6 @@
           <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
           <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
           <p class="settings-heading mt-2">HEADER SKINS</p>
-          
           <div class="color-tiles mx-0 px-4">
             <div class="tiles success"></div>
             <div class="tiles warning"></div>
@@ -77,33 +76,33 @@
       <!-- partial -->
       <!-- partial:../../partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('toko.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Toko</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('produk.show') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Produk</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pesanan.show') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Pesanan</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('toko.index') }}">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Toko</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('produk.show') }}">
+                    <i class="icon-columns menu-icon"></i>
+                    <span class="menu-title">Produk</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('pesanan.show') }}">
+                    <i class="icon-bar-graph menu-icon"></i>
+                    <span class="menu-title">Pesanan</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
       <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
@@ -131,7 +130,7 @@
 
                                 <button type="button" id="editButton" class="btn btn-primary mr-2">Edit</button>
                                 <button type="button" id="updateButton" class="btn btn-primary mr-2" style="display:none;">Update</button>
-                                <button type="reset" class="btn btn-light">Cancel</button>
+                                <a href="{{ route('toko.index') }}" id="cancelButton" class="btn btn-inverse-dark btn-fw" style="display:none;">Cancel</a>
                             </form>
                         </div>
                     </div>
@@ -276,7 +275,8 @@
 
                 // Ganti tombol Edit dengan tombol Update
                 $('#editButton').hide(); // Sembunyikan tombol Edit
-                $('#updateButton').show(); // Tampilkan tombol Update
+                $('#updateButton').show();
+                $('#cancelButton').show(); // Tampilkan tombol Update
             });
 
             // Bagian ini memindahkan SweetAlert ke dalam klik tombol Update

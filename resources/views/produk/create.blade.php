@@ -81,33 +81,33 @@
       <!-- partial -->
       <!-- partial:../../partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('toko.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Toko</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('produk.show') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Produk</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pesanan.show') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Pesanan</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('toko.index') }}">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Toko</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('produk.show') }}">
+                    <i class="icon-columns menu-icon"></i>
+                    <span class="menu-title">Produk</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('pesanan.show') }}">
+                    <i class="icon-bar-graph menu-icon"></i>
+                    <span class="menu-title">Pesanan</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
       <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">

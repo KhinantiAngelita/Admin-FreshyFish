@@ -35,9 +35,10 @@ Route::prefix('produk')->group(function () {
         return view('produk.create');
     })->name('produk.create');
 
-    Route::get('/edit', function () {
-        return view('produk.edit');
-    })->name('produk.edit');
+    // Route::get('/edit', function () {
+    //     return view('produk.edit');
+    // })->name('produk.edit');
+
 
     Route::get('/list', function () {
         return view('produk.list');
@@ -47,6 +48,14 @@ Route::prefix('produk')->group(function () {
 Route::get('/pesanan/show', function () {
     return view('pesanan.show');
 })->name('pesanan.show');
+
+// Route untuk halaman edit produk berdasarkan ID
+Route::get('/produk/edit/{id}', function ($id) {
+    return view('produk.edit', ['id' => $id]);
+})->name('produk.edit');
+
+
+
 
 
 

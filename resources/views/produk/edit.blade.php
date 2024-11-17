@@ -26,8 +26,13 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="images/romawei.png" class="mr-1" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/loioy.png" alt="logo"/></a>
+            <a class="navbar-brand brand-logo mr-2" href="index.html">
+                <img src="images/rororo.png" class="mr-1" alt="Romawei Logo" loading="lazy"/>
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="index.html">
+                <img src="images/lololo.png" alt="Loioy Logo" loading="lazy"/>
+            </a>
+
         </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -72,186 +77,37 @@
           </div>
         </div>
       </div>
-      <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close ti-close"></i>
-        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="chats-tab" data-toggle="tab" href="#chats-section" role="tab" aria-controls="chats-section">CHATS</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <div class="add-items d-flex px-3 mb-0">
-              <form class="form w-100">
-                <div class="form-group d-flex">
-                  <input type="text" class="form-control todo-list-input" placeholder="Add To-do">
-                  <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task">Add</button>
-                </div>
-              </form>
-            </div>
-            <div class="list-wrapper px-3">
-              <ul class="d-flex flex-column-reverse todo-list">
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Team review meeting at 3.00 PM
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Prepare for presentation
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Resolve all the low priority tickets due today
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Schedule meeting for next week
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Project review
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-              </ul>
-            </div>
-            <h4 class="px-3 text-muted mt-5 font-weight-light mb-0">Events</h4>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
-                <span>Feb 11 2018</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">Creating component page build a js</p>
-              <p class="text-gray mb-0">The total number of sessions</p>
-            </div>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
-                <span>Feb 7 2018</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">Meeting with Alisa</p>
-              <p class="text-gray mb-0 ">Call Sarah Graves</p>
-            </div>
-          </div>
-          <!-- To do section tab ends -->
-          <div class="tab-pane fade" id="chats-section" role="tabpanel" aria-labelledby="chats-section">
-            <div class="d-flex align-items-center justify-content-between border-bottom">
-              <p class="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0">Friends</p>
-              <small class="settings-heading border-top-0 mb-3 pt-0 border-bottom-0 pb-0 pr-3 font-weight-normal">See All</small>
-            </div>
-            <ul class="chat-list">
-              <li class="list active">
-                <div class="profile"><img src="../../images/faces/face1.jpg" alt="image"><span class="online"></span></div>
-                <div class="info">
-                  <p>Thomas Douglas</p>
-                  <p>Available</p>
-                </div>
-                <small class="text-muted my-auto">19 min</small>
-              </li>
-              <li class="list">
-                <div class="profile"><img src="../../images/faces/face2.jpg" alt="image"><span class="offline"></span></div>
-                <div class="info">
-                  <div class="wrapper d-flex">
-                    <p>Catherine</p>
-                  </div>
-                  <p>Away</p>
-                </div>
-                <div class="badge badge-success badge-pill my-auto mx-2">4</div>
-                <small class="text-muted my-auto">23 min</small>
-              </li>
-              <li class="list">
-                <div class="profile"><img src="../../images/faces/face3.jpg" alt="image"><span class="online"></span></div>
-                <div class="info">
-                  <p>Daniel Russell</p>
-                  <p>Available</p>
-                </div>
-                <small class="text-muted my-auto">14 min</small>
-              </li>
-              <li class="list">
-                <div class="profile"><img src="../../images/faces/face4.jpg" alt="image"><span class="offline"></span></div>
-                <div class="info">
-                  <p>James Richardson</p>
-                  <p>Away</p>
-                </div>
-                <small class="text-muted my-auto">2 min</small>
-              </li>
-              <li class="list">
-                <div class="profile"><img src="../../images/faces/face5.jpg" alt="image"><span class="online"></span></div>
-                <div class="info">
-                  <p>Madeline Kennedy</p>
-                  <p>Available</p>
-                </div>
-                <small class="text-muted my-auto">5 min</small>
-              </li>
-              <li class="list">
-                <div class="profile"><img src="../../images/faces/face6.jpg" alt="image"><span class="online"></span></div>
-                <div class="info">
-                  <p>Sarah Graves</p>
-                  <p>Available</p>
-                </div>
-                <small class="text-muted my-auto">47 min</small>
-              </li>
-            </ul>
-          </div>
-          <!-- chat tab ends -->
-        </div>
-      </div>
+
       <!-- partial -->
       <!-- partial:../../partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('toko.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Toko</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('produk.show') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Produk</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pesanan.show') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Pesanan</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('toko.index') }}">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Toko</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('produk.show') }}">
+                    <i class="icon-columns menu-icon"></i>
+                    <span class="menu-title">Produk</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('pesanan.show') }}">
+                    <i class="icon-bar-graph menu-icon"></i>
+                    <span class="menu-title">Pesanan</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
       <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
@@ -259,51 +115,79 @@
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Edit Toko</h4>
+                                <h4 class="card-title">Edit Produk dengan ID {{ $id }}</h4>
                                 <p class="card-description">
-                                    Edit Data toko anda
+                                    Edit data produk anda
                                 </p>
-                                <form class="forms-sample" id="editProductForm">
+                                <form class="forms-sample" id="productForm" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label for="productId">Id Toko</label>
-                                        <input type="text" class="form-control" id="productId" placeholder="Id Toko" required>
+                                        <label for="fish_photo">Foto Produk</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="fish_photo" accept="image/*" required>
+                                            <label class="custom-file-label" for="fish_photo">Pilih Foto</label>
+                                        </div>
+                                        <small class="form-text text-muted">Unggah foto produk dengan format JPG, PNG, atau JPEG, max 2 mb.</small>
+                                        <div class="mt-3">
+                                            <img id="photoPreview" src="" alt="Preview Foto" class="img-thumbnail" style="display: none; max-height: 200px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="fish_type">Nama Ikan</label>
+                                        <input type="text" class="form-control" id="fish_type" placeholder="Nama Ikan" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="storeName">Nama Toko</label>
-                                        <input type="text" class="form-control" id="storeName" placeholder="Nama Toko" required>
+                                        <label for="fish_weight">Berat Ikan</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="fish_weight" placeholder="Berat Ikan" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">kg</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="storeAddress">Alamat Toko</label>
-                                        <input type="text" class="form-control" id="storeAddress" placeholder="Alamat Toko" required>
+                                        <label for="fish_price">Harga Ikan</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="fish_price" placeholder="Harga Ikan" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">Rp / kg</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="productCategory">Kategori Produk</label>
-                                        <select class="form-control" id="productCategory" required>
+                                        <label for="habitat">Kategori Ikan</label>
+                                        <select class="form-control" id="habitat" required>
                                             <option value="Ikan Laut">Ikan Laut</option>
                                             <option value="Ikan Tawar">Ikan Tawar</option>
                                             <option value="Ikan Payau">Ikan Payau</option>
                                         </select>
                                     </div>
-                                    <button type="button" id="updateProductBtn" class="btn btn-primary mr-2">Simpan Perubahan</button>
-                                    <a href="{{ route('produk.show') }}" class="btn btn-light">Cancel</a>
+                                    <div class="form-group">
+                                        <label for="fish_description">Deskripsi Ikan</label>
+                                        <textarea class="form-control" id="fish_description" rows="4" required></textarea>
+                                    </div>
+                                    <button type="button" id="saveChangesBtn" class="btn btn-primary">Perbarui Data</button>
+                                    <a href="{{ route('produk.show') }}" class="btn btn-inverse-dark btn-fw">Cancel</a>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Modal Success -->
+            <!-- content-wrapper ends -->
+
+            <!-- Modal -->
             <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalSuccessLabel">Produk Anda Berhasil Diperbaharui</h5>
+                            <h5 class="modal-title" id="modalSuccessLabel">Produk Berhasil Disimpan</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            Produk Anda telah berhasil diperbaharui. Anda akan diarahkan ke halaman produk dalam beberapa detik.
+                            Produk telah berhasil disimpan. Anda akan diarahkan ke halaman produk dalam beberapa detik.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -345,81 +229,94 @@
   <script src="../../js/file-upload.js"></script>
   <script src="../../js/typeahead.js"></script>
   <script src="../../js/select2.js"></script>
+  <!-- End custom js for this page-->
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script type="text/javascript">
     $(document).ready(function () {
-        // Ketika tombol "Simpan Perubahan" diklik
-        $('#updateProductBtn').click(function () {
-            // Ambil data dari form
-            let productData = {
-                id_toko: $('#productId').val(),
-                nama_toko: $('#storeName').val(),
-                alamat_toko: $('#storeAddress').val(),
-                kategori_produk: $('#productCategory').val(),
-            };
+        const token = localStorage.getItem('token');
+        const ID_produk = window.location.pathname.split('/').pop();
 
-            // Validasi form
-            if (!productData.id_toko || !productData.nama_toko || !productData.alamat_toko || !productData.kategori_produk) {
-                alert('Harap lengkapi semua field');
-                return;
-            }
+        // Fetch product data
+        $.ajax({
+            url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json'
+            },
+            success: function (data) {
+                if (data) {
+                    $('#fish_type').val(data.fish_type || '');
+                    $('#fish_price').val(data.fish_price || '');
+                    $('#fish_weight').val(data.fish_weight || '');
+                    $('#fish_description').val(data.fish_description || '');
 
-            // Kirim data ke API menggunakan AJAX untuk update produk
-            $.ajax({
-                url: 'https://cors-anywhere.herokuapp.com/https://freshyfishapi.ydns.eu/api/produk/' + productData.id_toko, // URL API dengan proxy CORS
-                type: 'PUT',
-                data: productData, // Data yang dikirimkan
-                success: function (response) {
-                    // Jika berhasil, tampilkan modal sukses dan alihkan ke halaman produk.show
-                    $('#modalSuccess').modal('show'); // Tampilkan modal
-                    setTimeout(function () {
-                        window.location.href = "{{ route('produk.show') }}"; // Redirect ke halaman produk setelah 2 detik
-                    }, 2000); // Redirect setelah 2 detik
-                },
-                error: function (xhr, status, error) {
-                    // Jika terjadi error
-                    alert('Terjadi kesalahan saat memperbaharui produk. Coba lagi.');
+                    // Display the photo preview with the correct path
+                    if (data.fish_photo) {
+                        $('#photoPreview').attr('src', `https://freshyfishapi.ydns.eu/storage/fish_photos/${data.fish_photo}`).show();
+                    }
                 }
-            });
+            },
+            error: function () {
+                Swal.fire('Gagal!', 'Terjadi kesalahan saat mengambil data produk.', 'error');
+            }
         });
 
-        // Fungsi untuk menangani klik pada tombol logout
-        $('#logoutButton').on('click', function () {
-            // Ambil token dari LocalStorage
-            const token = localStorage.getItem('token');
+        // Display photo preview when a new file is selected
+        $('#fish_photo').on('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#photoPreview').attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-            // Jika token tidak ada, langsung arahkan ke halaman login
-            if (!token) {
-                window.location.href = '/auth/login';
-                return;
+        // Save product changes
+        $('#saveChangesBtn').on('click', function () {
+            const formData = new FormData();
+            const fileInput = $('#fish_photo')[0].files[0];
+            if (fileInput) {
+                formData.append('fish_photo', fileInput);
             }
 
-            // Kirim permintaan logout ke API
+            formData.append('fish_type', $('#fish_type').val());
+            formData.append('fish_weight', $('#fish_weight').val());
+            formData.append('fish_price', $('#fish_price').val());
+            formData.append('habitat', $('#habitat').val());
+            formData.append('fish_description', $('#fish_description').val());
+
             $.ajax({
-                url: 'https://example.com/api/logout',  // Ganti dengan URL logout API Anda
-                type: 'POST',
+                url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
+                type: 'POST',  // Change this to 'PUT' if required by your backend
+                data: formData,
+                processData: false,
+                contentType: false,
                 headers: {
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
                 },
-                success: function(response) {
-                    // Jika logout berhasil, hapus token dan arahkan ke halaman login
-                    localStorage.removeItem('token');
-                    window.location.href = '/auth/login';
+                success: function () {
+                    Swal.fire('Berhasil!', 'Data produk berhasil diperbarui.', 'success');
+                    setTimeout(() => window.location.href = "{{ route('produk.show') }}", 2000);
                 },
-                error: function(xhr) {
-                    // Tangani error jika ada masalah dengan API
-                    console.log("Error:", xhr);
-                    // Arahkan tetap ke login meski ada error
-                    window.location.href = '/auth/login';
+                error: function () {
+                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menyimpan perubahan.', 'error');
                 }
             });
         });
     });
 </script>
 
-  <!-- End custom js for this page-->
 </body>
 
 </html>

@@ -164,33 +164,33 @@
       <!-- partial -->
       <!-- partial:../../partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('toko.index') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Toko</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('produk.show') }}">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Produk</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pesanan.show') }}">
-                        <i class="icon-head menu-icon"></i>
-                        <span class="menu-title">Pesanan</span>
-                    </a>
-                </li>
-        </nav>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('toko.index') }}">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Toko</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('produk.show') }}">
+                    <i class="icon-columns menu-icon"></i>
+                    <span class="menu-title">Produk</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('pesanan.show') }}">
+                    <i class="icon-bar-graph menu-icon"></i>
+                    <span class="menu-title">Pesanan</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
       <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
@@ -233,22 +233,24 @@
             <!-- Modal Success for Delete -->
             <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalSuccessLabel">Produk Berhasil Dihapus</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Produk telah berhasil dihapus. Halaman akan diperbarui.
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        </div>
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalSuccessLabel">Produk Berhasil Diedit</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                     </div>
+                    <div class="modal-body">
+                      Produk berhasil diedit. Halaman akan diperbarui.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -312,14 +314,14 @@
                                 <tr>
                                     <td>${produk.ID_toko}</td>
                                     <td>${produk.ID_produk}</td>
-                                    <td class="py-1"><img src="${produk.fish_photo}" alt="Ikan" style="width: 50px; height: 50px;" /></td>
+                                    <td class="py-1"><img src="https://freshyfishapi.ydns.eu/storage/fish_photos/${produk.fish_photo}" alt="Ikan" style="width: 50px; height: 50px;" /></td>
                                     <td>${produk.fish_type}</td>
                                     <td>${produk.fish_price}</td>
                                     <td>${produk.fish_weight}</td>
                                     <td>${produk.habitat}</td>
                                     <td>${produk.fish_description}</td>
                                     <td>
-                                        <a href="produk/${produk.ID_produk}/edit" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="javascript:void(0)" class="btn btn-warning btn-sm editProduct" data-id="${produk.ID_produk}">Edit</a>
                                         <button class="btn btn-danger btn-sm deleteProduct" data-id="${produk.ID_produk}">Delete</button>
                                     </td>
                                 </tr>`;
@@ -340,6 +342,14 @@
                 }
             });
         }
+
+        //Pengalihan ke pages edit
+        $(document).on('click', '.editProduct', function () {
+        const ID_produk = $(this).data('id');
+        // Mengarahkan ke halaman edit produk berdasarkan ID
+        window.location.href = `/produk/edit/${ID_produk}`;
+        });
+
 
         // Muat produk ketika halaman selesai dimuat
         loadProducts();
