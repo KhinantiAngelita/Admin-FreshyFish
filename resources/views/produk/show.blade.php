@@ -201,6 +201,8 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h4 class="card-title">List Produk Anda</h4>
                                     <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm">Tambah Produk Baru</a>
+                                    {{-- <a href="{{ url('/produk/export') }}" class="btn btn-primary btn-sm">Export Produk ke Excel</a> --}}
+                                    <button id="exportExcel" class="btn btn-success">Export to Excel</button>
                                 </div>
                                 <p class="card-description"></p>
                                 <div class="table-responsive">
@@ -278,11 +280,13 @@
   <!-- Tambahkan library jQuery dan SweetAlert jika belum ada -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
-        // Ambil token dari localStorage
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token'); // Ambil token dari localStorage
+
         if (!token) {
             Swal.fire(
                 'Gagal!',
@@ -295,7 +299,7 @@
         }
 
         // Fungsi untuk memuat produk dari API
-        function loadProducts() {
+        function loadProducts(callback) {
             $.ajax({
                 url: 'https://freshyfishapi.ydns.eu/api/produk', // URL API untuk mengambil data produk
                 type: 'GET',
@@ -331,6 +335,9 @@
                     }
 
                     $('#productList').html(productList);
+
+                    // Ekspor data ke Excel jika callback diterima
+                    if (callback) callback(response);
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -338,22 +345,49 @@
                         'Gagal!',
                         'Terjadi kesalahan saat memuat produk. Silakan coba lagi.',
                         'error'
-
                     );
                 }
             });
         }
 
-        //Pengalihan ke pages edit
-        $(document).on('click', '.editProduct', function () {
-        const ID_produk = $(this).data('id');
-        // Mengarahkan ke halaman edit produk berdasarkan ID
-        window.location.href = `/produk/edit/${ID_produk}`;
+        // Fungsi untuk mengonversi data menjadi file Excel
+        function exportToExcel(data) {
+            if (!Array.isArray(data)) {
+                Swal.fire('Error', 'Data tidak valid untuk ekspor.', 'error');
+                return;
+            }
+
+            // Format data untuk Excel
+            const formattedData = data.map((produk) => ({
+                'ID Toko': produk.ID_toko || '',
+                'ID Produk': produk.ID_produk || '',
+                'Nama Ikan': produk.fish_type || '',
+                'Harga Ikan': produk.fish_price || '',
+                'Berat Ikan': produk.fish_weight || '',
+                'Habitat': produk.habitat || '',
+                'Deskripsi': produk.fish_description || '',
+            }));
+
+            // Buat workbook
+            const ws = XLSX.utils.json_to_sheet(formattedData); // Konversi data JSON ke worksheet
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Produk');
+
+            // Unduh file Excel
+            XLSX.writeFile(wb, 'Produk.xlsx');
+        }
+
+        // Tombol ekspor Excel
+        $('#exportExcel').on('click', function () {
+            loadProducts(exportToExcel); // Muat data dan ekspor ke Excel
         });
 
-
-        // Muat produk ketika halaman selesai dimuat
-        loadProducts();
+        // Pengalihan ke halaman edit produk
+        $(document).on('click', '.editProduct', function () {
+            const ID_produk = $(this).data('id');
+            // Mengarahkan ke halaman edit produk berdasarkan ID
+            window.location.href = `/produk/edit/${ID_produk}`;
+        });
 
         // Fungsi untuk menghapus produk
         $(document).on('click', '.deleteProduct', function () {
@@ -361,18 +395,17 @@
 
             // Konfirmasi penghapusan menggunakan SweetAlert
             Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: 'Produk ini akan dihapus secara permanen!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal',
-            customClass: {
-                popup: 'custom-swal-popup' // CSS class for the popup
-            }
-
+                title: 'Apakah Anda yakin?',
+                text: 'Produk ini akan dihapus secara permanen!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                customClass: {
+                    popup: 'custom-swal-popup' // CSS class untuk popup
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -437,6 +470,9 @@
                 }
             });
         });
+
+        // Muat produk ketika halaman selesai dimuat
+        loadProducts();
     });
 </script>
 

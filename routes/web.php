@@ -54,6 +54,13 @@ Route::get('/produk/edit/{id}', function ($id) {
     return view('produk.edit', ['id' => $id]);
 })->name('produk.edit');
 
+use App\Exports\ProdukExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+Route::get('/produk/export', function () {
+    return Excel::download(new ProdukExport, 'produk.xlsx');
+});
+
 
 
 
