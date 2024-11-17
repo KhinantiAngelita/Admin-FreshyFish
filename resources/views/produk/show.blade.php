@@ -202,7 +202,7 @@
                                     <h4 class="card-title">List Produk Anda</h4>
                                     <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm">Tambah Produk Baru</a>
                                     {{-- <a href="{{ url('/produk/export') }}" class="btn btn-primary btn-sm">Export Produk ke Excel</a> --}}
-                                    <button id="exportExcel" class="btn btn-success">Export to Excel</button>
+                                    <button id="exportExcel" class="btn btn-primary btn-sm">Export to Excel</button>
                                 </div>
                                 <p class="card-description"></p>
                                 <div class="table-responsive">
