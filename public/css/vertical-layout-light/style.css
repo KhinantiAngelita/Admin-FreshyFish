@@ -21387,6 +21387,13 @@ code {
   color: #B9D7FA;
 }
 
+.custom-swal-popup {
+    width: 600px !important; /* Lebar SweetAlert */
+    max-width: 80%;         /* Responsif di layar kecil */
+    padding: 20px !important; /* Padding untuk isi */
+    font-size: 1.2rem;      /* Ukuran font isi */
+}
+
 .btn-inverse-info:hover {
   color: #ffffff;
   background-color: #B9D7FA;
@@ -28600,7 +28607,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav .nav-item.active > .nav-link {
-  background: #0096C8;
+  background: transparent;
   position: relative;
 }
 

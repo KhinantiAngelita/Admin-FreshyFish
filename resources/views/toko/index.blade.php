@@ -26,8 +26,8 @@
         <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo mr-2"><img src="images/romawei.png" class="mr-1" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini"><img src="images/loioy.png" alt="logo" /></a>
+                <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -279,7 +279,10 @@
                             icon: 'success',
                             title: 'Toko Anda sudah dibuka',
                             text: 'Anda akan diarahkan ke dashboard.',
-                            confirmButtonText: 'OK'
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                popup: 'custom-swal-popup' // Kelas CSS untuk popup
+                            }
                         }).then(() => {
                             window.location.href = '/dashboard';
                         });
@@ -368,7 +371,10 @@
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
                     confirmButtonText: 'Ya, hapus toko!',
-                    cancelButtonText: 'Batal'
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        popup: 'custom-swal-popup' // Kelas CSS untuk popup
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
