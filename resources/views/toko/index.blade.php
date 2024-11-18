@@ -55,58 +55,55 @@
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:../../partials/_settings-panel.html -->
-            <div class="theme-setting-wrapper">
+            <div class="theme-setting-wrapper shadow">
                 <div id="settings-trigger"><i class="ti-settings"></i></div>
-                <div id="theme-settings" class="settings-panel">
+                <div id="theme-settings" class="settings-panel shadow">
                     <i class="settings-close ti-close"></i>
                     <p class="settings-heading">SIDEBAR SKINS</p>
-                    <div class="sidebar-bg-options selected" id="sidebar-light-theme">
+                    <div class="sidebar-bg-options selected shadow-sm" id="sidebar-light-theme">
                         <div class="img-ss rounded-circle bg-light border mr-3"></div>Light
                     </div>
-                    <div class="sidebar-bg-options" id="sidebar-dark-theme">
+                    <div class="sidebar-bg-options shadow-sm" id="sidebar-dark-theme">
                         <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
                     </div>
                     <p class="settings-heading mt-2">HEADER SKINS</p>
                     <div class="color-tiles mx-0 px-4">
-                        <div class="tiles success"></div>
-                        <div class="tiles warning"></div>
-                        <div class="tiles danger"></div>
-                        <div class="tiles info"></div>
-                        <div class="tiles dark"></div>
-                        <div class="tiles default"></div>
+                        <div class="tiles success shadow"></div>
+                        <div class="tiles warning shadow"></div>
+                        <div class="tiles danger shadow"></div>
+                        <div class="tiles info shadow"></div>
+                        <div class="tiles dark shadow"></div>
+                        <div class="tiles default shadow"></div>
                     </div>
                 </div>
             </div>
             <!-- partial -->
             <!-- partial:../../partials/_sidebar.html -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <nav class="sidebar sidebar-offcanvas shadow" id="sidebar">
                 <ul class="nav">
                     <!-- Dashboard Menu Item -->
-                    <li class="nav-item @if(request()->is('dashboard*')) active @endif">
+                    <li class="nav-item @if(request()->is('dashboard*')) active @endif shadow-sm">
                         <a class="nav-link" href="{{ route('dashboard.index') }}">
                             <i class="icon-grid menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-
                     <!-- Toko Menu Item -->
-                    <li class="nav-item @if(request()->is('toko*')) active @endif">
+                    <li class="nav-item @if(request()->is('toko*')) active @endif shadow-sm">
                         <a class="nav-link" href="{{ route('toko.index') }}">
                             <i class="icon-layout menu-icon"></i>
                             <span class="menu-title">Toko</span>
                         </a>
                     </li>
-
                     <!-- Produk Menu Item -->
-                    <li class="nav-item @if(request()->is('produk*')) active @endif">
+                    <li class="nav-item @if(request()->is('produk*')) active @endif shadow-sm">
                         <a class="nav-link" href="{{ route('produk.show') }}">
                             <i class="icon-columns menu-icon"></i>
                             <span class="menu-title">Produk</span>
                         </a>
                     </li>
-
                     <!-- Pesanan Menu Item -->
-                    <li class="nav-item @if(request()->is('pesanan*')) active @endif">
+                    <li class="nav-item @if(request()->is('pesanan*')) active @endif shadow-sm">
                         <a class="nav-link" href="{{ route('pesanan.show') }}">
                             <i class="icon-bar-graph menu-icon"></i>
                             <span class="menu-title">Pesanan</span>
@@ -114,12 +111,11 @@
                     </li>
                 </ul>
             </nav>
-
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="col-lg-50 grid-margin stretch-card">
-                        <div class="card">
+                        <div class="card shadow-lg">
                             <div class="card-body">
                                 <h4 class="card-title">Toko</h4>
                                 <p class="card-description">Detail Toko Anda</p>
@@ -127,34 +123,30 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="nama_toko">Nama Toko</label>
-                                        <input type="text" class="form-control" id="nama_toko" name="nama_toko" placeholder="Nama Toko" required readonly>
+                                        <input type="text" class="form-control shadow-sm" id="nama_toko" name="nama_toko" placeholder="Nama Toko" required readonly>
                                     </div>
-
                                     <div class="form-group">
                                         <label for="alamat_toko">Alamat Toko</label>
-                                        <input type="text" class="form-control" id="alamat_toko" name="alamat_toko" placeholder="Alamat Toko" required readonly>
+                                        <input type="text" class="form-control shadow-sm" id="alamat_toko" name="alamat_toko" placeholder="Alamat Toko" required readonly>
                                     </div>
-
                                     <div class="form-group">
                                         <label for="deskripsi_toko">Deskripsi Ikan</label>
-                                        <textarea class="form-control" id="deskripsi_toko" rows=4 name="deskripsi_toko" placeholder="Deskripsi Toko" required readonly></textarea>
+                                        <textarea class="form-control shadow-sm" id="deskripsi_toko" rows=4 name="deskripsi_toko" placeholder="Deskripsi Toko" required readonly></textarea>
                                     </div>
-
-                                    <button type="button" id="editButton" class="btn btn-primary mr-2">Edit</button>
-                                    <button type="button" id="deleteButton" class="btn btn-danger">Hapus Toko</button>
-                                    <button type="button" id="updateButton" class="btn btn-primary mr-2" style="display:none;">Update</button>
-                                    <a href="{{ route('toko.index') }}" id="cancelButton" class="btn btn-inverse-dark btn-fw" style="display:none;">Cancel</a>
+                                    <button type="button" id="editButton" class="btn btn-primary shadow">Edit</button>
+                                    <button type="button" id="deleteButton" class="btn btn-danger shadow">Hapus Toko</button>
+                                    <button type="button" id="updateButton" class="btn btn-primary shadow" style="display:none;">Update</button>
+                                    <a href="{{ route('toko.index') }}" id="cancelButton" class="btn btn-inverse-dark btn-fw shadow" style="display:none;">Cancel</a>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- Modal Success for Update -->
-            <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+            <div class="modal fade shadow" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="modalSuccessLabel" aria-hidden="true">
+                <div class="modal-dialog shadow" role="document">
+                    <div class="modal-content shadow-lg">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalSuccessLabel">Data Toko Berhasil Diperbaharui</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -165,23 +157,13 @@
                             Data toko Anda berhasil diperbaharui. Halaman akan diperbarui dengan data terbaru.
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="button" class="btn btn-secondary shadow" data-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
-            <!-- <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-          </div>
-        </footer> -->
-            <!-- partial -->
         </div>
+
         <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->

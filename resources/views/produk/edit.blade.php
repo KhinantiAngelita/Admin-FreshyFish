@@ -291,23 +291,39 @@
             formData.append('fish_description', $('#fish_description').val());
 
             $.ajax({
-                url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
-                type: 'POST',  // Change this to 'PUT' if required by your backend
-                data: formData,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/json'
-                },
-                success: function () {
-                    Swal.fire('Berhasil!', 'Data produk berhasil diperbarui.', 'success');
-                    setTimeout(() => window.location.href = "{{ route('produk.show') }}", 2000);
-                },
-                error: function () {
-                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menyimpan perubahan.', 'error');
-                }
-            });
+            url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
+            type: 'POST',  // Ganti ke 'PUT' jika diperlukan oleh backend Anda
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json'
+            },
+            success: function () {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Data produk berhasil diperbarui.',
+                    icon: 'success',
+                    customClass: {
+                        popup: 'custom-swal-popup' // Kelas CSS untuk popup
+                    }
+                });
+                // Redirect setelah 2 detik
+                setTimeout(() => window.location.href = "{{ route('produk.show') }}", 2000);
+            },
+            error: function () {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat menyimpan perubahan.',
+                    icon: 'error',
+                    customClass: {
+                        popup: 'custom-swal-popup' // Kelas CSS untuk popup
+                    }
+                });
+            }
+        });
+
         });
     });
 </script>

@@ -30608,4 +30608,9 @@ div.tagsinput span.tag a {
   }
 }
 
+.d-flex.gap-2 > *:not(:last-child) {
+    margin-right: 15px; /* Jarak antara tombol */
+}
+
+
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */

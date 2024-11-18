@@ -21,6 +21,8 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="images/favicon.png" />
   <link href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 </head>
 
@@ -29,99 +31,30 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo" /></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
+            <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/rororo.png"  alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo"/></a>
         </div>
-        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                <span class="icon-menu"></span>
-            </button>
-            <ul class="navbar-nav mr-lg-2">
-                <li class="nav-item nav-search d-none d-lg-block">
-                    <div class="input-group">
-                        <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                            <span class="input-group-text" id="search">
-                                <i class="icon-search"></i>
-                            </span>
-                        </div>
-                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
-                    </div>
-                </li>
-            </ul>
-            <ul class="navbar-nav navbar-nav-right">
-                <li class="nav-item dropdown">
-                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-                        <i class="icon-bell mx-0"></i>
-                        <span class="count"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-success">
-                                    <i class="ti-info-alt mx-0"></i>
-                                </div>
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">
-                                    Just now
-                                </p>
-                            </div>
-                        </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-warning">
-                                    <i class="ti-settings mx-0"></i>
-                                </div>
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">Settings</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">
-                                    Private message
-                                </p>
-                            </div>
-                        </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-info">
-                                    <i class="ti-user mx-0"></i>
-                                </div>
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">
-                                    2 days ago
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item nav-profile dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                        <img src="../../images/faces/face28.jpg" alt="profile" />
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item">
-                            <i class="ti-settings text-primary"></i>
-                            Settings
-                        </a>
-                        <a class="dropdown-item">
-                            <i class="ti-power-off text-primary"></i>
-                            Logout
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item nav-settings d-none d-lg-flex">
-                    <a class="nav-link" href="#">
-                        <i class="icon-ellipsis"></i>
-                    </a>
-                </li>
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                <span class="icon-menu"></span>
-            </button>
-        </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profile"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
+                  <i class="ti-power-off text-primary"></i>
+                  Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
@@ -202,10 +135,17 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                  <img src="../../images/banner.png" alt="banner" class="img-fluid w-100" style="height: auto; max-height: 100vh; object-fit: cover;" />
+            </div>
+          </div>
+
+
           <!-- Order Details Section -->
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
+              <div class="card shadow">
                 <div class="card-body">
                   <p class="card-title">Deskripsi Kegunaan Dashboard Admin</p>
                   <p class="font-weight-500">
@@ -216,11 +156,58 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card border-primary shadow">
+                <div class="card-body d-flex align-items-center">
+                  <!-- Ikon Uang -->
+                  <i class="fas fa-money-bill-wave fa-2x text-primary mr-3"></i>
+                  <div>
+                    <p class="card-title mb-1">Total Keuntungan</p>
+                    <h2 class="font-weight-bold">1,250</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Card: Total Produk Terjual -->
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card shadow">
+                <div class="card-body">
+                  <div class="d-flex align-items-center">
+                    <i class="icon-columns menu-icon text-primary mr-3" style="font-size: 2rem;"></i>
+                    <div>
+                      <h4 class="card-title mb-1">Total Produk Terjual</h4>
+                      <h2 class="font-weight-bold">1,250</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card: Total Pesanan -->
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card shadow">
+                <div class="card-body">
+                  <div class="d-flex align-items-center">
+                    <i class="icon-bar-graph menu-icon text-success mr-3" style="font-size: 2rem;"></i>
+                    <div>
+                      <h4 class="card-title mb-1">Total Pesanan</h4>
+                      <h2 class="font-weight-bold">750</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Charts Section -->
           <div class="row">
             <!-- Doughnut Chart -->
             <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
+              <div class="card shadow">
                 <div class="card-body">
                   <h4 class="card-title">Presentase Keuangan</h4>
                   <canvas id="doughnutChart"></canvas>
@@ -230,15 +217,17 @@
 
             <!-- Pie Chart -->
             <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
+              <div class="card shadow">
                 <div class="card-body">
                   <h4 class="card-title">Presentase Total Penjualan</h4>
                   <canvas id="pieChart"></canvas>
                 </div>
               </div>
             </div>
-          </div> <!-- End of Charts Section -->
+          </div>
         </div> <!-- End of Content Wrapper -->
+      </div> <!-- End of Main Panel -->
+
       </div> <!-- End of Main Panel -->
 
 
