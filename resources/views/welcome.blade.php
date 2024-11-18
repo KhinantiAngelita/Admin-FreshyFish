@@ -43,8 +43,9 @@
                 <nav class="navbar navbar-expand-lg custom_nav-container ">
 
                     <div class="header_logo">
-                        <img src="landing-page2/images/logo.png" alt="logo">
+                        <img src="landing-page2/images/logo.png" alt="logo" style="width: 300px; height: auto;">
                     </div>
+
 
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class=""> </span>
