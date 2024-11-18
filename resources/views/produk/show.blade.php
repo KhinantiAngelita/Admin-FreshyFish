@@ -92,7 +92,7 @@
               <span class="menu-title">Toko</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item @if(request()->is('produk*')) active @endif">
             <a class="nav-link" href="{{ route('produk.show') }}">
               <i class="icon-columns menu-icon"></i>
               <span class="menu-title">Produk</span>
