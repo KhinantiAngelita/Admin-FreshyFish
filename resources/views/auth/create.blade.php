@@ -71,6 +71,8 @@
   <script src="../../js/todolist.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script>
     $(document).ready(function() {
         $('#loginForm').on('submit', function(e) {
@@ -113,6 +115,9 @@
                     if (response.success) {
                         localStorage.setItem('ID_toko', response.user.ID_toko);
 
+                        // Generate PDF setelah berhasil membuka toko
+                        generatePDF(nama_toko, alamat_toko, deskripsi_toko);
+
                         Swal.fire({
                             title: 'Berhasil!',
                             text: 'Toko berhasil dibuka',
@@ -134,7 +139,40 @@
                 }
             });
         });
+
+        // Fungsi untuk generate PDF
+        function generatePDF(nama_toko, alamat_toko, deskripsi_toko) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Menambahkan konten ke dalam PDF
+            doc.text('SURAT PERJANJIAN KERJA SAMA', 20, 20);
+            doc.text('PENYEDIAAN TOKO DI PLATFORM E-COMMERCE FRESHYFISH', 20, 30);
+            doc.text('Nomor: [Nomor Surat]', 20, 40);
+            doc.text('Pada hari ini, tanggal [Tanggal Surat], kami yang bertanda tangan di bawah ini:', 20, 50);
+            doc.text('1. PT FreshyFish Indonesia', 20, 60);
+            doc.text('Berkedudukan di: [Alamat PT FreshyFish]', 20, 70);
+            doc.text('Dalam hal ini diwakili oleh: [Nama Perwakilan]', 20, 80);
+            doc.text('Jabatan: [Jabatan Perwakilan]', 20, 90);
+            doc.text('Selanjutnya disebut sebagai Pihak Pertama.', 20, 100);
+            doc.text('2. ' + nama_toko, 20, 110); // Nama toko
+            doc.text('Berkedudukan di: ' + alamat_toko, 20, 120); // Alamat toko
+            doc.text('No. KTP: [Nomor KTP Mitra]', 20, 130);
+            doc.text('Selanjutnya disebut sebagai Pihak Kedua.', 20, 140);
+
+            // Pasal 1, 2, dan seterusnya - Isi sesuai dengan kontrak yang sudah Anda buat di template
+            doc.text('Pasal 1: Ruang Lingkup Kerja Sama', 20, 150);
+            doc.text('1. Pihak Pertama menyediakan platform e-commerce bernama FreshyFish...', 20, 160);
+
+            // Bagian penutupan
+            doc.text('Demikian perjanjian kerja sama ini dibuat untuk dipahami dan disepakati oleh Para Pihak.', 20, 180);
+            doc.text('Pihak Pertama  Pihak Kedua', 20, 190);
+
+            // Menyimpan PDF
+            doc.save('perjanjian_toko.pdf');
+        }
     });
+
 </script>
 
 
