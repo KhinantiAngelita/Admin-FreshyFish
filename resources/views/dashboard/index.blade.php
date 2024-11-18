@@ -149,7 +149,7 @@
                 <div class="card-body">
                   <p class="card-title">Deskripsi Kegunaan Dashboard Admin</p>
                   <p class="font-weight-500">
-                    The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page, or app, etc.
+                    Dashboard ini membantu Anda memonitor penjualan, performa toko, dan pengelolaan produk dengan mudah dalam satu tempat.
                   </p>
                 </div>
               </div>
@@ -232,8 +232,6 @@
 
 
 
-
-
       <!-- content-wrapper ends -->
       <!-- partial:partials/_footer.html -->
       <!-- <footer class="footer">
@@ -250,6 +248,8 @@
   </div>
   <!-- container-scroller -->
 
+
+  
   <!-- plugins:js -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
@@ -313,3 +313,4 @@
 </body>
 
 </html>
+

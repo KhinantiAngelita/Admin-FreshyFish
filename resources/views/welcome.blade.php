@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="img-box">
-                            <img src="landing-page2/images/banner-img.png" alt="Ikan di Keranjang">
+                            <img src="landing-page2/images/banner-img.png" alt="Memancing Keributan">
                         </div>
                     </div>
                 </div>
@@ -88,18 +88,22 @@
 
     <!-- mission section -->
     <section class="mission_section layout_padding">
-        <div class="mission_container">
-            <div class="container">
-                <div class="heading_container heading_center">
-                    <h2>
-                        Misi <span>Kami</span>
-                    </h2><br>
-
+        <div class="mission_container container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>
+                        Misi Kami
+                    </h1><br>
+                    <p>
+                        Kami memiliki tujuan untuk mempermudah distribusi ikan segar dari supplier langsung ke konsumen di Kota Bogor. Dalam sistem tradisional, konsumen sering mengalami kesulitan mendapatkan ikan segar karena keterbatasan akses dan minimnya informasi mengenai ketersediaan produk. Di sisi lain, supplier menghadapi tantangan dalam menjual ikan secara efektif. Aplikasi ini dirancang untuk mengatasi permasalahan tersebut dengan menyediakan platform yang menghubungkan supplier dan konsumen secara langsung.
+                    </p>
                 </div>
-                <p>Kami memiliki tujuan untuk mempermudah distribusi ikan segar dari supplier langsung ke konsumen di Kota Bogor. Dalam sistem tradisional, konsumen sering mengalami kesulitan mendapatkan ikan segar karena keterbatasan akses dan minimnya informasi mengenai ketersediaan produk. Di sisi lain, supplier menghadapi tantangan dalam menjual ikan secara efektif. Aplikasi ini dirancang untuk mengatasi permasalahan tersebut dengan menyediakan platform yang menghubungkan supplier dan konsumen secara langsung.</p>
-
+                <div class="col-md-6">
+                    <div class="img-box">
+                        <img src="landing-page2/images/banner-img2.png" alt="Memancing Keributan">
+                    </div>
+                </div>
             </div>
-        </div>
         </div>
     </section>
 
@@ -113,9 +117,8 @@
             <div class="container ">
                 <div class="heading_container heading_center">
                     <h2>
-                        Mengapa Memilih <span>FreshyFish</span>
+                        Mengapa Memilih Kami
                     </h2><br>
-
                 </div>
                 <div class="row">
                     <div class="col-md-4 ">
