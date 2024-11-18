@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.png" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -117,7 +119,10 @@
                     <div class="col-lg-50 grid-margin stretch-card">
                         <div class="card shadow-lg">
                             <div class="card-body">
-                                <h4 class="card-title">Toko</h4>
+                                <h4 class="card-title">
+                                    <i class="fas fa-store mr-2"></i> Toko
+                                </h4>
+
                                 <p class="card-description">Detail Toko Anda</p>
                                 <form id="editStoreForm" class="forms-sample" method="POST" action="#" enctype="multipart/form-data">
                                     @csrf

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <style>
     .product-card {
       border: 1px solid #ddd;
@@ -113,7 +114,9 @@
               <div class="card">
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                  <h4 class="card-title">List Produk Anda</h4>
+                    <h4 class="card-title">
+                        <i class="fas fa-box-open"></i> List Produk Anda
+                    </h4>
                   <div class="d-flex justify-content-end align-items-center">
                     <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm mr-3">Tambah Produk Baru</a>
                     <button id="exportExcel" class="btn btn-success btn-sm">Export to Excel</button>
