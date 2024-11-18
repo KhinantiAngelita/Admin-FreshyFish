@@ -111,14 +111,16 @@
           <div class="row">
             <div class="col-lg-12 grid-margin">
               <div class="card">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">List Produk Anda</h4>
-                    <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm">Tambah Produk Baru</a>
-                    <button id="exportExcel" class="btn btn-primary btn-sm">Export to Excel</button>
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h4 class="card-title">List Produk Anda</h4>
+                  <div class="d-flex justify-content-end align-items-center">
+                    <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm mr-3">Tambah Produk Baru</a>
+                    <button id="exportExcel" class="btn btn-success btn-sm">Export to Excel</button>
                   </div>
-                  <div class="row mt-4" id="productList"></div>
                 </div>
+                <div class="row mt-4" id="productList"></div>
+              </div>
               </div>
             </div>
           </div>
