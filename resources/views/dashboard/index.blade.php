@@ -10,127 +10,173 @@
   <link rel="stylesheet" href="vendors/feather/feather.css">
   <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
   <link rel="shortcut icon" href="images/favicon.png" />
   <link href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
-  <style>
-    .fish-card {
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      background: white;
-    }
 
-    .fish-card:hover {
-      transform: scale(1.05);
-    }
-
-    .fish-image {
-      height: 150px;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    .fish-card-body {
-      padding: 10px;
-      text-align: center;
-    }
-
-    .fish-title {
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-
-    .fish-description {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .section-title {
-      font-weight: bold;
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-
-    
-  </style>
 </head>
 
 <body>
   <div class="container-scroller">
-    <!-- Navbar -->
+    <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="images/rororo.png" class="mr-1" alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/lololo.png" alt="logo" /></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="images/faces/face28.jpg" alt="profile" />
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="../../images/rororo.png" class="mr-1" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="icon-menu"></span>
+            </button>
+            <ul class="navbar-nav mr-lg-2">
+                <li class="nav-item nav-search d-none d-lg-block">
+                    <div class="input-group">
+                        <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                            <span class="input-group-text" id="search">
+                                <i class="icon-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                        <i class="icon-bell mx-0"></i>
+                        <span class="count"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-success">
+                                    <i class="ti-info-alt mx-0"></i>
+                                </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                                <p class="font-weight-light small-text mb-0 text-muted">
+                                    Just now
+                                </p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-warning">
+                                    <i class="ti-settings mx-0"></i>
+                                </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <h6 class="preview-subject font-weight-normal">Settings</h6>
+                                <p class="font-weight-light small-text mb-0 text-muted">
+                                    Private message
+                                </p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-info">
+                                    <i class="ti-user mx-0"></i>
+                                </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <h6 class="preview-subject font-weight-normal">New user registration</h6>
+                                <p class="font-weight-light small-text mb-0 text-muted">
+                                    2 days ago
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                        <img src="../../images/faces/face28.jpg" alt="profile" />
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item">
+                            <i class="ti-settings text-primary"></i>
+                            Settings
+                        </a>
+                        <a class="dropdown-item">
+                            <i class="ti-power-off text-primary"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item nav-settings d-none d-lg-flex">
+                    <a class="nav-link" href="#">
+                        <i class="icon-ellipsis"></i>
+                    </a>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <span class="icon-menu"></span>
+            </button>
+        </div>
     </nav>
-
+    <!-- partial -->
     <div class="container-fluid page-body-wrapper">
-      <!-- Sidebar -->
+      <!-- partial:partials/_settings-panel.html -->
+      <div class="theme-setting-wrapper">
+        <div id="settings-trigger"><i class="ti-settings"></i></div>
+        <div id="theme-settings" class="settings-panel">
+          <i class="settings-close ti-close"></i>
+          <p class="settings-heading">SIDEBAR SKINS</p>
+          <div class="sidebar-bg-options selected" id="sidebar-light-theme">
+            <div class="img-ss rounded-circle bg-light border mr-3"></div>Light
+          </div>
+          <div class="sidebar-bg-options" id="sidebar-dark-theme">
+            <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
+          </div>
+          <p class="settings-heading mt-2">HEADER SKINS</p>
+          <div class="color-tiles mx-0 px-4">
+            <div class="tiles success"></div>
+            <div class="tiles warning"></div>
+            <div class="tiles danger"></div>
+            <div class="tiles info"></div>
+            <div class="tiles dark"></div>
+            <div class="tiles default"></div>
+          </div>
+        </div>
+      </div>
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
+          <!-- Dashboard Menu Item -->
           <li class="nav-item @if(request()->is('dashboard*')) active @endif">
             <a class="nav-link" href="{{ route('dashboard.index') }}">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
+
+          <!-- Toko Menu Item -->
           <li class="nav-item @if(request()->is('toko*')) active @endif">
             <a class="nav-link" href="{{ route('toko.index') }}">
               <i class="icon-layout menu-icon"></i>
               <span class="menu-title">Toko</span>
             </a>
           </li>
+
+          <!-- Produk Menu Item -->
           <li class="nav-item @if(request()->is('produk*')) active @endif">
             <a class="nav-link" href="{{ route('produk.show') }}">
               <i class="icon-columns menu-icon"></i>
               <span class="menu-title">Produk</span>
             </a>
           </li>
+
+          <!-- Pesanan Menu Item -->
           <li class="nav-item @if(request()->is('pesanan*')) active @endif">
             <a class="nav-link" href="{{ route('pesanan.show') }}">
               <i class="icon-bar-graph menu-icon"></i>
@@ -140,7 +186,9 @@
         </ul>
       </nav>
 
-      <!-- Main Content -->
+
+
+      <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
           <!-- Welcome Section -->
@@ -170,6 +218,7 @@
 
           <!-- Charts Section -->
           <div class="row">
+            <!-- Doughnut Chart -->
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -178,6 +227,8 @@
                 </div>
               </div>
             </div>
+
+            <!-- Pie Chart -->
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -186,111 +237,91 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> <!-- End of Charts Section -->
+        </div> <!-- End of Content Wrapper -->
+      </div> <!-- End of Main Panel -->
 
-          <!-- Galeri Ikan -->
-          <div class="row mt-4">
-            <div class="col-12">
-              <h4 class="section-title">Jenis Ikan yang Anda Jual</h4>
-            </div>
-            <div class="col-md-4">
-              <div class="fish-card">
-                <img src="images/fish1.jpg" alt="Ikan Tuna" class="fish-image">
-                <div class="fish-card-body">
-                  <p class="fish-title">Ikan Tuna</p>
-                  <p class="fish-description">Ikan laut segar dengan kualitas premium.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="fish-card">
-                <img src="images/fish2.jpg" alt="Ikan Lele" class="fish-image">
-                <div class="fish-card-body">
-                  <p class="fish-title">Ikan Lele</p>
-                  <p class="fish-description">Ikan air tawar yang segar dan bergizi.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="fish-card">
-                <img src="images/fish3.jpg" alt="Ikan Kakap" class="fish-image">
-                <div class="fish-card-body">
-                  <p class="fish-title">Ikan Kakap</p>
-                  <p class="fish-description">Ikan laut berkualitas tinggi untuk berbagai masakan.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="fish-card">
-                <img src="images/fish4.jpg" alt="Ikan Bandeng" class="fish-image">
-                <div class="fish-card-body">
-                  <p class="fish-title">Ikan Bandeng</p>
-                  <p class="fish-description">Pilihan sehat dengan rasa lembut dan gurih.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="fish-card">
-                <img src="images/fish5.jpg" alt="Ikan Salmon" class="fish-image">
-                <div class="fish-card-body">
-                  <p class="fish-title">Ikan Salmon</p>
-                  <p class="fish-description">Kaya akan Omega-3, cocok untuk makanan sehat.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="fish-card">
-                <img src="images/fish6.jpg" alt="Ikan Nila" class="fish-image">
-                <div class="fish-card-body">
-                  <p class="fish-title">Ikan Nila</p>
-                  <p class="fish-description">Ikan air tawar yang terkenal dengan dagingnya yang lezat dan kaya nutrisi. .</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="fish-card">
-                <img src="images/fish7.jpg" alt="Ikan Patin" class="fish-image">
-                <div class="fish-card-body">
-                  <p class="fish-title">Ikan Patin</p>
-                  <p class="fish-description">Kaya akan asam lemak Omega-3 yang baik untuk kesehatan jantung.</p>
-                </div>
-              </div>
-            </div>
+
+
+      <!-- content-wrapper ends -->
+      <!-- partial:partials/_footer.html -->
+      <!-- <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
           </div>
-        </div>
-      </div>
+        </footer> -->
+      <!-- partial -->
     </div>
+    <!-- main-panel ends -->
   </div>
+  <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
 
+
+  
   <!-- plugins:js -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
   <script src="vendors/chart.js/Chart.min.js"></script>
-  <script>
-    // Chart Configuration
-    var ctx1 = document.getElementById('doughnutChart').getContext('2d');
-    var doughnutChart = new Chart(ctx1, {
-      type: 'doughnut',
-      data: {
-        labels: ['Pink', 'Blue', 'Yellow'],
-        datasets: [{
-          data: [40, 30, 30],
-          backgroundColor: ['#f64e60', '#3699ff', '#ffc700']
-        }]
-      }
-    });
+  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="js/dataTables.select.min.js"></script>
 
-    var ctx2 = document.getElementById('pieChart').getContext('2d');
-    var pieChart = new Chart(ctx2, {
-      type: 'pie',
-      data: {
-        labels: ['Pink', 'Blue', 'Yellow'],
-        datasets: [{
-          data: [45, 35, 20],
-          backgroundColor: ['#f64e60', '#3699ff', '#ffc700']
-        }]
-      }
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="js/dashboard.js"></script>
+  <script src="js/Chart.roundedBarCharts.js"></script>
+  <!-- Custom js for this page-->
+  <script src="../../js/chart.js"></script>
+  <!-- End custom js for this page-->
+  <!-- End custom js for this page-->
+
+  <script>
+    $(document).ready(function() {
+      // Fungsi untuk menangani klik pada tombol logout
+      $('#logoutButton').on('click', function() {
+        // Ambil token dari LocalStorage
+        const token = localStorage.getItem('token');
+
+        // Jika token tidak ada, langsung arahkan ke halaman login
+        if (!token) {
+          window.location.href = '/auth/login';
+          return;
+        }
+
+        // Kirim permintaan logout ke API
+        $.ajax({
+          url: 'https://freshyfishapi.ydns.eu/api/auth/logout', // Ganti dengan URL logout API Anda
+          type: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          },
+          success: function(response) {
+            // Jika logout berhasil, hapus token dan arahkan ke halaman login
+            localStorage.removeItem('token');
+            window.location.href = '/auth/login';
+          },
+          error: function(xhr) {
+            // Tangani error jika ada masalah dengan API
+            console.log("Error:", xhr);
+            // Arahkan tetap ke login meski ada error
+            window.location.href = '/auth/login';
+          }
+        });
+      });
     });
   </script>
 </body>
 
 </html>
+
