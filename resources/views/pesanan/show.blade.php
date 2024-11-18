@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.png" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -271,7 +273,9 @@
                         <div class="col-lg-12 grid-margin">
                             <div class="card" style="max-width: 100%; overflow: hidden;">
                                 <div class="card-body">
-                                    <h4 class="card-title">List Pesanan</h4>
+                                    <h4 class="card-title">
+                                        <i class="fas fa-shopping-cart"></i> List Pesanan
+                                    </h4>
                                     <p class="card-description">
                                     </p>
                                     <div class="table-responsive">
