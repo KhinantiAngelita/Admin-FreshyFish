@@ -117,10 +117,11 @@
                     <h4 class="card-title">
                         <i class="fas fa-box-open"></i> List Produk Anda
                     </h4>
-                  <div class="d-flex justify-content-end align-items-center">
-                    <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm mr-3">Tambah Produk Baru</a>
-                    <button id="exportExcel" class="btn btn-success btn-sm">Export to Excel</button>
-                  </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm" style="margin-right: 15px;">Tambah Produk Baru</a>
+                        <button id="exportExcel" class="btn btn-success btn-sm" style="margin-right: 15px;">Export to Excel</button>
+                        <button id="exportPdf" class="btn btn-danger btn-sm">Export to PDF</button>
+                      </div>
                 </div>
                 <div class="row mt-4" id="productList"></div>
               </div>
@@ -136,6 +137,10 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+
   <script>
     $(document).ready(function () {
       const token = localStorage.getItem('token');
@@ -217,6 +222,9 @@
                   cancelButtonColor: '#3085d6',
                   confirmButtonText: 'Ya, hapus!',
                   cancelButtonText: 'Batal',
+                  customClass: {
+                        popup: 'custom-swal-popup'
+                    }
                 }).then((result) => {
                   if (result.isConfirmed) {
                     $.ajax({
@@ -224,9 +232,16 @@
                       type: 'DELETE',
                       headers: { 'Authorization': 'Bearer ' + token },
                       success: function () {
-                        Swal.fire('Terhapus!', 'Produk telah dihapus.', 'success');
-                        loadProducts();
-                      },
+                        Swal.fire({
+                            title: 'Terhapus!',
+                            text: 'Produk telah dihapus.',
+                            icon: 'success',
+                            customClass: {
+                            popup: 'custom-swal-popup', // Tambahkan kustomisasi popup
+                            },
+                        });
+                        loadProducts(); // Memuat ulang produk setelah penghapusan berhasil
+                        },
                       error: function () {
                         Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus produk.', 'error');
                       },
@@ -253,8 +268,8 @@
           'Nama Ikan': produk.fish_type,
           'Harga Ikan': produk.fish_price,
           'Berat Ikan': produk.fish_weight,
-          'Habitat': produk.habitat,
-          'Deskripsi': produk.fish_description,
+          Habitat: produk.habitat,
+          Deskripsi: produk.fish_description,
         }));
 
         const ws = XLSX.utils.json_to_sheet(formattedData);
@@ -263,13 +278,73 @@
         XLSX.writeFile(wb, 'Produk.xlsx');
       }
 
+      function exportToPdf(data) {
+        if (!Array.isArray(data)) return;
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const tableColumn = [
+          'No.',
+          'ID Toko',
+          'ID Produk',
+          'Nama Ikan',
+          'Harga Ikan',
+          'Berat Ikan (kg)',
+          'Habitat',
+          'Deskripsi',
+        ];
+
+        const tableRows = data.map((produk, index) => [
+          index + 1, // Nomor
+          produk.ID_toko, // ID Toko
+          produk.ID_produk, // ID Produk
+          produk.fish_type, // Nama Ikan
+          `Rp${produk.fish_price.toLocaleString()}`, // Harga Ikan
+          produk.fish_weight, // Berat Ikan
+          produk.habitat, // Habitat
+          produk.fish_description, // Deskripsi
+        ]);
+
+        // Header Judul (Di Tengah)
+        doc.setFontSize(16);
+        doc.text('Daftar Produk', 105, 15, { align: 'center' }); // Posisi tengah horizontal
+
+        // Menambahkan Tabel dengan AutoTable
+        doc.autoTable({
+          startY: 25, // Posisi awal tabel
+          head: [tableColumn], // Kolom header
+          body: tableRows, // Data tabel
+          theme: 'grid', // Tema tabel (pilihan: 'striped', 'grid', 'plain')
+          styles: {
+            fontSize: 10, // Ukuran font tabel
+            halign: 'left', // Align isi tabel
+          },
+          headStyles: {
+            fillColor: [0, 150, 200], // Warna background header (#0096C8)
+            textColor: [255, 255, 255], // Warna teks header (putih)
+          },
+          alternateRowStyles: {
+            fillColor: [240, 240, 240], // Warna baris alternatif (abu muda)
+          },
+        });
+
+        // Simpan File PDF
+        doc.save('Daftar_Produk.pdf');
+      }
+
       $('#exportExcel').on('click', function () {
         loadProducts(exportToExcel);
+      });
+
+      $('#exportPdf').on('click', function () {
+        loadProducts(exportToPdf);
       });
 
       loadProducts();
     });
   </script>
+
+
 </body>
 
 </html>
