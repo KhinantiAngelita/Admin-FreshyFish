@@ -121,6 +121,9 @@
                         <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm" style="margin-right: 15px;">Tambah Produk Baru</a>
                         <button id="exportExcel" class="btn btn-success btn-sm" style="margin-right: 15px;">Export to Excel</button>
                         <button id="exportPdf" class="btn btn-danger btn-sm">Export to PDF</button>
+                        <button id="printPage" class="btn btn-info btn-sm" style="margin-right: 15px;">
+                            <i class="fas fa-print"></i> Print
+                          </button>
                       </div>
                 </div>
                 <div class="row mt-4" id="productList"></div>
