@@ -171,7 +171,7 @@
     @endif
 
     <!-- Form Tambah Artikel -->
-    <form action="{{ route('articles.store') }}" method="POST">
+    <form id="addArticleForm">
       @csrf
       <div class="form-group">
         <label for="title">Judul Artikel</label>
@@ -196,17 +196,82 @@
 
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  @if (session('success'))
-    <script>
-      Swal.fire({
-        icon: 'success',
-        title: 'Berhasil!',
-        text: '{{ session('success') }}',
-        showConfirmButton: false,
-        timer: 2000,
-      });
-    </script>
-  @endif
+  <script>
+    // Tangkap event submit pada form
+    document.querySelector('#addArticleForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Mencegah reload halaman
+
+        // Ambil token dari localStorage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Autentikasi Gagal',
+                text: 'User tidak terautentikasi!',
+            });
+            console.error('Autentikasi gagal: Token tidak ditemukan di localStorage');
+            return;
+        }
+
+        // Ambil data dari input form
+        const title = document.getElementById('title').value;
+        const categoryContent = document.getElementById('category_content').value;
+        const content = document.getElementById('content').value;
+
+        // Validasi input
+        if (!title || !categoryContent || !content) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Validasi Gagal',
+                text: 'Semua field harus diisi!',
+            });
+            return;
+        }
+
+        // Kirim data dengan AJAX POST
+        fetch('https://freshyfishapi.ydns.eu/api/articles', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                category_content: categoryContent,
+                content: content,
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Gagal menambahkan artikel.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Artikel berhasil ditambahkan.',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            // Redirect atau refresh halaman setelah berhasil
+            setTimeout(() => {
+                window.location.href = '/articles';
+            }, 2000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat menambahkan artikel.',
+            });
+        });
+    });
+  </script>
 </body>
 
 </html>

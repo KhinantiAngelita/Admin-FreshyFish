@@ -10,11 +10,12 @@
     },
     "4": {
         "id": "673f1c36d3e78",
-        "title": "ikan lautt",
+        "title": "ikan lautan",
         "category_content": "Ikan Laut",
         "content": "ikan laut\r\nikan laut\r\nikan laut",
         "author": "guest",
-        "created_at": "2024-11-21 11:40:38"
+        "created_at": "2024-11-21 11:40:38",
+        "updated_at": "2024-11-22 06:32:58"
     },
     "5": {
         "id": "673f22005c39a",
