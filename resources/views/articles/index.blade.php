@@ -241,7 +241,7 @@
     </div>
 
  <!-- SweetAlert -->
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -252,11 +252,9 @@
                 $.ajax({
                     url: apiUrl,
                     type: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                    },
+                    headers: { 'Authorization': 'Bearer ' + token },
                     success: function (data) {
-                        console.log(data); // Log data untuk memastikan respons API benar
+                        console.log('Fetched articles:', data);
                         let articlesHtml = '';
                         data.forEach(article => {
                             articlesHtml += `
@@ -275,18 +273,29 @@
                         $('#articlesList').html(articlesHtml);
                     },
                     error: function (xhr) {
-                        console.error(xhr.responseJSON);
+                        console.error('Error fetching articles:', xhr.responseJSON);
                         Swal.fire('Error', 'Gagal memuat artikel!', 'error');
                     }
                 });
             }
 
+            $(document).on('click', '.btn-edit', function () {
+                const articleId = $(this).data('id');
+                console.log('Article ID to edit:', articleId);
+                try {
+                    window.location.href = `/articles/${articleId}/edit`;
+                    console.log(`Navigating to: /articles/${articleId}/edit`);
+                } catch (error) {
+                    console.error('Error navigating to edit page:', error);
+                }
+            });
+
             $(document).on('click', '.btn-delete', function () {
                 const articleId = $(this).data('id');
-                console.log("Article ID to delete:", articleId); // Log ID yang akan dihapus
+                console.log('Article ID to delete:', articleId);
                 Swal.fire({
                     title: 'Yakin ingin menghapus?',
-                    text: 'Artikel ini akan dihapus secara permanen.',
+                    text: 'Artikel ini akan dihapus permanen.',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -297,16 +306,15 @@
                         $.ajax({
                             url: `${apiUrl}/${articleId}`,
                             type: 'DELETE',
-                            headers: {
-                                'Authorization': 'Bearer ' + token,
-                            },
+                            headers: { 'Authorization': 'Bearer ' + token },
                             success: function () {
+                                console.log(`Deleted article ID: ${articleId}`);
                                 Swal.fire('Deleted!', 'Artikel berhasil dihapus.', 'success');
                                 loadArticles();
                             },
                             error: function (xhr) {
                                 const errorMessage = xhr.responseJSON?.message || 'Gagal menghapus artikel!';
-                                console.error(xhr.responseJSON);
+                                console.error('Error deleting article:', errorMessage);
                                 Swal.fire('Error', errorMessage, 'error');
                             }
                         });
@@ -317,9 +325,6 @@
             loadArticles();
         });
     </script>
-
-
-
 </body>
 
 </html>

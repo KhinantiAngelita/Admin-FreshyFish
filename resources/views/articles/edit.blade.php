@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <style>
+    /* Styling untuk halaman */
     body {
       background-color: #eaf4fc;
       font-family: Arial, sans-serif;
@@ -137,6 +138,7 @@
 <body>
   <!-- Header -->
   <div class="header">
+    <!-- Logo untuk kembali ke halaman artikel -->
     <a href="{{ route('articles.index') }}">
       <img src="../../images/rororo.png" alt="Logo">
     </a>
@@ -144,14 +146,14 @@
   </div>
 
   <div class="content">
-    <!-- Form Logo -->
+    <!-- Logo pada bagian form -->
     <div class="form-logo">
       <i class="fas fa-edit"></i>
     </div>
 
     <h3>Edit Artikel</h3>
 
-    <!-- Pesan Error atau Sukses -->
+    <!-- Menampilkan pesan error atau sukses -->
     @if ($errors->any())
       <div class="alert alert-danger">
         <ul>
@@ -168,83 +170,98 @@
       </div>
     @endif
 
-    <!-- Form Edit Artikel -->
+    <!-- Form untuk mengedit artikel -->
     <form id="editArticleForm">
       @csrf
+      <!-- Input untuk judul artikel -->
       <div class="form-group">
         <label for="title">Judul Artikel</label>
-        <input type="text" id="title" name="title" value="{{ $article['title'] }}" placeholder="Masukkan judul artikel" required>
+        <input type="text" id="title" name="title" placeholder="Masukkan judul artikel" required>
       </div>
+      <!-- Input untuk memilih kategori artikel -->
       <div class="form-group">
         <label for="category_content">Kategori</label>
         <select id="category_content" name="category_content" required>
-          <option value="Ikan Laut" @if ($article['category_content'] === 'Ikan Laut') selected @endif>Ikan Laut</option>
-          <option value="Ikan Air Tawar" @if ($article['category_content'] === 'Ikan Air Tawar') selected @endif>Ikan Air Tawar</option>
-          <option value="Ikan Air Payau" @if ($article['category_content'] === 'Ikan Air Payau') selected @endif>Ikan Air Payau</option>
+          <option value="Ikan Laut">Ikan Laut</option>
+          <option value="Ikan Air Tawar">Ikan Air Tawar</option>
+          <option value="Ikan Air Payau">Ikan Air Payau</option>
         </select>
       </div>
+      <!-- Input untuk isi artikel -->
       <div class="form-group">
         <label for="content">Isi Artikel</label>
-        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required>{{ $article['content'] }}</textarea>
+        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required></textarea>
       </div>
+      <!-- Tombol untuk menyimpan perubahan -->
       <button type="submit" class="btn-save">Simpan Perubahan</button>
     </form>
   </div>
 
-  <!-- SweetAlert -->
+  <!-- SweetAlert untuk notifikasi sukses atau error -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    document.getElementById('editArticleForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Menghindari form default submit
-
-        const articleId = {{ $article['id'] }}; // ID artikel yang akan diedit
+    $(document).ready(function () {
+        // URL API untuk mendapatkan dan mengupdate artikel
+        const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles';
+        // Mengambil token dari localStorage (harus disesuaikan jika menggunakan otentikasi lain)
         const token = localStorage.getItem('token');
+        // ID artikel yang akan diupdate (bisa diambil dari route atau JavaScript)
+        const articleId = {{ $articleId }}; // Pastikan $articleId di-pass dengan benar di Blade
 
-        if (!token) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Autentikasi Gagal',
-                text: 'User tidak terautentikasi!',
+        // Fungsi untuk memuat data artikel yang sudah ada
+        function loadArticle() {
+            $.ajax({
+                url: `${apiUrl}/${articleId}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Menambahkan token untuk autentikasi
+                },
+                success: function (data) {
+                    // Isi form dengan data yang diterima dari API
+                    $('#title').val(data.title);
+                    $('#category_content').val(data.category_content);
+                    $('#content').val(data.content);
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseJSON);
+                    Swal.fire('Error', 'Gagal memuat data artikel!', 'error'); // Notifikasi error
+                }
             });
-            return;
         }
 
-        const formData = new FormData(this);
-        formData.append('_method', 'PUT'); // Tambahkan method PUT untuk melakukan update
+        // Fungsi untuk menyimpan perubahan artikel
+        $('#editArticleForm').on('submit', function (e) {
+            e.preventDefault(); // Mencegah form submit secara default
 
-        fetch(`https://freshyfishapi.ydns.eu/api/articles/${ID_article}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Accept': 'application/json',
-            },
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: 'Artikel berhasil diperbarui.',
-                });
-                window.location.href = '/articles';
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: data.message || 'Terjadi kesalahan saat memperbarui artikel.',
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi Kesalahan',
-                text: 'Gagal memuat artikel.',
+            // Mengambil data dari form
+            const updatedData = {
+                title: $('#title').val(),
+                category_content: $('#category_content').val(),
+                content: $('#content').val()
+            };
+
+            // Mengirim data ke API untuk diperbarui
+            $.ajax({
+                url: `${apiUrl}/${articleId}`,
+                type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(updatedData), // Mengirim data dalam format JSON
+                success: function () {
+                    Swal.fire('Success', 'Artikel berhasil diperbarui!', 'success'); // Notifikasi sukses
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseJSON);
+                    Swal.fire('Error', 'Gagal memperbarui artikel!', 'error'); // Notifikasi error
+                }
             });
         });
+
+        // Panggil fungsi loadArticle saat halaman siap
+        loadArticle();
     });
   </script>
 </body>

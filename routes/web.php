@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Exports\ProdukExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+
+//LANDING PAGE
 Route::get('/', function () {
     return view('welcome');
 });
 
+//USER
 Route::prefix('auth')->group(function () {
     Route::get('/login', function () {
         return view('auth.login');
@@ -20,14 +23,17 @@ Route::prefix('auth')->group(function () {
     })->name('auth.create');
 });
 
+//ADMIN DASHBOARD
 Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->name('dashboard.index');
 
+//ADMIN TOKO
 Route::get('/toko', function () {
     return view('toko.index');
 })->name('toko.index');
 
+//ADMIN PRODUK
 Route::prefix('produk')->group(function () {
     Route::get('/show', function () {
         return view('produk.show');
@@ -51,11 +57,12 @@ Route::get('/produk/export', function () {
     return Excel::download(new ProdukExport, 'produk.xlsx');
 });
 
+//ADMIN PESANAN
 Route::get('/pesanan/show', function () {
     return view('pesanan.show');
 })->name('pesanan.show');
 
-
+//ADMIN ARTICLES INDEX
 Route::get('/articles', function () {
     $filePath = resource_path('articles.json');
 
@@ -85,7 +92,7 @@ Route::get('/articles/category/{category}', function ($category) {
     return view('articles.index', ['articles' => $filteredArticles, 'category' => $category]); // DITAMBAHKAN
 })->name('articles.byCategory');
 
-
+//ADMIN ARTICLES CREATE
 Route::get('/articles/create', function () {
     return view('articles.create');
 })->name('articles.create');
@@ -115,44 +122,53 @@ Route::post('/articles', function (Request $request) {
     return redirect()->route('articles.index')->with('success', 'Artikel berhasil ditambahkan!');
 })->name('articles.store');
 
+//ARTICLES EDIT
+
 Route::get('/articles/{id}/edit', function ($id) {
-    $filePath = resource_path('articles.json');
-
-    $articles = File::exists($filePath) ? json_decode(File::get($filePath), true) : [];
-    $article = collect($articles)->firstWhere('id', $id);
-
-    if (!$article) {
-        return redirect()->route('articles.index')->with('error', 'Artikel tidak ditemukan!');
-    }
-
-    return view('articles.edit', compact('article', 'id'));
+    return view('articles.edit', ['articleId' => $id]);
 })->name('articles.edit');
 
-Route::post('/articles/{id}/update', function (Request $request, $id) {
-    $filePath = resource_path('articles.json');
 
-    $validatedData = $request->validate([
-        'title' => 'required|max:255',
-        'category_content' => 'required|string|max:100',
-        'content' => 'required|min:10',
-    ]);
 
-    $articles = File::exists($filePath) ? json_decode(File::get($filePath), true) : [];
 
-    foreach ($articles as &$article) {
-        if ($article['id'] == $id) {
-            $article['title'] = $validatedData['title'];
-            $article['category_content'] = $validatedData['category_content'];
-            $article['content'] = $validatedData['content'];
-            $article['updated_at'] = now()->toDateTimeString();
-            break;
-        }
-    }
+// Route::get('/articles/{id}/edit', function ($id) {
+//     $filePath = resource_path('articles.json');
 
-    File::put($filePath, json_encode($articles, JSON_PRETTY_PRINT));
+//     $articles = File::exists($filePath) ? json_decode(File::get($filePath), true) : [];
+//     $article = collect($articles)->firstWhere('id', $id);
 
-    return redirect()->route('articles.index')->with('success', 'Artikel berhasil diperbarui!');
-})->name('articles.update');
+//     if (!$article) {
+//         return redirect()->route('articles.index')->with('error', 'Artikel tidak ditemukan!');
+//     }
+
+//     return view('articles.edit', compact('article', 'id'));
+// })->name('articles.edit');
+
+// Route::post('/articles/{id}/update', function (Request $request, $id) {
+//     $filePath = resource_path('articles.json');
+
+//     $validatedData = $request->validate([
+//         'title' => 'required|max:255',
+//         'category_content' => 'required|string|max:100',
+//         'content' => 'required|min:10',
+//     ]);
+
+//     $articles = File::exists($filePath) ? json_decode(File::get($filePath), true) : [];
+
+//     foreach ($articles as &$article) {
+//         if ($article['id'] == $id) {
+//             $article['title'] = $validatedData['title'];
+//             $article['category_content'] = $validatedData['category_content'];
+//             $article['content'] = $validatedData['content'];
+//             $article['updated_at'] = now()->toDateTimeString();
+//             break;
+//         }
+//     }
+
+//     File::put($filePath, json_encode($articles, JSON_PRETTY_PRINT));
+
+//     return redirect()->route('articles.index')->with('success', 'Artikel berhasil diperbarui!');
+// })->name('articles.update');
 
 Route::get('/articles/{id}/delete', function ($id) {
     $filePath = resource_path('articles.json');
@@ -166,7 +182,3 @@ Route::get('/articles/{id}/delete', function ($id) {
     return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus!');
 })->name('articles.delete');
 
-//Article ke page edit
-// Route::get('/articles/edit/{id}', function ($id) {
-//     return view('articles.edit', ['id' => $id]);
-// })->name('articles.edit');
