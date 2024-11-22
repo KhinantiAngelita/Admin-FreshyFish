@@ -54,6 +54,9 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav  ">
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('articles.index') }}"> <i class="fa fa-book" aria-hidden="true"></i> Artikel</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('auth.login') }}"> <i class="fa fa-user" aria-hidden="true"></i> Admin</a>
                             </li>
                         </ul>
