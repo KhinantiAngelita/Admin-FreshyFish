@@ -226,8 +226,7 @@
                     </div>
                     <div class="actions">
                         <a href="{{ route('articles.edit', $article['id']) }}" class="btn-edit">Edit</a>
-                        <a href="{{ route('articles.delete', $article['id']) }}" class="btn-delete"
-                            onclick="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">Hapus</a>
+                        <a href="{{ route('articles.delete', $article['id']) }}" class="btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">Hapus</a>
                     </div>
                 </div>
             @empty
@@ -252,7 +251,7 @@
     <script>
         function filterArticles() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const articles = document.quåerySelectorAll('.article-card');
+            const articles = document.querySelectorAll('.article-card');
 
             articles.forEach(article => {
                 const title = article.querySelector('h5').textContent.toLowerCase();
