@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="{{ asset('js/articles.js') }}"></script>
 
     <style>
         body {
@@ -215,8 +216,12 @@
 
     <!-- Content -->
     <div class="content">
+        <!-- Button untuk menambah artikel -->
         <a href="{{ route('articles.create') }}" class="btn-add">Tambah Resep</a>
+
+        <!-- Daftar Artikel -->
         <div id="articlesList" class="article-list">
+            <!-- Loop untuk menampilkan artikel -->
             @forelse ($articles as $article)
                 <div class="article-card" data-title="{{ strtolower($article['title']) }}">
                     <div>
