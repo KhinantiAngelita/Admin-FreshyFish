@@ -235,29 +235,80 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                showConfirmButton: false,
-                timer: 2000,
-            });
-        </script>
-    @endif
-
+ <!-- SweetAlert -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function filterArticles() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const articles = document.querySelectorAll('.article-card');
+        $(document).ready(function () {
+            const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles'; // API Endpoint
+            const token = localStorage.getItem('token'); // Fetch the token if needed
 
-            articles.forEach(article => {
-                const title = article.querySelector('h5').textContent.toLowerCase();
-                article.style.display = title.includes(searchInput) ? 'flex' : 'none';
+            // Load Articles
+            function loadArticles() {
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: function (data) {
+                        let articlesHtml = '';
+                        data.forEach(article => {
+                            articlesHtml += `
+                                <div class="article-card">
+                                    <div>
+                                        <h5>${article.title}</h5>
+                                        <p><strong>Kategori:</strong> ${article.category_content}</p>
+                                        <p>${article.content.substring(0, 100)}...</p>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-edit" data-id="${article.id}">Edit</button>
+                                        <button class="btn-delete" data-id="${article.id}">Hapus</button>
+                                    </div>
+                                </div>`;
+                        });
+                        $('#articlesList').html(articlesHtml);
+                    },
+                    error: function () {
+                        Swal.fire('Error', 'Gagal memuat artikel!', 'error');
+                    }
+                });
+            }
+
+            // Delete Article
+            $(document).on('click', '.btn-delete', function () {
+                const articleId = $(this).data('id');
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: 'Artikel ini akan dihapus secara permanen.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `${apiUrl}/${articleId}`,
+                            type: 'DELETE',
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                            },
+                            success: function () {
+                                Swal.fire('Deleted!', 'Artikel berhasil dihapus.', 'success');
+                                loadArticles();
+                            },
+                            error: function () {
+                                Swal.fire('Error', 'Gagal menghapus artikel!', 'error');
+                            }
+                        });
+                    }
+                });
             });
-        }
+
+            // Initial Load
+            loadArticles();
+        });
     </script>
 </body>
 
