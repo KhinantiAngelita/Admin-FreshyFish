@@ -60,6 +60,74 @@ function renderArticles(articles) {
         `;
         articlesContainer.appendChild(articleElement);
     });
+
+// Tambahkan event listener untuk tombol edit dan delete
+document.querySelectorAll('.btn-edit').forEach(button => {
+    button.addEventListener('click', handleEdit);
+});
+document.querySelectorAll('.btn-delete').forEach(button => {
+    button.addEventListener('click', handleDelete);
+});
 }
 
-loadArticles(); // Panggil fungsi saat halaman dimuat
+// Fungsi untuk menangani klik tombol edit
+function handleEdit(event) {
+const articleId = event.target.dataset.id;
+window.location.href = `/articles/edit/${articleId}`; // Redirect ke halaman edit
+}
+
+// Fungsi untuk menangani klik tombol delete
+function handleDelete(event) {
+const articleId = event.target.dataset.id;
+const token = localStorage.getItem('token');
+if (!token) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Autentikasi Gagal',
+        text: 'User tidak terautentikasi!',
+    });
+    console.error('Autentikasi gagal: Token tidak ditemukan di localStorage');
+    return;
+}
+
+Swal.fire({
+    title: 'Yakin ingin menghapus?',
+    text: 'Artikel ini akan dihapus secara permanen.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Ya, hapus!',
+}).then(result => {
+    if (result.isConfirmed) {
+        fetch(`https://freshyfishapi.ydns.eu/api/articles/${articleId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Gagal menghapus artikel.');
+            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Artikel berhasil dihapus.',
+            });
+            loadArticles(); // Refresh daftar artikel
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat menghapus artikel.',
+            });
+        });
+    }
+});
+}
+
+// Panggil fungsi loadArticles saat halaman dimuat
+loadArticles();
