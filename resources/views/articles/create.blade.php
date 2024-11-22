@@ -271,7 +271,7 @@
             });
         });
     });
-  </script>
+</script>
 </body>
 
 </html>

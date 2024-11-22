@@ -165,3 +165,8 @@ Route::get('/articles/{id}/delete', function ($id) {
 
     return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus!');
 })->name('articles.delete');
+
+//Article ke page edit
+// Route::get('/articles/edit/{id}', function ($id) {
+//     return view('articles.edit', ['id' => $id]);
+// })->name('articles.edit');

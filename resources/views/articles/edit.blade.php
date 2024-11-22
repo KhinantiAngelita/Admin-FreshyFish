@@ -169,7 +169,7 @@
     @endif
 
     <!-- Form Edit Artikel -->
-    <form action="{{ route('articles.update', $id) }}" method="POST">
+    <form id="editArticleForm">
       @csrf
       <div class="form-group">
         <label for="title">Judul Artikel</label>
@@ -193,17 +193,60 @@
 
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  @if (session('success'))
-    <script>
-      Swal.fire({
-        icon: 'success',
-        title: 'Berhasil!',
-        text: '{{ session('success') }}',
-        showConfirmButton: false,
-        timer: 2000,
-      });
-    </script>
-  @endif
+  <script>
+    document.getElementById('editArticleForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Menghindari form default submit
+
+        const articleId = {{ $article['id'] }}; // ID artikel yang akan diedit
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Autentikasi Gagal',
+                text: 'User tidak terautentikasi!',
+            });
+            return;
+        }
+
+        const formData = new FormData(this);
+        formData.append('_method', 'PUT'); // Tambahkan method PUT untuk melakukan update
+
+        fetch(`https://freshyfishapi.ydns.eu/api/articles/${ID_article}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json',
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Artikel berhasil diperbarui.',
+                });
+                window.location.href = '/articles';
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: data.message || 'Terjadi kesalahan saat memperbarui artikel.',
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Gagal memuat artikel.',
+            });
+        });
+    });
+  </script>
 </body>
 
 </html>

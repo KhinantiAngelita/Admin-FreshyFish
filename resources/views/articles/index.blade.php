@@ -245,10 +245,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles'; // API Endpoint
-            const token = localStorage.getItem('token'); // Fetch the token if needed
+            const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles';
+            const token = localStorage.getItem('token');
 
-            // Load Articles
             function loadArticles() {
                 $.ajax({
                     url: apiUrl,
@@ -257,6 +256,7 @@
                         'Authorization': 'Bearer ' + token,
                     },
                     success: function (data) {
+                        console.log(data); // Log data untuk memastikan respons API benar
                         let articlesHtml = '';
                         data.forEach(article => {
                             articlesHtml += `
@@ -267,22 +267,23 @@
                                         <p>${article.content.substring(0, 100)}...</p>
                                     </div>
                                     <div class="actions">
-                                        <button class="btn-edit" data-id="${article.id}">Edit</button>
-                                        <button class="btn-delete" data-id="${article.id}">Hapus</button>
+                                        <button class="btn-edit" data-id="${article.ID_article}">Edit</button>
+                                        <button class="btn-delete" data-id="${article.ID_article}">Hapus</button>
                                     </div>
                                 </div>`;
                         });
                         $('#articlesList').html(articlesHtml);
                     },
-                    error: function () {
+                    error: function (xhr) {
+                        console.error(xhr.responseJSON);
                         Swal.fire('Error', 'Gagal memuat artikel!', 'error');
                     }
                 });
             }
 
-            // Delete Article
             $(document).on('click', '.btn-delete', function () {
                 const articleId = $(this).data('id');
+                console.log("Article ID to delete:", articleId); // Log ID yang akan dihapus
                 Swal.fire({
                     title: 'Yakin ingin menghapus?',
                     text: 'Artikel ini akan dihapus secara permanen.',
@@ -303,18 +304,22 @@
                                 Swal.fire('Deleted!', 'Artikel berhasil dihapus.', 'success');
                                 loadArticles();
                             },
-                            error: function () {
-                                Swal.fire('Error', 'Gagal menghapus artikel!', 'error');
+                            error: function (xhr) {
+                                const errorMessage = xhr.responseJSON?.message || 'Gagal menghapus artikel!';
+                                console.error(xhr.responseJSON);
+                                Swal.fire('Error', errorMessage, 'error');
                             }
                         });
                     }
                 });
             });
 
-            // Initial Load
             loadArticles();
         });
     </script>
+
+
+
 </body>
 
 </html>
