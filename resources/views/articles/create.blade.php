@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
   <style>
     body {
       background-color: #eaf4fc;
@@ -52,7 +53,6 @@
       text-align: center;
     }
 
-    /* Added logo and element styling */
     .form-logo {
       position: absolute;
       top: -15px;
@@ -65,10 +65,6 @@
       justify-content: center;
       align-items: center;
       color: white;
-      font-size: 24px;
-    }
-
-    .form-logo i {
       font-size: 24px;
     }
 
@@ -153,30 +149,22 @@
 
     <h3>Tambah Artikel Baru</h3>
 
-    <!-- Pesan Error atau Sukses -->
-    @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-    @endif
-
-    @if (session('success'))
-      <div class="alert alert-success">
-        {{ session('success') }}
-      </div>
-    @endif
-
     <!-- Form Tambah Artikel -->
-    <form id="addArticleForm">
+    <form id="addArticleForm" enctype="multipart/form-data">
       @csrf
+      <!-- Thumbnail Artikel -->
+      <div class="form-group">
+        <label for="photo_content">Thumbnail Artikel</label>
+        <input type="file" id="photo_content" name="photo_content" accept="image/*" required>
+      </div>
+
+      <!-- Judul Artikel -->
       <div class="form-group">
         <label for="title">Judul Artikel</label>
         <input type="text" id="title" name="title" placeholder="Masukkan judul artikel" required>
       </div>
+
+      <!-- Kategori Artikel -->
       <div class="form-group">
         <label for="category_content">Kategori</label>
         <select id="category_content" name="category_content" required>
@@ -186,10 +174,14 @@
           <option value="Ikan Air Payau">Ikan Air Payau</option>
         </select>
       </div>
+
+      <!-- Isi Artikel -->
       <div class="form-group">
         <label for="content">Isi Artikel</label>
-        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required></textarea>
+        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel"></textarea>
       </div>
+
+      <!-- Tombol Simpan Artikel -->
       <button type="submit" class="btn-save">Simpan Artikel</button>
     </form>
   </div>
@@ -197,81 +189,72 @@
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    // Tangkap event submit pada form
     document.querySelector('#addArticleForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Mencegah reload halaman
+      event.preventDefault();
 
-        // Ambil token dari localStorage
-        const token = localStorage.getItem('token');
-        if (!token) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Autentikasi Gagal',
-                text: 'User tidak terautentikasi!',
-            });
-            console.error('Autentikasi gagal: Token tidak ditemukan di localStorage');
-            return;
-        }
+      const token = localStorage.getItem('token');
+      if (!token) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Autentikasi Gagal',
+          text: 'User tidak terautentikasi!',
+        });
+        return;
+      }
 
-        // Ambil data dari input form
-        const title = document.getElementById('title').value;
-        const categoryContent = document.getElementById('category_content').value;
-        const content = document.getElementById('content').value;
+      const form = document.getElementById('addArticleForm');
+      const formData = new FormData(form);
 
-        // Validasi input
-        if (!title || !categoryContent || !content) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Validasi Gagal',
-                text: 'Semua field harus diisi!',
-            });
-            return;
-        }
+      // Validasi Editor CKEditor
+      if (!formData.get('content').trim()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Isi Artikel Kosong',
+          text: 'Harap isi artikel sebelum menyimpan.',
+        });
+        return;
+      }
 
-        // Kirim data dengan AJAX POST
-        fetch('https://freshyfishapi.ydns.eu/api/articles', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                title: title,
-                category_content: categoryContent,
-                content: content,
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Gagal menambahkan artikel.');
-            }
-            return response.json();
+      fetch('https://freshyfishapi.ydns.eu/api/articles', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json',
+        },
+        body: formData,
+      })
+        .then(async response => {
+          if (!response.ok) throw await response.json();
+          return response.json();
         })
         .then(data => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: 'Artikel berhasil ditambahkan.',
-                showConfirmButton: false,
-                timer: 2000,
-            });
-
-            // Redirect atau refresh halaman setelah berhasil
-            setTimeout(() => {
-                window.location.href = '/articles';
-            }, 2000);
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: 'Artikel berhasil disimpan.',
+          }).then(() => {
+            window.location.href = '/articles';
+          });
         })
         .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Terjadi kesalahan saat menambahkan artikel.',
-            });
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: error.message || 'Terjadi kesalahan.',
+          });
         });
     });
-</script>
+
+    // CKEditor Initialization
+    ClassicEditor
+      .create(document.querySelector('#content'))
+      .then(editor => {
+        document.querySelector('#addArticleForm').addEventListener('submit', function() {
+          document.querySelector('#content').value = editor.getData();
+        });
+      })
+      .catch(error => console.error(error));
+  </script>
 </body>
 
 </html>

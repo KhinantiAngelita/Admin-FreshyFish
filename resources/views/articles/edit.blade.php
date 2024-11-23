@@ -133,6 +133,8 @@
       background-color: #28a745;
     }
   </style>
+  <!-- Menyertakan CKEditor -->
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 </head>
 
 <body>
@@ -171,26 +173,34 @@
     @endif
 
     <!-- Form untuk mengedit artikel -->
-    <form id="editArticleForm">
+    <form id="editArticleForm" enctype="multipart/form-data">
       @csrf
+      <!-- Input untuk foto artikel -->
+      <div class="form-group">
+        <label for="photo_content">Foto Artikel</label>
+        <input type="file" id="photo_content" name="photo_content">
+        @if ($article->photo_content)
+          <img src="{{ asset('storage/' . $article->photo_content) }}" alt="Foto Artikel" width="150px" class="mt-2">
+        @endif
+      </div>
       <!-- Input untuk judul artikel -->
       <div class="form-group">
         <label for="title">Judul Artikel</label>
-        <input type="text" id="title" name="title" placeholder="Masukkan judul artikel" required>
+        <input type="text" id="title" name="title" placeholder="Masukkan judul artikel" value="{{ old('title', $article->title) }}" required>
       </div>
       <!-- Input untuk memilih kategori artikel -->
       <div class="form-group">
         <label for="category_content">Kategori</label>
         <select id="category_content" name="category_content" required>
-          <option value="Ikan Laut">Ikan Laut</option>
-          <option value="Ikan Air Tawar">Ikan Air Tawar</option>
-          <option value="Ikan Air Payau">Ikan Air Payau</option>
+          <option value="Ikan Laut" {{ $article->category_content == 'Ikan Laut' ? 'selected' : '' }}>Ikan Laut</option>
+          <option value="Ikan Air Tawar" {{ $article->category_content == 'Ikan Air Tawar' ? 'selected' : '' }}>Ikan Air Tawar</option>
+          <option value="Ikan Air Payau" {{ $article->category_content == 'Ikan Air Payau' ? 'selected' : '' }}>Ikan Air Payau</option>
         </select>
       </div>
-      <!-- Input untuk isi artikel -->
+      <!-- Input untuk isi artikel dengan CKEditor -->
       <div class="form-group">
         <label for="content">Isi Artikel</label>
-        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required></textarea>
+        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required>{{ old('content', $article->content) }}</textarea>
       </div>
       <!-- Tombol untuk menyimpan perubahan -->
       <button type="submit" class="btn-save">Simpan Perubahan</button>
@@ -222,6 +232,13 @@
                     $('#title').val(data.title);
                     $('#category_content').val(data.category_content);
                     $('#content').val(data.content);
+
+                    // Inisialisasi CKEditor
+                    ClassicEditor.create(document.querySelector('#content')).then(editor => {
+                        editor.setData(data.content); // Set data ke CKEditor setelah inisialisasi
+                    }).catch(error => {
+                        console.error('Error initializing CKEditor:', error);
+                    });
                 },
                 error: function (xhr) {
                     console.error(xhr.responseJSON);
@@ -232,35 +249,31 @@
 
         // Fungsi untuk menyimpan perubahan artikel
         $('#editArticleForm').on('submit', function (e) {
-            e.preventDefault(); // Mencegah form submit secara default
+            e.preventDefault();
 
-            // Mengambil data dari form
-            const updatedData = {
-                title: $('#title').val(),
-                category_content: $('#category_content').val(),
-                content: $('#content').val()
-            };
-
-            // Mengirim data ke API untuk diperbarui
+            var formData = new FormData(this);
             $.ajax({
                 url: `${apiUrl}/${articleId}`,
                 type: 'PUT',
                 headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
+                    'Authorization': 'Bearer ' + token, // Menambahkan token untuk autentikasi
                 },
-                data: JSON.stringify(updatedData), // Mengirim data dalam format JSON
-                success: function () {
-                    Swal.fire('Success', 'Artikel berhasil diperbarui!', 'success'); // Notifikasi sukses
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    Swal.fire('Berhasil', 'Artikel berhasil diperbarui!', 'success').then(() => {
+                        window.location.href = '/articles'; // Ganti dengan URL yang sesuai
+                    });
                 },
                 error: function (xhr) {
                     console.error(xhr.responseJSON);
-                    Swal.fire('Error', 'Gagal memperbarui artikel!', 'error'); // Notifikasi error
+                    Swal.fire('Error', 'Gagal memperbarui artikel!', 'error');
                 }
             });
         });
 
-        // Panggil fungsi loadArticle saat halaman siap
+        // Muat artikel saat halaman dimuat
         loadArticle();
     });
   </script>

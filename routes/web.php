@@ -181,4 +181,3 @@ Route::get('/articles/{id}/delete', function ($id) {
 
     return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus!');
 })->name('articles.delete');
-
