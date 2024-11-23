@@ -245,91 +245,116 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-        const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles';
-        const token = localStorage.getItem('token');
+            const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles';
+            const token = localStorage.getItem('token');
 
-        // Function to load articles
-        function loadArticles() {
-            $.ajax({
-                url: apiUrl,
-                type: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                success: function (data) {
-                    const articlesList = $('#articlesList');
-                    articlesList.empty(); // Clear current list of articles
-                    data.forEach(function (article) {
-                        const articleCard = `
-                            <div class="article-card" data-id="${article.id}">
-                                <h5>${article.title}</h5>
-                                <p>${article.content}</p>
-                                <button class="btn-edit">Edit</button>
-                                <button class="btn-delete">Delete</button>
-                            </div>
-                        `;
-                        articlesList.append(articleCard);
-                    });
-                },
-                error: function (error) {
-                    console.log('Error fetching articles:', error);
-                }
-            });
-        }
-
-        // Event listener for the Edit button
-        $(document).on('click', '.btn-edit', function () {
-            const articleId = $(this).closest('.article-card').data('id');
-            console.log('Article ID to edit:', articleId);
-            try {
-                window.location.href = `/articles/${articleId}/edit`;
-                console.log(`Navigating to: /articles/${articleId}/edit`);
-            } catch (error) {
-                console.error('Error navigating to edit page:', error);
+            // Validasi token
+            if (!token) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Token Tidak Ada',
+                    text: 'Silakan login ulang untuk mendapatkan akses.',
+                });
+                return;
             }
-        });
 
-        // Event listener for the Delete button
-        $(document).on('click', '.btn-delete', function () {
-            const articleId = $(this).closest('.article-card').data('id');
-            console.log('Article ID to delete:', articleId);
+            // Function untuk memuat artikel
+            function loadArticles() {
+                console.log('Memuat artikel dari API...');
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json' // Header tambahan
+                    },
+                    success: function (data) {
+                        console.log('Artikel berhasil dimuat:', data);
+                        const articlesList = $('#articlesList');
+                        articlesList.empty();
 
-            Swal.fire({
-                title: 'Yakin ingin menghapus?',
-                text: 'Artikel ini akan dihapus permanen.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Send DELETE request to delete the article
-                    $.ajax({
-                        url: `${apiUrl}/${articleId}`,
-                        type: 'DELETE',
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        },
-                        success: function () {
-                            console.log(`Deleted article ID: ${articleId}`);
-                            Swal.fire('Deleted!', 'Artikel berhasil dihapus.', 'success');
-                            loadArticles(); // Reload articles after deletion
-                        },
-                        error: function (xhr) {
-                            const errorMessage = xhr.responseJSON?.message || 'Gagal menghapus artikel!';
-                            console.error('Error deleting article:', errorMessage);
-                            Swal.fire('Error', errorMessage, 'error');
+                        if (data.length === 0) {
+                            articlesList.append('<p class="text-center">Belum ada artikel.</p>');
+                            return;
                         }
-                    });
-                }
+
+                        data.forEach(function (article) {
+                            const articleCard = `
+                                <div class="article-card" data-id="${article.ID_article}">
+                                    <h5>${article.title}</h5>
+                                    <p>${article.content}</p>
+                                    <div class="actions">
+                                        <button class="btn-edit">Edit</button>
+                                        <button class="btn-delete">Delete</button>
+                                    </div>
+                                </div>
+                            `;
+                            articlesList.append(articleCard);
+                        });
+                    },
+                    error: function (xhr) {
+                        console.error('Error fetching articles:', xhr);
+                        console.log('Response Text:', xhr.responseText);
+                        console.log('Status:', xhr.status);
+                        const message = xhr.responseJSON?.message || 'Gagal memuat artikel.';
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: message,
+                        });
+                    }
+                });
+            }
+
+            // Event handler tombol edit
+            $(document).on('click', '.btn-edit', function () {
+                const articleId = $(this).closest('.article-card').data('id');
+                console.log(`Edit artikel ID: ${articleId}`);
+                window.location.href = `/articles/${articleId}/edit`;
             });
+
+            // Event handler tombol delete
+            $(document).on('click', '.btn-delete', function () {
+                const articleId = $(this).closest('.article-card').data('id');
+                console.log(`Hapus artikel ID: ${articleId}`);
+
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: 'Artikel ini akan dihapus permanen.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `${apiUrl}/${articleId}`,
+                            type: 'DELETE',
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                Accept: 'application/json' // Header tambahan
+                            },
+                            success: function () {
+                                console.log('Artikel berhasil dihapus.');
+                                Swal.fire('Berhasil!', 'Artikel berhasil dihapus.', 'success');
+                                loadArticles();
+                            },
+                            error: function (xhr) {
+                                console.error('Error deleting article:', xhr);
+                                console.log('Response Text:', xhr.responseText);
+                                console.log('Status:', xhr.status);
+                                Swal.fire('Error!', 'Gagal menghapus artikel.', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Load artikel saat halaman pertama kali dimuat
+            loadArticles();
         });
-
-        // Initial load of articles
-        loadArticles();
-    });
-
     </script>
+
 </body>
 </html>
