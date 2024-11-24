@@ -292,9 +292,9 @@
     </a>
 
     <!-- Kategori Ikan Payau -->
-    <a href="{{ route('articles.byCategory', 'Ikan Payau') }}" class="category-card" style="background-image: url('/images/ikan_air_payau.jpg');">
+    <a href="{{ route('articles.byCategory', 'Ikan Air Payau') }}" class="category-card" style="background-image: url('/images/ikan_air_payau.jpg');">
         <div class="overlay">
-            <h4>Ikan Payau</h4>
+            <h4>Ikan Air Payau</h4>
         </div>
     </a>
 
