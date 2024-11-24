@@ -52,30 +52,22 @@
 
 <body>
   <div class="container-scroller">
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-2" href="{{ route('dashboard.index') }}">
-          <img src="../../images/rororo.png" alt="logo" />
-        </a>
-        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard.index') }}">
-          <img src="../../images/lololo.png" alt="logo" />
-        </a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/rororo.png" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="../../images/faces/face28.jpg" alt="profile" />
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="javascript:void(0)" id="logoutButton">
-                <i class="ti-power-off text-primary"></i> Logout
-              </a>
-            </div>
-          </li>
+            <!-- Logout Button -->
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger text-white px-4 py-2 rounded-pill shadow-sm" href="javascript:void(0)" id="logoutButton">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                </a>
+            </li>
         </ul>
-      </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container-fluid page-body-wrapper">
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -120,11 +112,8 @@
                     <div class="d-flex justify-content-end align-items-center">
                         <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm" style="margin-right: 15px;">Tambah Produk Baru</a>
                         <button id="exportExcel" class="btn btn-success btn-sm" style="margin-right: 15px;">Export to Excel</button>
-                        <button id="exportPdf" class="btn btn-danger btn-sm" style="margin-right: 15px;">Export to PDF</button>
-                        <button id="printPage" class="btn btn-info btn-sm" style="margin-right: 15px;">
-                            <i class="fas fa-print"></i> Print
-                        </button>
-                    </div>
+                        <button id="exportPdf" class="btn btn-danger btn-sm">Export to PDF</button>
+                      </div>
                 </div>
                 <div class="row mt-4" id="productList"></div>
               </div>
@@ -148,7 +137,6 @@
     $(document).ready(function () {
       const token = localStorage.getItem('token');
 
-      // Fungsi untuk memuat data produk dari API
       function loadProducts(callback) {
         $.ajax({
           url: 'https://freshyfishapi.ydns.eu/api/produk',
@@ -157,7 +145,6 @@
           success: function (response) {
             let productList = '';
 
-            // Periksa apakah respons berupa array
             if (Array.isArray(response)) {
               response.forEach(function (produk) {
                 productList += `
@@ -185,12 +172,75 @@
               productList = '<div class="col-12"><p>Tidak ada data produk.</p></div>';
             }
 
-            // Tampilkan produk di elemen dengan ID 'productList'
             $('#productList').html(productList);
 
-            // Tambahkan event listener untuk setiap kartu produk
             $('.product-card').on('click', function () {
-              showProductDetails(this);
+              const idProduk = $(this).data('id');
+              const idToko = $(this).data('toko');
+              const nama = $(this).data('name');
+              const berat = $(this).data('weight');
+              const harga = $(this).data('price');
+              const habitat = $(this).data('habitat');
+              const deskripsi = $(this).data('description');
+              const photo = $(this).data('photo');
+
+              Swal.fire({
+                title: `<strong>${nama}</strong>`,
+                html: `
+                  <img src="${photo}" style="width: 100%; height: auto; margin-bottom: 15px;">
+                  <p><strong>ID Produk:</strong> ${idProduk}</p>
+                  <p><strong>ID Toko:</strong> ${idToko}</p>
+                  <p><strong>Berat:</strong> ${berat} kg</p>
+                  <p><strong>Harga:</strong> Rp${harga.toLocaleString()}</p>
+                  <p><strong>Habitat:</strong> ${habitat}</p>
+                  <p>${deskripsi}</p>
+                  <div>
+                    <a href="/produk/edit/${idProduk}" class="btn btn-warning btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm" id="deleteProduct" data-id="${idProduk}">Delete</button>
+                  </div>
+                `,
+                showConfirmButton: false,
+              });
+
+              $('#deleteProduct').on('click', function () {
+                const productId = $(this).data('id');
+
+                Swal.fire({
+                  title: 'Apakah Anda yakin?',
+                  text: 'Produk akan dihapus secara permanen.',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6',
+                  confirmButtonText: 'Ya, hapus!',
+                  cancelButtonText: 'Batal',
+                  customClass: {
+                        popup: 'custom-swal-popup'
+                    }
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    $.ajax({
+                      url: `https://freshyfishapi.ydns.eu/api/produk/${productId}`,
+                      type: 'DELETE',
+                      headers: { 'Authorization': 'Bearer ' + token },
+                      success: function () {
+                        Swal.fire({
+                            title: 'Terhapus!',
+                            text: 'Produk telah dihapus.',
+                            icon: 'success',
+                            customClass: {
+                            popup: 'custom-swal-popup', // Tambahkan kustomisasi popup
+                            },
+                        });
+                        loadProducts(); // Memuat ulang produk setelah penghapusan berhasil
+                        },
+                      error: function () {
+                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus produk.', 'error');
+                      },
+                    });
+                  }
+                });
+              });
             });
 
             if (callback) callback(response);
@@ -201,71 +251,6 @@
         });
       }
 
-      // Fungsi untuk menampilkan detail produk menggunakan SweetAlert2
-      function showProductDetails(productCard) {
-        const idProduk = $(productCard).data('id');
-        const idToko = $(productCard).data('toko');
-        const nama = $(productCard).data('name');
-        const berat = $(productCard).data('weight');
-        const harga = $(productCard).data('price');
-        const habitat = $(productCard).data('habitat');
-        const deskripsi = $(productCard).data('description');
-        const photo = $(productCard).data('photo');
-
-        Swal.fire({
-          title: `<strong>${nama}</strong>`,
-          html: `
-            <img src="${photo}" style="width: 100%; height: auto; margin-bottom: 15px;">
-            <p><strong>ID Produk:</strong> ${idProduk}</p>
-            <p><strong>ID Toko:</strong> ${idToko}</p>
-            <p><strong>Berat:</strong> ${berat} kg</p>
-            <p><strong>Harga:</strong> Rp${harga.toLocaleString()}</p>
-            <p><strong>Habitat:</strong> ${habitat}</p>
-            <p>${deskripsi}</p>
-            <div>
-              <a href="/produk/edit/${idProduk}" class="btn btn-warning btn-sm">Edit</a>
-              <button class="btn btn-danger btn-sm" id="deleteProduct" data-id="${idProduk}">Delete</button>
-            </div>
-          `,
-          showConfirmButton: false,
-        });
-
-        // Tambahkan event listener untuk tombol hapus
-        $('#deleteProduct').on('click', function () {
-          deleteProduct($(this).data('id'));
-        });
-      }
-
-      // Fungsi untuk menghapus produk
-      function deleteProduct(productId) {
-        Swal.fire({
-          title: 'Apakah Anda yakin?',
-          text: 'Produk akan dihapus secara permanen.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
-          confirmButtonText: 'Ya, hapus!',
-          cancelButtonText: 'Batal',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-              url: `https://freshyfishapi.ydns.eu/api/produk/${productId}`,
-              type: 'DELETE',
-              headers: { 'Authorization': 'Bearer ' + token },
-              success: function () {
-                Swal.fire('Terhapus!', 'Produk telah dihapus.', 'success');
-                loadProducts(); // Memuat ulang produk setelah penghapusan berhasil
-              },
-              error: function () {
-                Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus produk.', 'error');
-              },
-            });
-          }
-        });
-      }
-
-      // Fungsi untuk mengekspor data ke Excel
       function exportToExcel(data) {
         if (!Array.isArray(data)) return;
 
@@ -285,7 +270,6 @@
         XLSX.writeFile(wb, 'Produk.xlsx');
       }
 
-      // Fungsi untuk mengekspor data ke PDF
       function exportToPdf(data) {
         if (!Array.isArray(data)) return;
 
@@ -303,29 +287,43 @@
         ];
 
         const tableRows = data.map((produk, index) => [
-          index + 1,
-          produk.ID_toko,
-          produk.ID_produk,
-          produk.fish_type,
-          `Rp${produk.fish_price.toLocaleString()}`,
-          produk.fish_weight,
-          produk.habitat,
-          produk.fish_description,
+          index + 1, // Nomor
+          produk.ID_toko, // ID Toko
+          produk.ID_produk, // ID Produk
+          produk.fish_type, // Nama Ikan
+          `Rp${produk.fish_price.toLocaleString()}`, // Harga Ikan
+          produk.fish_weight, // Berat Ikan
+          produk.habitat, // Habitat
+          produk.fish_description, // Deskripsi
         ]);
 
+        // Header Judul (Di Tengah)
         doc.setFontSize(16);
-        doc.text('Daftar Produk', 105, 15, { align: 'center' });
+        doc.text('Daftar Produk', 105, 15, { align: 'center' }); // Posisi tengah horizontal
+
+        // Menambahkan Tabel dengan AutoTable
         doc.autoTable({
-          startY: 25,
-          head: [tableColumn],
-          body: tableRows,
-          theme: 'grid',
+          startY: 25, // Posisi awal tabel
+          head: [tableColumn], // Kolom header
+          body: tableRows, // Data tabel
+          theme: 'grid', // Tema tabel (pilihan: 'striped', 'grid', 'plain')
+          styles: {
+            fontSize: 10, // Ukuran font tabel
+            halign: 'left', // Align isi tabel
+          },
+          headStyles: {
+            fillColor: [0, 150, 200], // Warna background header (#0096C8)
+            textColor: [255, 255, 255], // Warna teks header (putih)
+          },
+          alternateRowStyles: {
+            fillColor: [240, 240, 240], // Warna baris alternatif (abu muda)
+          },
         });
 
+        // Simpan File PDF
         doc.save('Daftar_Produk.pdf');
       }
 
-      // Event listener untuk tombol ekspor
       $('#exportExcel').on('click', function () {
         loadProducts(exportToExcel);
       });
@@ -334,11 +332,9 @@
         loadProducts(exportToPdf);
       });
 
-      // Memuat data produk saat halaman selesai dimuat
       loadProducts();
     });
   </script>
-
 
 
 </body>

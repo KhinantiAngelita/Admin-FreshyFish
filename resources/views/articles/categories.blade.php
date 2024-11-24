@@ -23,7 +23,7 @@
         }
 
         .navbar-brand {
-            margin-left: -40px; 
+            margin-left: -40px;
         }
 
         .navbar-brand img {
@@ -66,7 +66,7 @@
             text-align: center;
             color: white;
             z-index: 2;
-            width: 80%; 
+            width: 80%;
         }
 
         /* Font Styling */
@@ -112,10 +112,10 @@
         .carousel-control-prev-icon::before,
         .carousel-control-next-icon::before {
             content: '';
-            width: 16px; 
+            width: 16px;
             height: 16px;
             border-style: solid;
-            border-width: 3px 3px 0 0; 
+            border-width: 3px 3px 0 0;
             transform: rotate(45deg);
             display: inline-block;
             color: white;
@@ -131,7 +131,7 @@
 
         .carousel-control-prev,
         .carousel-control-next {
-            width: 8%; 
+            width: 8%;
         }
 
         footer {
@@ -158,6 +158,15 @@
             <a class="navbar-brand" href="#">
                 <img src="../../images/rororo.png" alt="FreshyFish Logo">
             </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto"> <!-- Tambahkan ms-auto di sini -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('auth.login') }}">
+                            <i class="fa fa-user" aria-hidden="true"></i> Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -219,10 +228,10 @@
                         <img src="../../images/2.png" alt="Resep Lezat" style="width: 110px; height: auto; margin-bottom: 15px;">
                         <h4 class="fw-bold" style="font-family: 'Playfair Display', serif;">Resep Lezat</h4>
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
-                            Ratusan resep ikan yang dirancang untuk 
+                            Ratusan resep ikan yang dirancang untuk
                         </p>
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 0.1;">
-                            meningkatkan cita rasa masakan Anda. Beragam pilihan 
+                            meningkatkan cita rasa masakan Anda. Beragam pilihan
                         </p>
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
                             resep untuk memanjakan lidah Anda dan keluarga.
@@ -233,10 +242,10 @@
                         <img src="../../images/3.png" alt="Gizi Terjamin" style="width: 110px; height: auto; margin-bottom: 15px;">
                         <h4 class="fw-bold" style="font-family: 'Playfair Display', serif;">Gizi Terjamin</h4>
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
-                            Semua resep dirancang untuk memberikan 
+                            Semua resep dirancang untuk memberikan
                         </p>
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 0.1;">
-                            manfaat kesehatan dengan nutrisi yang seimbang. 
+                            manfaat kesehatan dengan nutrisi yang seimbang.
                         </p>
                             <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
                             Cocok untuk segala kebutuhan sehari-hari.
@@ -254,11 +263,11 @@
                         <h4 class="fw-bold" style="font-family: 'Playfair Display', serif;">Bahan Segar</h4>
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
                             Gunakan ikan segar terbaik untuk membuat
-                        </p> 
+                        </p>
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 0.1;">
                             hidangan berkualitas tinggi yang sempurna
                         </p>
-                        <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;"> 
+                        <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
                             untuk setiap kesempatan keluarga.
                         </p>
                     </div>
@@ -269,10 +278,10 @@
                         <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
                             Masakan kami dirancang tidak hanya sehat,
                         </p>
-                        <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 0.1;">  
+                        <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 0.1;">
                             tetapi juga menggugah selera dengan kombinasi
                         </p>
-                        <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">  
+                        <p style="font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.7;">
                             rasa yang sempurna untuk keluarga Anda.
                         </p>
                     </div>
@@ -292,9 +301,9 @@
     </a>
 
     <!-- Kategori Ikan Payau -->
-    <a href="{{ route('articles.byCategory', 'Ikan Payau') }}" class="category-card" style="background-image: url('/images/ikan_air_payau.jpg');">
+    <a href="{{ route('articles.byCategory', 'Ikan Air Payau') }}" class="category-card" style="background-image: url('/images/ikan_air_payau.jpg');">
         <div class="overlay">
-            <h4>Ikan Payau</h4>
+            <h4>Ikan Air Payau</h4>
         </div>
     </a>
 
@@ -327,13 +336,13 @@
         gap: 0;
         margin: 0;
         padding: 0;
-        flex: 1; 
+        flex: 1;
     }
 
     .category-card {
         position: relative;
         width: 100%;
-        height: 350px; 
+        height: 350px;
         background-size: cover;
         background-position: center;
         border-radius: 0;
@@ -357,15 +366,15 @@
     .category-card h4 {
         color: white;
         font-family: 'Montserrat', sans-serif;
-        font-size: 48px; 
+        font-size: 48px;
         font-weight: bold;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
         letter-spacing: 2px;
         margin: 0;
     }
 
     .category-card:hover .overlay {
-        background-color: rgba(0, 0, 0, 0.7); 
+        background-color: rgba(0, 0, 0, 0.7);
     }
 
     footer {
@@ -375,8 +384,8 @@
         padding: 20px;
         width: 100%;
         left: 0;
-        margin-top: auto; 
-        border-radius: 0; 
+        margin-top: auto;
+        border-radius: 0;
     }
 </style>
 

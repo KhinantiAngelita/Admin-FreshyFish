@@ -132,7 +132,7 @@
         }
 
         .article-list {
-            margin-top: 20px;
+            margin-top: 25px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -143,7 +143,6 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -151,20 +150,29 @@
 
         .article-card:hover {
             transform: translateY(-5px);
+            transition: transform 0.3s ease-in-out;
         }
 
-        .article-card h5 {
-            font-size: 20px;
+        .article-content {
+            flex: 1;
+        }
+
+        .article-content h5 {
+            font-size: 18px;
             color: #0096c8;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .article-card p {
-            font-size: 16px;
+        .article-content p {
+            font-size: 14px;
             color: #555;
+            margin: 0;
         }
 
-        .article-card .actions {
+        .actions {
             display: flex;
             gap: 10px;
         }
@@ -211,7 +219,7 @@
 
     <!-- Welcome Message -->
     <div class="welcome-message" style="background-image: url('../../images/{{ strtolower(str_replace(' ', '_', $category)) }}.jpg');">
-        <h2>Artikel Resep {{ $category }}</h2>
+        <h2>Artikel Resep Ikan</h2>
     </div>
 
     <!-- Content -->
@@ -260,20 +268,14 @@
                         // Render artikel ke dalam daftar
                         data.forEach(function (article) {
                             const articleCard = `
-                                <div class="col-md-6 col-lg-4"> <!-- Sesuaikan ukuran kolom berdasarkan layar -->
-                                    <div class="card shadow-sm h-100 d-flex flex-column">
-                                        <div data-photo="https://freshyfishapi.ydns.eu/storage/photo_content/${article.photo_content}">
-                                            <img src="https://freshyfishapi.ydns.eu/storage/photo_content/${article.photo_content}" alt="${article.title}" class="card-img-top" style="height: 200px; object-fit: cover;">
-                                        </div>
-                                        <div class="card-body d-flex flex-column justify-content-between">
-                                            <h5 class="card-title text-truncate" title="${article.title}">${article.title}</h5>
-                                            <p class="card-text text-muted">${article.category_content}</p>
-                                            <p class="card-text">${article.content.substring(0, 100)}...</p>
-                                            <div class="mt-auto d-flex justify-content-between">
-                                                <button class="btn btn-primary btn-sm" onclick="editArticle(${article.ID_article})">Edit</button>
-                                                <button class="btn btn-danger btn-sm" onclick="deleteArticle(${article.ID_article})">Delete</button>
-                                            </div>
-                                        </div>
+                                <div class="article-card">
+                                    <div class="article-content" onclick="showContentModal('${article.title}', '${article.content.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')">
+                                        <h5>${article.title}</h5>
+                                        <p>Kategori: ${article.category_content}</p>
+                                        <p>${article.content.substring(0, 100)}...</p>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-delete" onclick="deleteArticle(${article.ID_article})">Hapus</button>
                                     </div>
                                 </div>
                             `;
@@ -285,6 +287,16 @@
                     }
                 });
             }
+
+            window.showContentModal = function (title, content) {
+                Swal.fire({
+                    title: `<div style="text-align: left; font-family: 'Montserrat', sans-serif; font-size: 24px; color: #0096c8;font-weight: bold;">${title}</div>`,
+                    html: `<div style="text-align: left; max-height: 500px; overflow-y: auto; padding: 10px; font-size: 20px; line-height: 2;">${content}</div>`,
+                    width: '1200px', // Ukuran pop-up lebih lebar
+                    showCloseButton: true,
+                    focusConfirm: false,
+                });
+            };
 
             // Fungsi mengedit artikel
             window.editArticle = function (id) {
@@ -322,17 +334,17 @@
 
             // Fungsi pencarian artikel
             window.filterArticles = function () {
-                const searchValue = $('#searchInput').val().toLowerCase();
-                $('.article-card').each(function () {
-                    const title = $(this).find('.card-title').text().toLowerCase();
-                    const content = $(this).find('.card-text').text().toLowerCase();
-                    if (title.includes(searchValue) || content.includes(searchValue)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            };
+        const searchValue = $('#searchInput').val().toLowerCase();
+        $('.article-card').each(function () {
+            const title = $(this).find('h5').text().toLowerCase();
+            const content = $(this).find('p:nth-of-type(2)').text().toLowerCase();
+            if (title.includes(searchValue) || content.includes(searchValue)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    };
 
             // Memuat artikel ketika halaman pertama kali dimuat
             loadArticles();
