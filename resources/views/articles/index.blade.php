@@ -216,60 +216,39 @@
 
     <!-- Content -->
     <div class="content">
-        <!-- Button untuk menambah artikel -->
-        <a href="{{ route('articles.create') }}" class="btn-add">Tambah Resep</a>
-
-        <!-- Daftar Artikel -->
+        <a href="{{ route('articles.create') }}" class="btn-add" id="addArticle">Tambah Artikel</a>
         <div id="articlesList" class="article-list">
-            <!-- Loop untuk menampilkan artikel -->
-            @forelse ($articles as $article)
-                <div class="article-card" data-title="{{ strtolower($article['title']) }}">
-                    <div>
-                        <h5>{{ $article['title'] }}</h5>
-                        <p><strong>Kategori:</strong> {{ $article['category_content'] }}</p>
-                        <p>{!! Str::limit($article['content'], 100, '...') !!}</p>
-                    </div>
-                    <div class="actions">
-                        <a href="{{ route('articles.edit', $article['id']) }}" class="btn-edit">Edit</a>
-                        <a href="{{ route('articles.delete', $article['id']) }}" class="btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">Hapus</a>
-                    </div>
-                </div>
-            @empty
-                <p class="text-center">Belum ada artikel dalam kategori ini.</p>
-            @endforelse
+            <p class="text-center">Memuat artikel...</p>
         </div>
     </div>
 
- <!-- SweetAlert -->
+    <!-- SweetAlert dan jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles';
+            const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles'; // Ganti dengan URL API Anda
             const token = localStorage.getItem('token');
 
-            // Validasi token
+            // Jika token tidak ada
             if (!token) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Token Tidak Ada',
-                    text: 'Silakan login ulang untuk mendapatkan akses.',
+                    text: 'Silakan login ulang.',
                 });
                 return;
             }
 
-            // Function untuk memuat artikel
+            // Fungsi memuat artikel dari API
             function loadArticles() {
-                console.log('Memuat artikel dari API...');
                 $.ajax({
                     url: apiUrl,
                     type: 'GET',
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                        Accept: 'application/json' // Header tambahan
+                        Authorization: `Bearer ${token}`
                     },
                     success: function (data) {
-                        console.log('Artikel berhasil dimuat:', data);
                         const articlesList = $('#articlesList');
                         articlesList.empty();
 
@@ -278,83 +257,87 @@
                             return;
                         }
 
+                        // Render artikel ke dalam daftar
                         data.forEach(function (article) {
                             const articleCard = `
-                                <div class="article-card" data-id="${article.ID_article}">
-                                    <h5>${article.title}</h5>
-                                    <p>${article.content}</p>
-                                    <div class="actions">
-                                        <button class="btn-edit">Edit</button>
-                                        <button class="btn-delete">Delete</button>
+                                <div class="col-md-6 col-lg-4"> <!-- Sesuaikan ukuran kolom berdasarkan layar -->
+                                    <div class="card shadow-sm h-100 d-flex flex-column">
+                                        <div data-photo="https://freshyfishapi.ydns.eu/storage/photo_content/${article.photo_content}">
+                                            <img src="https://freshyfishapi.ydns.eu/storage/photo_content/${article.photo_content}" alt="${article.title}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                        </div>
+                                        <div class="card-body d-flex flex-column justify-content-between">
+                                            <h5 class="card-title text-truncate" title="${article.title}">${article.title}</h5>
+                                            <p class="card-text text-muted">${article.category_content}</p>
+                                            <p class="card-text">${article.content.substring(0, 100)}...</p>
+                                            <div class="mt-auto d-flex justify-content-between">
+                                                <button class="btn btn-primary btn-sm" onclick="editArticle(${article.ID_article})">Edit</button>
+                                                <button class="btn btn-danger btn-sm" onclick="deleteArticle(${article.ID_article})">Delete</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             `;
                             articlesList.append(articleCard);
                         });
                     },
-                    error: function (xhr) {
-                        console.error('Error fetching articles:', xhr);
-                        console.log('Response Text:', xhr.responseText);
-                        console.log('Status:', xhr.status);
-                        const message = xhr.responseJSON?.message || 'Gagal memuat artikel.';
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: message,
-                        });
+                    error: function () {
+                        Swal.fire('Error', 'Gagal memuat artikel.', 'error');
                     }
                 });
             }
 
-            // Event handler tombol edit
-            $(document).on('click', '.btn-edit', function () {
-                const articleId = $(this).closest('.article-card').data('id');
-                console.log(`Edit artikel ID: ${articleId}`);
-                window.location.href = `/articles/${articleId}/edit`;
-            });
+            // Fungsi mengedit artikel
+            window.editArticle = function (id) {
+                window.location.href = `/articles/${id}/edit`;
+            };
 
-            // Event handler tombol delete
-            $(document).on('click', '.btn-delete', function () {
-                const articleId = $(this).closest('.article-card').data('id');
-                console.log(`Hapus artikel ID: ${articleId}`);
-
+            // Fungsi menghapus artikel
+            window.deleteArticle = function (id) {
                 Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: 'Artikel ini akan dihapus permanen.',
+                    title: 'Konfirmasi',
+                    text: "Apakah Anda yakin ingin menghapus artikel ini?",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
+                    confirmButtonText: 'Ya, Hapus',
+                    cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `${apiUrl}/${articleId}`,
+                            url: `${apiUrl}/${id}`,
                             type: 'DELETE',
                             headers: {
-                                Authorization: `Bearer ${token}`,
-                                Accept: 'application/json' // Header tambahan
+                                Authorization: `Bearer ${token}`
                             },
                             success: function () {
-                                console.log('Artikel berhasil dihapus.');
-                                Swal.fire('Berhasil!', 'Artikel berhasil dihapus.', 'success');
-                                loadArticles();
+                                Swal.fire('Berhasil', 'Artikel berhasil dihapus.', 'success');
+                                loadArticles(); // Muat ulang artikel setelah penghapusan
                             },
-                            error: function (xhr) {
-                                console.error('Error deleting article:', xhr);
-                                console.log('Response Text:', xhr.responseText);
-                                console.log('Status:', xhr.status);
-                                Swal.fire('Error!', 'Gagal menghapus artikel.', 'error');
+                            error: function () {
+                                Swal.fire('Error', 'Gagal menghapus artikel.', 'error');
                             }
                         });
                     }
                 });
-            });
+            };
 
-            // Load artikel saat halaman pertama kali dimuat
+            // Fungsi pencarian artikel
+            window.filterArticles = function () {
+                const searchValue = $('#searchInput').val().toLowerCase();
+                $('.article-card').each(function () {
+                    const title = $(this).find('.card-title').text().toLowerCase();
+                    const content = $(this).find('.card-text').text().toLowerCase();
+                    if (title.includes(searchValue) || content.includes(searchValue)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            };
+
+            // Memuat artikel ketika halaman pertama kali dimuat
             loadArticles();
         });
     </script>
-
 </body>
+
 </html>

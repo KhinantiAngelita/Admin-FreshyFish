@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     /* Styling untuk halaman */
     body {
@@ -53,25 +56,6 @@
       text-align: center;
     }
 
-    .form-logo {
-      position: absolute;
-      top: -15px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      background-color: #0096c8;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 24px;
-    }
-
-    .form-logo i {
-      font-size: 24px;
-    }
-
     .form-group {
       margin-bottom: 20px;
     }
@@ -91,56 +75,50 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 16px;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .form-group textarea {
       resize: none;
     }
 
-    .btn-save {
-      background-color: #0096c8;
-      color: white;
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .btn-save,
+    .btn-cancel {
       padding: 15px 20px;
       border: none;
       border-radius: 8px;
       font-size: 16px;
-      text-align: center;
-      display: block;
-      width: 100%;
       cursor: pointer;
       transition: background-color 0.3s ease;
+    }
+
+    .btn-save {
+      background-color: #0096c8;
+      color: white;
     }
 
     .btn-save:hover {
       background-color: #007bb5;
     }
 
-    .alert {
-      margin-bottom: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      color: white;
-      font-size: 14px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .alert-danger {
+    .btn-cancel {
       background-color: #dc3545;
+      color: white;
     }
 
-    .alert-success {
-      background-color: #28a745;
+    .btn-cancel:hover {
+      background-color: #c82333;
     }
   </style>
-  <!-- Menyertakan CKEditor -->
-  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 </head>
 
 <body>
-  <!-- Header -->
   <div class="header">
-    <!-- Logo untuk kembali ke halaman artikel -->
     <a href="{{ route('articles.index') }}">
       <img src="../../images/rororo.png" alt="Logo">
     </a>
@@ -148,135 +126,174 @@
   </div>
 
   <div class="content">
-    <!-- Logo pada bagian form -->
-    <div class="form-logo">
-      <i class="fas fa-edit"></i>
-    </div>
-
     <h3>Edit Artikel</h3>
-
-    <!-- Menampilkan pesan error atau sukses -->
-    @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-    @endif
-
-    @if (session('success'))
-      <div class="alert alert-success">
-        {{ session('success') }}
-      </div>
-    @endif
-
-    <!-- Form untuk mengedit artikel -->
     <form id="editArticleForm" enctype="multipart/form-data">
       @csrf
-      <!-- Input untuk foto artikel -->
+      <!-- Foto Artikel -->
       <div class="form-group">
         <label for="photo_content">Foto Artikel</label>
         <input type="file" id="photo_content" name="photo_content">
-        @if ($article->photo_content)
-          <img src="{{ asset('storage/' . $article->photo_content) }}" alt="Foto Artikel" width="150px" class="mt-2">
-        @endif
+        <img id="articleImage" src="" alt="Foto Artikel" width="150px" class="mt-2" style="display: none;">
       </div>
-      <!-- Input untuk judul artikel -->
+
+      <!-- Judul -->
       <div class="form-group">
         <label for="title">Judul Artikel</label>
-        <input type="text" id="title" name="title" placeholder="Masukkan judul artikel" value="{{ old('title', $article->title) }}" required>
+        <input type="text" id="title" name="title" placeholder="Masukkan judul artikel" required>
       </div>
-      <!-- Input untuk memilih kategori artikel -->
+
+      <!-- Kategori -->
       <div class="form-group">
         <label for="category_content">Kategori</label>
         <select id="category_content" name="category_content" required>
-          <option value="Ikan Laut" {{ $article->category_content == 'Ikan Laut' ? 'selected' : '' }}>Ikan Laut</option>
-          <option value="Ikan Air Tawar" {{ $article->category_content == 'Ikan Air Tawar' ? 'selected' : '' }}>Ikan Air Tawar</option>
-          <option value="Ikan Air Payau" {{ $article->category_content == 'Ikan Air Payau' ? 'selected' : '' }}>Ikan Air Payau</option>
+          <option value="Ikan Laut">Ikan Laut</option>
+          <option value="Ikan Air Tawar">Ikan Air Tawar</option>
+          <option value="Ikan Air Payau">Ikan Air Payau</option>
         </select>
       </div>
-      <!-- Input untuk isi artikel dengan CKEditor -->
+
+      <!-- Konten -->
       <div class="form-group">
         <label for="content">Isi Artikel</label>
-        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required>{{ old('content', $article->content) }}</textarea>
+        <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required></textarea>
       </div>
-      <!-- Tombol untuk menyimpan perubahan -->
-      <button type="submit" class="btn-save">Simpan Perubahan</button>
+
+      <div class="btn-container">
+        <button type="submit" class="btn-save">Simpan Perubahan</button>
+        <button type="button" class="btn-cancel" id="cancelButton">Batal</button>
+      </div>
     </form>
   </div>
 
-  <!-- SweetAlert untuk notifikasi sukses atau error -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function () {
-        // URL API untuk mendapatkan dan mengupdate artikel
-        const apiUrl = 'https://freshyfishapi.ydns.eu/api/articles';
-        // Mengambil token dari localStorage (harus disesuaikan jika menggunakan otentikasi lain)
-        const token = localStorage.getItem('token');
-        // ID artikel yang akan diupdate (bisa diambil dari route atau JavaScript)
-        const articleId = {{ $articleId }}; // Pastikan $articleId di-pass dengan benar di Blade
 
-        // Fungsi untuk memuat data artikel yang sudah ada
+        // Define articleId before using it
+        const articleId = {{ $articleId }}; // Diteruskan dari Blade
+        console.log('Article ID:', articleId); // Log articleId for debugging
+
+        const apiUrl = `https://freshyfishapi.ydns.eu/api/articles/${articleId}`;
+        console.log('API URL:', apiUrl); // Log apiUrl for debugging
+
+        const token = localStorage.getItem('token');
+        console.log('Token:', token); // Log token for debugging
+
+        // Fungsi untuk memuat data artikel
         function loadArticle() {
+            console.log(`Memuat artikel dengan ID: ${articleId}`);
             $.ajax({
-                url: `${apiUrl}/${articleId}`,
+                url: `${apiUrl}`,
                 type: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + token, // Menambahkan token untuk autentikasi
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json'
                 },
                 success: function (data) {
-                    // Isi form dengan data yang diterima dari API
-                    $('#title').val(data.title);
-                    $('#category_content').val(data.category_content);
-                    $('#content').val(data.content);
+                    console.log('Data artikel berhasil dimuat:', data);
+                    if (data) {
+                        $('#title').val(data.title || '');
+                        $('#category_content').val(data.category_content || '');
+                        $('#content').val(data.content || '');
+
+                        // Tampilkan preview foto dengan path lengkap
+                        if (data.photo_content) {
+                            $('#articleImage').attr('src', `https://freshyfishapi.ydns.eu/storage/photo_content/${data.photo_content}`).show();
+                        }
+                    }
 
                     // Inisialisasi CKEditor
-                    ClassicEditor.create(document.querySelector('#content')).then(editor => {
-                        editor.setData(data.content); // Set data ke CKEditor setelah inisialisasi
-                    }).catch(error => {
-                        console.error('Error initializing CKEditor:', error);
+                    ClassicEditor.create(document.querySelector('#content')).catch(error => {
+                        console.error('Error in CKEditor:', error);
                     });
                 },
-                error: function (xhr) {
-                    console.error(xhr.responseJSON);
-                    Swal.fire('Error', 'Gagal memuat data artikel!', 'error'); // Notifikasi error
+                error: function (xhr, status, error) {
+                    console.error('Gagal memuat data artikel:', status, error);
+                    Swal.fire('Error', 'Gagal memuat data artikel!', 'error');
+                    console.log('Error details:', xhr.responseText); // Log detailed error response
                 }
             });
         }
 
-        // Fungsi untuk menyimpan perubahan artikel
-        $('#editArticleForm').on('submit', function (e) {
+        // Fungsi menyimpan perubahan artikel
+        $('#editArticleForm').submit(function (e) {
             e.preventDefault();
+            const formData = new FormData(this);
+            const fileInput = $('#photo_content')[0].files[0];
 
-            var formData = new FormData(this);
+            console.log('File input:', fileInput); // Log file input for debugging
+
+            if (fileInput) {
+                formData.append('photo_content', fileInput);
+                console.log('File attached:', fileInput.name); // Log file name
+            }
+
+            console.log('Mengirim data untuk diperbarui:', formData);
+
             $.ajax({
-                url: `${apiUrl}/${articleId}`,
+                url: `${apiUrl}`,
                 type: 'PUT',
                 headers: {
-                    'Authorization': 'Bearer ' + token, // Menambahkan token untuk autentikasi
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json'
                 },
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (data) {
-                    Swal.fire('Berhasil', 'Artikel berhasil diperbarui!', 'success').then(() => {
-                        window.location.href = '/articles'; // Ganti dengan URL yang sesuai
+                success: function () {
+                    console.log('Artikel berhasil diperbarui.');
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Artikel berhasil diperbarui.',
+                        icon: 'success'
+                    }).then(() => {
+                        window.location.href = '{{ route("articles.index") }}';
                     });
                 },
-                error: function (xhr) {
-                    console.error(xhr.responseJSON);
+                error: function (xhr, status, error) {
+                    console.error('Gagal memperbarui artikel:', status, error);
+                    console.log('Error details:', xhr.responseText); // Log detailed error response
                     Swal.fire('Error', 'Gagal memperbarui artikel!', 'error');
                 }
             });
         });
 
-        // Muat artikel saat halaman dimuat
+        // Fungsi membatalkan proses edit
+        $('#cancelButton').on('click', function () {
+            Swal.fire({
+                title: 'Batalkan Perubahan?',
+                text: 'Anda yakin ingin kembali tanpa menyimpan perubahan?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Kembali',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('Perubahan dibatalkan, kembali ke daftar artikel');
+                    window.location.href = '{{ route("articles.index") }}';
+                }
+            });
+        });
+
+        // Fungsi preview gambar
+        $('#photo_content').on('change', function (e) {
+            const file = e.target.files[0];
+            console.log('File selected for preview:', file); // Log selected file for preview
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#articleImage').attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Panggil fungsi loadArticle saat halaman dimuat
         loadArticle();
     });
-  </script>
+</script>
+
+
+
 </body>
 
 </html>
