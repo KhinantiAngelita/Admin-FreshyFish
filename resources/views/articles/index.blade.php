@@ -133,6 +133,7 @@
 
         .article-list {
             margin-top: 25px;
+            margin-top: 25px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -155,11 +156,22 @@
 
         .article-content {
             flex: 1;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .article-content {
+            flex: 1;
         }
 
         .article-content h5 {
             font-size: 18px;
+        .article-content h5 {
+            font-size: 18px;
             color: #0096c8;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             margin-bottom: 5px;
             white-space: nowrap;
             overflow: hidden;
@@ -168,10 +180,14 @@
 
         .article-content p {
             font-size: 14px;
+        .article-content p {
+            font-size: 14px;
             color: #555;
+            margin: 0;
             margin: 0;
         }
 
+        .actions {
         .actions {
             display: flex;
             gap: 10px;
@@ -219,6 +235,7 @@
 
     <!-- Welcome Message -->
     <div class="welcome-message" style="background-image: url('../../images/{{ strtolower(str_replace(' ', '_', $category)) }}.jpg');">
+        <h2>Artikel Resep Ikan</h2>
         <h2>Artikel Resep Ikan</h2>
     </div>
 
@@ -298,6 +315,16 @@
                 });
             };
 
+            window.showContentModal = function (title, content) {
+                Swal.fire({
+                    title: `<div style="text-align: left; font-family: 'Montserrat', sans-serif; font-size: 24px; color: #0096c8;font-weight: bold;">${title}</div>`,
+                    html: `<div style="text-align: left; max-height: 500px; overflow-y: auto; padding: 10px; font-size: 20px; line-height: 2;">${content}</div>`,
+                    width: '1200px', // Ukuran pop-up lebih lebar
+                    showCloseButton: true,
+                    focusConfirm: false,
+                });
+            };
+
             // Fungsi mengedit artikel
             window.editArticle = function (id) {
                 window.location.href = `/articles/${id}/edit`;
@@ -334,6 +361,17 @@
 
             // Fungsi pencarian artikel
             window.filterArticles = function () {
+        const searchValue = $('#searchInput').val().toLowerCase();
+        $('.article-card').each(function () {
+            const title = $(this).find('h5').text().toLowerCase();
+            const content = $(this).find('p:nth-of-type(2)').text().toLowerCase();
+            if (title.includes(searchValue) || content.includes(searchValue)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    };
         const searchValue = $('#searchInput').val().toLowerCase();
         $('.article-card').each(function () {
             const title = $(this).find('h5').text().toLowerCase();
