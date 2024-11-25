@@ -93,7 +93,6 @@
                                                 <tr>
                                                     <th>ID Pesanan</th>
                                                     <th>Metode Pembayaran</th>
-                                                    <th>Jumlah</th>
                                                     <th>Total Harga</th>
                                                     <th>Status</th>
                                                     <th>Tanggal Pemesanan</th>
@@ -158,13 +157,13 @@
                             <tr>
                                 <td>${pesanan.ID_pesanan}</td>
                                 <td>${pesanan.payment_method || 'N/A'}</td>
-                                <td>${pesanan.jumlah || 'N/A'}</td>
                                 <td>Rp${parseFloat(pesanan.total_price).toLocaleString()}</td>
                                 <td>
-                                    <button class="btn ${statusClass} btn-sm">${statusText}</button>
+                                    <button class="btn-green btn-sm">${statusText}</button>
                                 </td>
                                 <td>${pesanan.order_date || 'N/A'}</td>
                             </tr>
+
                         `;
                     });
 

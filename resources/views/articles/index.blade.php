@@ -236,7 +236,6 @@
     <!-- Welcome Message -->
     <div class="welcome-message" style="background-image: url('../../images/{{ strtolower(str_replace(' ', '_', $category)) }}.jpg');">
         <h2>Artikel Resep Ikan</h2>
-        <h2>Artikel Resep Ikan</h2>
     </div>
 
     <!-- Content -->
@@ -292,7 +291,7 @@
                                         <p>${article.content.substring(0, 100)}...</p>
                                     </div>
                                     <div class="actions">
-                                        <button class="btn-delete" onclick="deleteArticle(${article.ID_article})">Hapus</button>
+                                        <button class="btn btn-danger" onclick="deleteArticle(${article.ID_article})">Hapus</button>
                                     </div>
                                 </div>
                             `;
@@ -305,15 +304,6 @@
                 });
             }
 
-            window.showContentModal = function (title, content) {
-                Swal.fire({
-                    title: `<div style="text-align: left; font-family: 'Montserrat', sans-serif; font-size: 24px; color: #0096c8;font-weight: bold;">${title}</div>`,
-                    html: `<div style="text-align: left; max-height: 500px; overflow-y: auto; padding: 10px; font-size: 20px; line-height: 2;">${content}</div>`,
-                    width: '1200px', // Ukuran pop-up lebih lebar
-                    showCloseButton: true,
-                    focusConfirm: false,
-                });
-            };
 
             window.showContentModal = function (title, content) {
                 Swal.fire({
@@ -361,28 +351,17 @@
 
             // Fungsi pencarian artikel
             window.filterArticles = function () {
-        const searchValue = $('#searchInput').val().toLowerCase();
-        $('.article-card').each(function () {
-            const title = $(this).find('h5').text().toLowerCase();
-            const content = $(this).find('p:nth-of-type(2)').text().toLowerCase();
-            if (title.includes(searchValue) || content.includes(searchValue)) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-    };
-        const searchValue = $('#searchInput').val().toLowerCase();
-        $('.article-card').each(function () {
-            const title = $(this).find('h5').text().toLowerCase();
-            const content = $(this).find('p:nth-of-type(2)').text().toLowerCase();
-            if (title.includes(searchValue) || content.includes(searchValue)) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-    };
+            const searchValue = $('#searchInput').val().toLowerCase();
+            $('.article-card').each(function () {
+                const title = $(this).find('h5').text().toLowerCase();
+                const content = $(this).find('p:nth-of-type(2)').text().toLowerCase();
+                if (title.includes(searchValue) || content.includes(searchValue)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        };
 
             // Memuat artikel ketika halaman pertama kali dimuat
             loadArticles();
