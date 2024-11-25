@@ -189,24 +189,27 @@
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    let editor; // Variabel untuk menyimpan instance CKEditor
+
+    ClassicEditor
+      .create(document.querySelector('#content'))
+      .then(instance => {
+        editor = instance; // Simpan instance CKEditor
+      })
+      .catch(error => console.error(error));
+
     document.querySelector('#addArticleForm').addEventListener('submit', function(event) {
       event.preventDefault();
-
-      const token = localStorage.getItem('token');
-      if (!token) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Autentikasi Gagal',
-          text: 'User tidak terautentikasi!',
-        });
-        return;
-      }
 
       const form = document.getElementById('addArticleForm');
       const formData = new FormData(form);
 
-      // Validasi Editor CKEditor
-      if (!formData.get('content').trim()) {
+      // Ambil isi dari CKEditor
+      const editorContent = editor.getData();
+      formData.set('content', editorContent);
+
+      // Validasi isi CKEditor
+      if (!editorContent.trim()) {
         Swal.fire({
           icon: 'error',
           title: 'Isi Artikel Kosong',
@@ -215,10 +218,11 @@
         return;
       }
 
+      // Lakukan Fetch API
       fetch('https://freshyfishapi.ydns.eu/api/articles', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ' + token,
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
           'Accept': 'application/json',
         },
         body: formData,
@@ -244,16 +248,6 @@
           });
         });
     });
-
-    // CKEditor Initialization
-    ClassicEditor
-      .create(document.querySelector('#content'))
-      .then(editor => {
-        document.querySelector('#addArticleForm').addEventListener('submit', function() {
-          document.querySelector('#content').value = editor.getData();
-        });
-      })
-      .catch(error => console.error(error));
   </script>
 </body>
 

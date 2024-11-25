@@ -281,7 +281,7 @@
 
             $.ajax({
             url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
-            type: 'POST',  // Ganti ke 'PUT' jika diperlukan oleh backend Anda
+            type: 'POST',  
             data: formData,
             processData: false,
             contentType: false,
