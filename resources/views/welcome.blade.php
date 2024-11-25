@@ -56,7 +56,7 @@
                             <ul class="nav">
                                 <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                                 <li class="scroll-to-section"><a href="#about">Tentang Kami</a></li>
-                                <li class="scroll-to-section"><a href="#services">Artikel</a></li>
+                                <li class="scroll-to-section"><a href="{{ route('articles.index') }}">Artikel</a></li>
                                 <li class="scroll-to-section"><a href="{{ route('auth.login') }}">Admin</a></li>
                             </ul>
                             <!-- ***** Menu End ***** -->
