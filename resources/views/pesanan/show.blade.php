@@ -34,6 +34,20 @@
                 </ul>
             </div>
         </nav>
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/rororo.png" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger text-white px-4 py-2 rounded-pill shadow-sm" href="javascript:void(0)" id="logoutButton">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
         <div class="container-fluid page-body-wrapper">
             <!-- Sidebar -->
@@ -84,6 +98,17 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="card-title"><i class="fas fa-history"></i> History Pesanan</h4>
+                                        <div>
+                                            <button id="exportExcel" class="btn btn-success btn-sm">
+                                                <i class="fas fa-file-excel"></i> Export to Excel
+                                            </button>
+                                            <button id="exportPdf" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-file-pdf"></i> Export to PDF
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <thead>
@@ -112,6 +137,7 @@
     </div>
 
     <!-- Scripts -->
+    <!-- Scripts -->
     <script src="../../vendors/js/vendor.bundle.base.js"></script>
     <script src="../../js/off-canvas.js"></script>
     <script src="../../js/hoverable-collapse.js"></script>
@@ -122,8 +148,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     <script>
+        function exportToExcel(data) {
+            const formattedData = data.map(order => ({
+                'ID Pesanan': order.ID_pesanan,
+                'Metode Pembayaran': order.payment_method || 'N/A',
+                'Total Harga': `Rp${parseFloat(order.total_price).toLocaleString()}`,
+                'Status': order.status || 'N/A',
+                'Tanggal Pemesanan': order.order_date || 'N/A'
+            }));
+
+            const ws = XLSX.utils.json_to_sheet(formattedData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Pesanan');
+            XLSX.writeFile(wb, 'Pesanan.xlsx');
+        }
+
+        function exportToPdf(data) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const tableColumns = ['ID Pesanan', 'Metode Pembayaran', 'Total Harga', 'Status', 'Tanggal Pemesanan'];
+            const tableRows = data.map(order => [
+                order.ID_pesanan,
+                order.payment_method || 'N/A',
+                `Rp${parseFloat(order.total_price).toLocaleString()}`,
+                order.status || 'N/A',
+                order.order_date || 'N/A'
+            ]);
+
+            doc.text('History Pesanan', 105, 10, { align: 'center' });
+            doc.autoTable({
+                head: [tableColumns],
+                body: tableRows,
+                startY: 20
+            });
+
+            doc.save('Pesanan.pdf');
+        }
+
+        function getPesanan(callback) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('User tidak terautentikasi!');
+                return;
+            }
         function exportToExcel(data) {
             const formattedData = data.map(order => ({
                 'ID Pesanan': order.ID_pesanan,
@@ -210,8 +283,18 @@
 
             getPesanan();
         });
-    </script>
+        $(document).ready(function() {
+            $('#exportExcel').on('click', function() {
+                getPesanan(exportToExcel);
+            });
 
+            $('#exportPdf').on('click', function() {
+                getPesanan(exportToPdf);
+            });
+
+            getPesanan();
+        });
+    </script>
 </body>
 
 </html>
