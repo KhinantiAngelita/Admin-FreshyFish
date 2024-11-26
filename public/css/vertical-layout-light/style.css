@@ -30653,6 +30653,15 @@ input[type="file"] {
     background-color: #218838;
 }
 
+.article-card img {
+    width: 170px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+
 
 
 

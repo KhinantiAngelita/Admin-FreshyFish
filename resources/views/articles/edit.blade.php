@@ -13,7 +13,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    /* Styling untuk halaman */
     body {
       background-color: #eaf4fc;
       font-family: Arial, sans-serif;
@@ -46,7 +45,6 @@
       background-color: white;
       border-radius: 12px;
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-      position: relative;
     }
 
     .content h3 {
@@ -87,23 +85,9 @@
       gap: 10px;
     }
 
-    .btn-save,
-    .btn-cancel {
-      padding: 15px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
     .btn-save {
       background-color: #0096c8;
       color: white;
-    }
-
-    .btn-save:hover {
-      background-color: #007bb5;
     }
 
     .btn-cancel {
@@ -129,20 +113,15 @@
     <h3>Edit Artikel</h3>
     <form id="editArticleForm" enctype="multipart/form-data">
       @csrf
-      <!-- Foto Artikel -->
       <div class="form-group">
         <label for="photo_content">Foto Artikel</label>
         <input type="file" id="photo_content" name="photo_content">
         <img id="articleImage" src="" alt="Foto Artikel" width="150px" class="mt-2" style="display: none;">
       </div>
-
-      <!-- Judul -->
       <div class="form-group">
         <label for="title">Judul Artikel</label>
         <input type="text" id="title" name="title" placeholder="Masukkan judul artikel" required>
       </div>
-
-      <!-- Kategori -->
       <div class="form-group">
         <label for="category_content">Kategori</label>
         <select id="category_content" name="category_content" required>
@@ -151,13 +130,10 @@
           <option value="Ikan Air Payau">Ikan Air Payau</option>
         </select>
       </div>
-
-      <!-- Konten -->
       <div class="form-group">
         <label for="content">Isi Artikel</label>
         <textarea id="content" name="content" rows="5" placeholder="Masukkan isi artikel" required></textarea>
       </div>
-
       <div class="btn-container">
         <button type="submit" class="btn-save">Simpan Perubahan</button>
         <button type="button" class="btn-cancel" id="cancelButton">Batal</button>
@@ -167,132 +143,94 @@
 
   <script>
     $(document).ready(function () {
+    const articleId = {{ $articleId ?? 'null' }};
+    console.log("articleId:", articleId);
 
-        // Define articleId before using it
-        const articleId = {{ $articleId }}; // Diteruskan dari Blade
-        console.log('Article ID:', articleId); // Log articleId for debugging
+    if (!articleId || articleId === 'null') {
+        Swal.fire('Error', 'ID artikel tidak ditemukan!', 'error');
+        return;
+    }
 
-        const apiUrl = `https://freshyfishapi.ydns.eu/api/articles/${articleId}`;
-        console.log('API URL:', apiUrl); // Log apiUrl for debugging
+    const apiUrl = `https://freshyfishapi.ydns.eu/api/articles/${articleId}`;
+    console.log("API URL:", apiUrl);
 
-        const token = localStorage.getItem('token');
-        console.log('Token:', token); // Log token for debugging
+    const token = localStorage.getItem('token');
+    console.log("Token ditemukan:", token);
 
-        // Fungsi untuk memuat data artikel
-        function loadArticle() {
-            console.log(`Memuat artikel dengan ID: ${articleId}`);
-            $.ajax({
-                url: `${apiUrl}`,
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json'
-                },
-                success: function (data) {
-                    console.log('Data artikel berhasil dimuat:', data);
-                    if (data) {
-                        $('#title').val(data.title || '');
-                        $('#category_content').val(data.category_content || '');
-                        $('#content').val(data.content || '');
+    if (!token) {
+        Swal.fire('Error', 'Token tidak ditemukan. Silakan login!', 'error');
+        return;
+    }
 
-                        // Tampilkan preview foto dengan path lengkap
-                        if (data.photo_content) {
-                            $('#articleImage').attr('src', `https://freshyfishapi.ydns.eu/storage/photo_content/${data.photo_content}`).show();
-                        }
-                    }
+    function loadArticle() {
+        console.log("Memuat artikel...");
 
-                    // Inisialisasi CKEditor
-                    ClassicEditor.create(document.querySelector('#content')).catch(error => {
-                        console.error('Error in CKEditor:', error);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error('Gagal memuat data artikel:', status, error);
-                    Swal.fire('Error', 'Gagal memuat data artikel!', 'error');
-                    console.log('Error details:', xhr.responseText); // Log detailed error response
+        $.ajax({
+            url: apiUrl,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+            },
+            success: function (data) {
+                console.log("Data artikel:", data);
+
+                $('#title').val(data.title);
+                $('#category_content').val(data.category_content);
+                $('#content').val(data.content);
+
+                if (data.photo_content) {
+                    const imageUrl = `https://freshyfishapi.ydns.eu/storage/articles/${data.photo_content}`;
+                    $('#articleImage').attr('src', imageUrl).show();
                 }
-            });
-        }
 
-        // Fungsi menyimpan perubahan artikel
-        $('#editArticleForm').submit(function (e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const fileInput = $('#photo_content')[0].files[0];
-
-            console.log('File input:', fileInput); // Log file input for debugging
-
-            if (fileInput) {
-                formData.append('photo_content', fileInput);
-                console.log('File attached:', fileInput.name); // Log file name
+                ClassicEditor.create(document.querySelector('#content')).catch(error => {
+                    console.error("CKEditor error:", error);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error load artikel:", xhr.responseText);
+                Swal.fire('Error', 'Gagal memuat artikel!', 'error');
             }
-
-            console.log('Mengirim data untuk diperbarui:', formData);
-
-            $.ajax({
-                url: `${apiUrl}`,
-                type: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json'
-                },
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function () {
-                    console.log('Artikel berhasil diperbarui.');
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: 'Artikel berhasil diperbarui.',
-                        icon: 'success'
-                    }).then(() => {
-                        window.location.href = '{{ route("articles.index") }}';
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error('Gagal memperbarui artikel:', status, error);
-                    console.log('Error details:', xhr.responseText); // Log detailed error response
-                    Swal.fire('Error', 'Gagal memperbarui artikel!', 'error');
-                }
-            });
         });
+    }
 
-        // Fungsi membatalkan proses edit
-        $('#cancelButton').on('click', function () {
-            Swal.fire({
-                title: 'Batalkan Perubahan?',
-                text: 'Anda yakin ingin kembali tanpa menyimpan perubahan?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, Kembali',
-                cancelButtonText: 'Tidak'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    console.log('Perubahan dibatalkan, kembali ke daftar artikel');
+    $('#editArticleForm').submit(function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        $.ajax({
+            url: apiUrl,
+            type: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log("Artikel berhasil diupdate:", response);
+                Swal.fire('Sukses', 'Artikel berhasil diperbarui.', 'success').then(() => {
                     window.location.href = '{{ route("articles.index") }}';
-                }
-            });
-        });
-
-        // Fungsi preview gambar
-        $('#photo_content').on('change', function (e) {
-            const file = e.target.files[0];
-            console.log('File selected for preview:', file); // Log selected file for preview
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#articleImage').attr('src', e.target.result).show();
-                };
-                reader.readAsDataURL(file);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error update artikel:", xhr.responseText);
+                Swal.fire('Error', 'Gagal memperbarui artikel!', 'error');
             }
         });
-
-        // Panggil fungsi loadArticle saat halaman dimuat
-        loadArticle();
     });
-</script>
 
+    $('#cancelButton').click(function () {
+        window.location.href = '{{ route("articles.index") }}';
+    });
 
+    loadArticle();
+});
+
+  </script>
 
 </body>
 

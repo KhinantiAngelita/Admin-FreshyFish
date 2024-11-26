@@ -133,7 +133,6 @@
 
         .article-list {
             margin-top: 25px;
-            margin-top: 25px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -156,15 +155,8 @@
 
         .article-content {
             flex: 1;
-            transition: transform 0.3s ease-in-out;
         }
 
-        .article-content {
-            flex: 1;
-        }
-
-        .article-content h5 {
-            font-size: 18px;
         .article-content h5 {
             font-size: 18px;
             color: #0096c8;
@@ -172,22 +164,14 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .article-content p {
-            font-size: 14px;
         .article-content p {
             font-size: 14px;
             color: #555;
             margin: 0;
-            margin: 0;
         }
 
-        .actions {
         .actions {
             display: flex;
             gap: 10px;
@@ -273,6 +257,7 @@
                         Authorization: `Bearer ${token}`
                     },
                     success: function (data) {
+                        console.log('Data API:', data); // Log seluruh data API
                         const articlesList = $('#articlesList');
                         articlesList.empty();
 
@@ -283,27 +268,38 @@
 
                         // Render artikel ke dalam daftar
                         data.forEach(function (article) {
-                            const articleCard = `
-                                <div class="article-card">
-                                    <div class="article-content" onclick="showContentModal('${article.title}', '${article.content.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')">
-                                        <h5>${article.title}</h5>
-                                        <p>Kategori: ${article.category_content}</p>
-                                        <p>${article.content.substring(0, 100)}...</p>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn btn-danger" onclick="deleteArticle(${article.ID_article})">Hapus</button>
-                                    </div>
+                        console.log('Artikel:', article); // Log data artikel individual
+                        console.log('Photo Content:', article.photo_content); // Log photo_content
+                        const articleCard = `
+                            <div class="article-card col-lg-14">
+                                <div class="article-content">
+                                    <img src="https://freshyfishapi.ydns.eu/storage/articles/${article.photo_content}"
+                                        alt="${article.title}"
+                                        onerror="this.src='https://via.placeholder.com/100';"
+                                        class="article-image"> <!-- Menambahkan kelas CSS -->
+                                    <h5>${article.title}</h5>
+                                    <p><strong>Kategori:</strong> ${article.category_content}</p>
+                                    <p>${article.content.substring(0, 100)}...</p>
                                 </div>
-                            `;
-                            articlesList.append(articleCard);
-                        });
+                                <div class="actions">
+                                    <!-- Button Hapus -->
+                                    <button class="btn btn-danger" onclick="deleteArticle(${article.ID_article})">Hapus</button>
+                                    <!-- Button Edit -->
+                                    <a href="/articles/${article.ID_article}/edit" class="btn-edit">Edit</a> <!-- Gunakan URL manual di sini -->
+                                </div>
+                            </div>
+                        `;
+                        articlesList.append(articleCard);
+                    });
+
                     },
-                    error: function () {
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', error); // Log error
+                        console.error('Response:', xhr.responseText); // Log response server
                         Swal.fire('Error', 'Gagal memuat artikel.', 'error');
                     }
                 });
             }
-
 
             window.showContentModal = function (title, content) {
                 Swal.fire({

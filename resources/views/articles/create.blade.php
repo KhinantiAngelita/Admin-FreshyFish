@@ -94,6 +94,16 @@
       resize: none;
     }
 
+    #imagePreview {
+      margin-top: 10px;
+      width: 100%;
+      height: auto;
+      max-width: 300px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      display: none;
+    }
+
     .btn-save {
       background-color: #0096c8;
       color: white;
@@ -156,6 +166,7 @@
       <div class="form-group">
         <label for="photo_content">Thumbnail Artikel</label>
         <input type="file" id="photo_content" name="photo_content" accept="image/*" required>
+        <img id="imagePreview" alt="Pratinjau Gambar">
       </div>
 
       <!-- Judul Artikel -->
@@ -189,15 +200,33 @@
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    let editor; // Variabel untuk menyimpan instance CKEditor
+    let editor;
 
+    // Inisialisasi CKEditor
     ClassicEditor
       .create(document.querySelector('#content'))
       .then(instance => {
-        editor = instance; // Simpan instance CKEditor
+        editor = instance;
       })
       .catch(error => console.error(error));
 
+    // Fungsi preview gambar
+    document.getElementById('photo_content').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const preview = document.getElementById('imagePreview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Event submit form
     document.querySelector('#addArticleForm').addEventListener('submit', function(event) {
       event.preventDefault();
 
