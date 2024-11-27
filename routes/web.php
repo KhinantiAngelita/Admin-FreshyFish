@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 //LANDING PAGE
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 //USER
 Route::prefix('auth')->group(function () {
