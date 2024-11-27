@@ -144,8 +144,6 @@
   <script>
     $(document).ready(function () {
         const articleId = {{ $articleId ?? 'null' }};
-        console.log("Article ID:", articleId);
-
         const apiUrl = `https://freshyfishapi.ydns.eu/api/articles/${articleId}`;
         const token = localStorage.getItem('token');
 
@@ -162,62 +160,42 @@
                 type: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` },
                 success: function (data) {
-                    console.log("Loaded Data:", data);
-
                     $('#title').val(data.title);
                     $('#category_content').val(data.category_content);
                     if (data.photo_content) {
-                        const imageUrl = `https://freshyfishapi.ydns.eu/storage/articles/${data.photo_content}`;
-                        $('#articleImage').attr('src', imageUrl).show();
+                        $('#articleImage').attr('src', `https://freshyfishapi.ydns.eu/storage/articles/${data.photo_content}`).show();
                     }
-
                     ClassicEditor.create(document.querySelector('#content'))
                         .then(editor => {
                             editorInstance = editor;
                             editor.setData(data.content || '');
                         })
-                        .catch(error => console.error("Editor Error:", error));
+                        .catch(console.error);
                 },
-                error: function () {
-                    Swal.fire('Error', 'Gagal memuat artikel.', 'error');
-                }
+                error: () => Swal.fire('Error', 'Gagal memuat artikel.', 'error'),
             });
         }
 
         $('#editArticleForm').submit(function (e) {
             e.preventDefault();
-
             const formData = new FormData(this);
-            if (editorInstance) {
-                formData.set('content', editorInstance.getData());
-            }
+            formData.append('_method', 'PUT'); // Pastikan metode PUT diterima
+            if (editorInstance) formData.set('content', editorInstance.getData());
 
             $.ajax({
                 url: apiUrl,
-                type: 'PUT', // Ubah ke POST jika PUT tidak diterima
+                type: 'POST', // POST dengan _method=PUT
                 headers: { 'Authorization': `Bearer ${token}` },
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (response) {
-                    Swal.fire('Sukses', 'Artikel berhasil diperbarui.', 'success').then(() => {
-                        window.location.href = '{{ route("articles.index") }}';
-                    });
-                },
-                error: function (xhr) {
-                    let errorMessage = 'Gagal memperbarui artikel.';
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        errorMessage = xhr.responseJSON.message;
-                    }
-                    Swal.fire('Error', errorMessage, 'error');
-                }
+                success: () => Swal.fire('Sukses', 'Artikel berhasil diperbarui.', 'success')
+                                    .then(() => window.location.href = '{{ route("articles.index") }}'),
+                error: (xhr) => Swal.fire('Error', xhr.responseJSON?.message || 'Gagal memperbarui artikel.', 'error'),
             });
         });
 
-        $('#cancelButton').click(() => {
-            window.location.href = '{{ route("articles.index") }}';
-        });
-
+        $('#cancelButton').click(() => window.location.href = '{{ route("articles.index") }}');
         loadArticle();
     });
   </script>
