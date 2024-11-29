@@ -79,15 +79,40 @@
       resize: none;
     }
 
+    #articleImage {
+      margin-top: 10px;
+      display: block;
+      width: 100px;
+      height: auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
     .btn-container {
       display: flex;
-      justify-content: space-between;
-      gap: 10px;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-save,
+    .btn-cancel {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
     }
 
     .btn-save {
       background-color: #0096c8;
       color: white;
+    }
+
+    .btn-save:hover {
+      background-color: #007aa3;
+      transform: scale(1.05);
     }
 
     .btn-cancel {
@@ -97,6 +122,7 @@
 
     .btn-cancel:hover {
       background-color: #c82333;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -115,8 +141,8 @@
       @csrf
       <div class="form-group">
         <label for="photo_content">Foto Artikel</label>
-        <input type="file" id="photo_content" name="photo_content">
-        <img id="articleImage" src="" alt="Foto Artikel" width="150px" class="mt-2" style="display: none;">
+        <input type="file" id="photo_content" name="photo_content" accept="image/*">
+        <img id="articleImage" src="" alt="Foto Artikel" style="display: none;">
       </div>
       <div class="form-group">
         <label for="title">Judul Artikel</label>
@@ -176,15 +202,26 @@
             });
         }
 
+        $('#photo_content').change(function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#articleImage').attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         $('#editArticleForm').submit(function (e) {
             e.preventDefault();
             const formData = new FormData(this);
-            formData.append('_method', 'PUT'); // Pastikan metode PUT diterima
+            formData.append('_method', 'PUT');
             if (editorInstance) formData.set('content', editorInstance.getData());
 
             $.ajax({
                 url: apiUrl,
-                type: 'POST', // POST dengan _method=PUT
+                type: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 data: formData,
                 processData: false,

@@ -2,280 +2,409 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
+  <!-- Meta Tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Dashboard</title>
-  <!-- plugins:css -->
+  <title>Dashboard Admin</title>
+
+  <!-- CSS Plugins -->
   <link rel="stylesheet" href="vendors/feather/feather.css">
   <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
-  <link href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.css">
 
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+  <!-- Custom Style -->
+  <style>
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-weight: bold;
+      color: #4CAF50;
+    }
+
+    .chart-container {
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .navbar {
+      background-color: #4CAF50;
+    }
+
+    .navbar .nav-link {
+      color: white;
+      font-weight: bold;
+    }
+
+    .menu-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .dashboard-banner {
+      height: auto;
+      max-height: 40vh;
+      object-fit: cover;
+    }
+
+    .stats-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .stats-icon {
+      font-size: 2rem;
+      color: #4CAF50;
+    }
+
+    .stats-content {
+      text-align: right;
+    }
+
+    .stats-content h4 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #333;
+    }
+
+    .stats-content p {
+      margin: 0;
+      color: #777;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/rororo.png" alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
-    </div>
-    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul class="navbar-nav navbar-nav-right">
-            <!-- Logout Button -->
-            <li class="nav-item">
+    <div class="container-scroller">
+        <!-- Navbar -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+          <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="index.html">
+              <img src="../../images/rororo.png" alt="logo" />
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="index.html">
+              <img src="../../images/lololo.png" alt="logo" />
+            </a>
+          </div>
+          <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+            <ul class="navbar-nav navbar-nav-right">
+              <li class="nav-item">
                 <a class="nav-link btn btn-danger text-white px-4 py-2 rounded-pill shadow-sm" href="javascript:void(0)" id="logoutButton">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                  <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
-            </li>
-        </ul>
-    </div>
-</nav>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      <!-- partial:partials/_settings-panel.html -->
-      <div class="theme-setting-wrapper">
-        <div id="settings-trigger"><i class="ti-settings"></i></div>
-        <div id="theme-settings" class="settings-panel">
-          <i class="settings-close ti-close"></i>
-          <p class="settings-heading">SIDEBAR SKINS</p>
-          <div class="sidebar-bg-options selected" id="sidebar-light-theme">
-            <div class="img-ss rounded-circle bg-light border mr-3"></div>Light
+              </li>
+            </ul>
           </div>
-          <div class="sidebar-bg-options" id="sidebar-dark-theme">
-            <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
-          </div>
-          <p class="settings-heading mt-2">HEADER SKINS</p>
-          <div class="color-tiles mx-0 px-4">
-            <div class="tiles success"></div>
-            <div class="tiles warning"></div>
-            <div class="tiles danger"></div>
-            <div class="tiles info"></div>
-            <div class="tiles dark"></div>
-            <div class="tiles default"></div>
-          </div>
-        </div>
-      </div>
-      <!-- partial -->
-      <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <!-- Dashboard Menu Item -->
-          <li class="nav-item @if(request()->is('dashboard*')) active @endif">
-            <a class="nav-link" href="{{ route('dashboard.index') }}">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
+        </nav>
 
-          <!-- Toko Menu Item -->
-          <li class="nav-item @if(request()->is('toko*')) active @endif">
-            <a class="nav-link" href="{{ route('toko.index') }}">
-              <i class="icon-layout menu-icon"></i>
-              <span class="menu-title">Toko</span>
-            </a>
-          </li>
+        <div class="container-fluid page-body-wrapper">
+          <!-- Sidebar -->
+          <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                  <i class="mdi mdi-view-dashboard menu-icon"></i>
+                  <span class="menu-title">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('toko.index') }}">
+                  <i class="mdi mdi-store menu-icon"></i>
+                  <span class="menu-title">Toko</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('produk.show') }}">
+                  <i class="mdi mdi-cube menu-icon"></i>
+                  <span class="menu-title">Produk</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('pesanan.show') }}">
+                  <i class="mdi mdi-cart menu-icon"></i>
+                  <span class="menu-title">Pesanan</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
 
-          <!-- Produk Menu Item -->
-          <li class="nav-item @if(request()->is('produk*')) active @endif">
-            <a class="nav-link" href="{{ route('produk.show') }}">
-              <i class="icon-columns menu-icon"></i>
-              <span class="menu-title">Produk</span>
-            </a>
-          </li>
-
-          <!-- Pesanan Menu Item -->
-          <li class="nav-item @if(request()->is('pesanan*')) active @endif">
-            <a class="nav-link" href="{{ route('pesanan.show') }}">
-              <i class="icon-bar-graph menu-icon"></i>
-              <span class="menu-title">Pesanan</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
-
-
-      <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <!-- Welcome Section -->
-          <div class="row">
-            <div class="col-md-12 grid-margin">
-              <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+          <div class="main-panel">
+            <div class="content-wrapper">
+              <!-- Welcome Message -->
+              <div class="row mb-4">
+                <div class="col-md-12">
                   <h3 class="font-weight-bold" id="welcomeMessage">Selamat Datang Admin!</h3>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-                  <img src="../../images/banner.png" alt="banner" class="img-fluid w-100" style="height: auto; max-height: 100vh; object-fit: cover;" />
-            </div>
-          </div>
-
-
-          <!-- Order Details Section -->
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card shadow">
-                <div class="card-body">
-                  <p class="card-title">Deskripsi Kegunaan Dashboard Admin</p>
-                  <p class="font-weight-500">
-                    Dashboard ini membantu Anda memonitor penjualan, performa toko, dan pengelolaan produk dengan mudah dalam satu tempat.
-                  </p>
+              <!-- Banner -->
+              <div class="row">
+                <div class="col-lg-12">
+                  <img src="../../images/banner.png" alt="banner" class="img-fluid w-100 dashboard-banner" />
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card border-primary shadow">
-                <div class="card-body d-flex align-items-center">
-                  <!-- Ikon Uang -->
-                  <i class="fas fa-money-bill-wave fa-2x text-primary mr-3"></i>
-                  <div>
-                    <p class="card-title mb-1">Total Keuntungan</p>
-                    <h2 class="font-weight-bold">1,250</h2>
+              <!-- Total Stats and Doughnut Charts -->
+              <div class="row mt-4">
+                <!-- Total Profit -->
+                <div class="col-lg-6 mb-4">
+                    <div class="stats-card">
+                      <i class="fas fa-dollar-sign stats-icon" style="color: #0096C8;"></i>
+                      <div class="stats-content">
+                        <h4 id="totalProfit">Rp 0</h4>
+                        <p>Total Keuntungan</p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Grafik Total Keuntungan</h4>
+                        <div class="chart-container">
+                          <canvas id="profitChart"></canvas>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="row">
-            <!-- Card: Total Produk Terjual -->
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="d-flex align-items-center">
-                    <i class="icon-columns menu-icon text-primary mr-3" style="font-size: 2rem;"></i>
-                    <div>
-                      <h4 class="card-title mb-1">Total Produk Terjual</h4>
-                      <h2 class="font-weight-bold">1,250</h2>
+                  <!-- Total Products Sold -->
+                  <div class="col-lg-6 mb-4">
+                    <div class="stats-card">
+                      <i class="fas fa-box stats-icon" style="color: #0096C8;"></i>
+                      <div class="stats-content">
+                        <h4 id="totalProducts">0</h4>
+                        <p>Total Produk Terjual</p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Grafik Total Produk Terjual</h4>
+                        <div class="chart-container">
+                          <canvas id="productsSoldChart"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <!-- Order History Chart -->
+              <div class="row mt-4">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Grafik Histori Pesanan</h4>
+                      <div
+                        class="chart-container"
+                        style="position: relative; height:400px; overflow-x: auto; white-space: nowrap;"
+                      >
+                        <div style="min-width: 800px;">
+                          <canvas id="historyChart"></canvas>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Card: Total Pesanan -->
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="d-flex align-items-center">
-                    <i class="icon-bar-graph menu-icon text-success mr-3" style="font-size: 2rem;"></i>
-                    <div>
-                      <h4 class="card-title mb-1">Total Pesanan</h4>
-                      <h2 class="font-weight-bold">750</h2>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
-        </div> <!-- End of Content Wrapper -->
-      </div> <!-- End of Main Panel -->
+        </div>
+      </div>
 
-      </div> <!-- End of Main Panel -->
-
-
-
-      <!-- content-wrapper ends -->
-      <!-- partial:partials/_footer.html -->
-      <!-- <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-          </div>
-        </footer> -->
-      <!-- partial -->
-    </div>
-    <!-- main-panel ends -->
-  </div>
-  <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-
-
-
-  <!-- plugins:js -->
-  <script src="vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <script src="vendors/chart.js/Chart.min.js"></script>
-  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="js/dataTables.select.min.js"></script>
-
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/todolist.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
-  <script src="js/Chart.roundedBarCharts.js"></script>
-  <!-- Custom js for this page-->
-  <script src="../../js/chart.js"></script>
-  <!-- End custom js for this page-->
-  <!-- End custom js for this page-->
-
+  <!-- Script -->
   <script>
-    $(document).ready(function() {
-      // Fungsi untuk menangani klik pada tombol logout
-      $('#logoutButton').on('click', function() {
-        // Ambil token dari LocalStorage
-        const token = localStorage.getItem('token');
+    $(document).ready(function () {
+      const apiBaseUrl = 'https://freshyfishapi.ydns.eu/api';
+      const token = localStorage.getItem('token');
 
-        // Jika token tidak ada, langsung arahkan ke halaman login
-        if (!token) {
-          window.location.href = '/auth/login';
-          return;
-        }
+      if (!token) {
+        alert('User tidak terautentikasi!');
+        return;
+      }
 
-        // Kirim permintaan logout ke API
+      // Fungsi untuk mengambil data dari API
+      function fetchData(endpoint, callback) {
         $.ajax({
-          url: 'https://freshyfishapi.ydns.eu/api/auth/logout', // Ganti dengan URL logout API Anda
-          type: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + token
+          url: `${apiBaseUrl}/${endpoint}`,
+          type: 'GET',
+          headers: { 'Authorization': 'Bearer ' + token },
+          success: callback,
+          error: function () {
+            alert(`Gagal memuat data dari endpoint: ${endpoint}`);
           },
-          success: function(response) {
-            // Jika logout berhasil, hapus token dan arahkan ke halaman login
-            localStorage.removeItem('token');
-            window.location.href = '/auth/login';
+        });
+      }
+
+      // Fungsi untuk membuat bar chart
+      function generateBarChart(ctxId, labels, data, backgroundColors) {
+        const ctx = document.getElementById(ctxId).getContext('2d');
+        new Chart(ctx, {
+          type: 'bar', // Menggunakan tipe chart bar
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data,
+              backgroundColor: backgroundColors, // Warna background bar
+              borderColor: '#000', // Warna border (opsional)
+              borderWidth: 1,
+            }],
           },
-          error: function(xhr) {
-            // Tangani error jika ada masalah dengan API
-            console.log("Error:", xhr);
-            // Arahkan tetap ke login meski ada error
-            window.location.href = '/auth/login';
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true, // Sumbu Y dimulai dari 0
+              },
+            },
+            plugins: {
+              legend: {
+                position: 'top', // Posisi legend
+              },
+            },
+          },
+        });
+      }
+
+      // Mengambil data total profit dan menampilkan bar chart
+      fetchData('pesanan/total-profit', function (response) {
+        const totalProfit = response.total_profit || 0;
+        $('#totalProfit').text(`Rp ${totalProfit.toLocaleString()}`);
+        generateBarChart(
+          'profitChart',
+          ['Keuntungan'],
+          [totalProfit],
+          ['#FFB327']
+        );
+      });
+
+      // Mengambil data total produk terjual dan menampilkan bar chart
+      fetchData('pesanan/total-products-sold', function (response) {
+        const totalProducts = response.total_products_sold || 0;
+        $('#totalProducts').text(totalProducts);
+        generateBarChart(
+          'productsSoldChart',
+          ['Produk Terjual'],
+          [totalProducts],
+          ['#0096C8']
+        );
+      });
+
+      // Mengambil data histori pesanan dan menampilkan chart
+      function getPesananForChart() {
+        $.ajax({
+          url: 'https://freshyfishapi.ydns.eu/api/pesanan/histori',
+          type: 'GET',
+          headers: { 'Authorization': 'Bearer ' + token },
+          success: function (response) {
+            if (response.orders && response.orders.length > 0) {
+              const labels = response.orders.map(order => order.order_date || 'Unknown');
+              const profits = response.orders.map(order => parseFloat(order.total_price) || 0);
+
+              generateChart(labels, profits);
+            } else {
+              alert('Tidak ada data pesanan untuk ditampilkan.');
+            }
+          },
+          error: function () {
+            alert('Gagal memuat data pesanan.');
           }
         });
-      });
+      }
+
+      // Fungsi untuk menampilkan chart histori pesanan
+      function generateChart(labels, profits) {
+        const ctx = document.getElementById('profitChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Total Keuntungan (Rp)',
+              data: profits,
+              backgroundColor: '#FFB327', // Warna batang
+              borderColor: '#FFC300',
+              borderWidth: 1,
+            }],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
+      function getPesananForChart() {
+        $.ajax({
+          url: `${apiBaseUrl}/pesanan/histori`,
+          type: 'GET',
+          headers: { 'Authorization': 'Bearer ' + token },
+          success: function (response) {
+            console.log(response); // Debugging untuk memeriksa data API
+            if (response.orders && response.orders.length > 0) {
+              const labels = response.orders.map(order => order.order_date || 'Unknown');
+              const profits = response.orders.map(order => parseFloat(order.total_price) || 0);
+
+              generateChart(labels, profits);
+            } else {
+              alert('Tidak ada data pesanan untuk ditampilkan.');
+            }
+          },
+          error: function () {
+            alert('Gagal memuat data histori pesanan.');
+          }
+        });
+      }
+
+      // Fungsi untuk menampilkan chart histori pesanan
+      function generateChart(labels, profits) {
+        const ctx = document.getElementById('historyChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Total Keuntungan (Rp)',
+              data: profits,
+              backgroundColor: '#FFB327',
+              borderColor: '#FFC300',
+              borderWidth: 1,
+            }],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
+
+      // Memanggil fungsi untuk memuat histori pesanan
+      getPesananForChart();
     });
   </script>
+
+
 </body>
 
 </html>
