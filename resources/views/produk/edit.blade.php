@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
+  
 </head>
 
 <body>
@@ -281,7 +282,7 @@
 
             $.ajax({
             url: `https://freshyfishapi.ydns.eu/api/produk/${ID_produk}`,
-            type: 'POST',  
+            type: 'POST',
             data: formData,
             processData: false,
             contentType: false,

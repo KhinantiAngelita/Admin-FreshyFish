@@ -117,27 +117,27 @@
           <!-- Sidebar -->
           <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
-              <li class="nav-item">
+                <li class="nav-item @if(request()->is('dashboard*')) active @endif">
                 <a class="nav-link" href="{{ route('dashboard.index') }}">
-                  <i class="mdi mdi-view-dashboard menu-icon"></i>
+                  <i class="icon-grid menu-icon"></i>
                   <span class="menu-title">Dashboard</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ route('toko.index') }}">
-                  <i class="mdi mdi-store menu-icon"></i>
+                  <i class="icon-layout menu-icon"></i>
                   <span class="menu-title">Toko</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ route('produk.show') }}">
-                  <i class="mdi mdi-cube menu-icon"></i>
+                  <i class="icon-columns menu-icon"></i>
                   <span class="menu-title">Produk</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ route('pesanan.show') }}">
-                  <i class="mdi mdi-cart menu-icon"></i>
+                  <i class="icon-bar-graph menu-icon"></i>
                   <span class="menu-title">Pesanan</span>
                 </a>
               </li>
@@ -237,7 +237,7 @@
         return;
       }
 
-      // Fungsi untuk mengambil data dari API
+      // Fungsi umum untuk mengambil data dari API
       function fetchData(endpoint, callback) {
         $.ajax({
           url: `${apiBaseUrl}/${endpoint}`,
@@ -250,131 +250,87 @@
         });
       }
 
+      // Fungsi untuk menampilkan pesan selamat datang
+      function getUserData() {
+        fetchData('auth/me', function (response) {
+            console.log(response.data); // Debugging untuk memeriksa struktur data
+            const name = response.data.name || 'Admin';
+            $('#welcomeMessage').text(`Selamat Datang, ${name}!`);
+        });
+        }
+
+
       // Fungsi untuk membuat bar chart
       function generateBarChart(ctxId, labels, data, backgroundColors) {
         const ctx = document.getElementById(ctxId).getContext('2d');
         new Chart(ctx, {
-          type: 'bar', // Menggunakan tipe chart bar
+          type: 'bar',
           data: {
             labels: labels,
             datasets: [{
               data: data,
-              backgroundColor: backgroundColors, // Warna background bar
-              borderColor: '#000', // Warna border (opsional)
+              backgroundColor: backgroundColors,
+              borderColor: '#000',
               borderWidth: 1,
             }],
           },
           options: {
             responsive: true,
             scales: {
-              y: {
-                beginAtZero: true, // Sumbu Y dimulai dari 0
-              },
+              y: { beginAtZero: true },
             },
             plugins: {
-              legend: {
-                position: 'top', // Posisi legend
-              },
+              legend: { display: false },
             },
           },
         });
       }
 
       // Mengambil data total profit dan menampilkan bar chart
-      fetchData('pesanan/total-profit', function (response) {
-        const totalProfit = response.total_profit || 0;
-        $('#totalProfit').text(`Rp ${totalProfit.toLocaleString()}`);
-        generateBarChart(
-          'profitChart',
-          ['Keuntungan'],
-          [totalProfit],
-          ['#FFB327']
-        );
-      });
+      function getTotalProfit() {
+        fetchData('pesanan/total-profit', function (response) {
+          const totalProfit = response.total_profit || 0;
+          $('#totalProfit').text(`Rp ${totalProfit.toLocaleString()}`);
+          generateBarChart(
+            'profitChart',
+            ['Keuntungan'],
+            [totalProfit],
+            ['#FFB327']
+          );
+        });
+      }
 
       // Mengambil data total produk terjual dan menampilkan bar chart
-      fetchData('pesanan/total-products-sold', function (response) {
-        const totalProducts = response.total_products_sold || 0;
-        $('#totalProducts').text(totalProducts);
-        generateBarChart(
-          'productsSoldChart',
-          ['Produk Terjual'],
-          [totalProducts],
-          ['#0096C8']
-        );
-      });
+      function getTotalProductsSold() {
+        fetchData('pesanan/total-products-sold', function (response) {
+          const totalProducts = response.total_products_sold || 0;
+          $('#totalProducts').text(totalProducts);
+          generateBarChart(
+            'productsSoldChart',
+            ['Produk Terjual'],
+            [totalProducts],
+            ['#0096C8']
+          );
+        });
+      }
 
       // Mengambil data histori pesanan dan menampilkan chart
       function getPesananForChart() {
-        $.ajax({
-          url: 'https://freshyfishapi.ydns.eu/api/pesanan/histori',
-          type: 'GET',
-          headers: { 'Authorization': 'Bearer ' + token },
-          success: function (response) {
-            if (response.orders && response.orders.length > 0) {
-              const labels = response.orders.map(order => order.order_date || 'Unknown');
-              const profits = response.orders.map(order => parseFloat(order.total_price) || 0);
+        fetchData('pesanan/histori', function (response) {
+          console.log(response); // Debugging untuk memeriksa data API
+          if (response.orders && response.orders.length > 0) {
+            const labels = response.orders.map(order => order.order_date || 'Unknown');
+            const profits = response.orders.map(order => parseFloat(order.total_price) || 0);
 
-              generateChart(labels, profits);
-            } else {
-              alert('Tidak ada data pesanan untuk ditampilkan.');
-            }
-          },
-          error: function () {
-            alert('Gagal memuat data pesanan.');
+            generateHistoryChart(labels, profits);
+          } else {
+            alert('Tidak ada data pesanan untuk ditampilkan.');
           }
         });
       }
 
       // Fungsi untuk menampilkan chart histori pesanan
-      function generateChart(labels, profits) {
-        const ctx = document.getElementById('profitChart').getContext('2d');
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Total Keuntungan (Rp)',
-              data: profits,
-              backgroundColor: '#FFB327', // Warna batang
-              borderColor: '#FFC300',
-              borderWidth: 1,
-            }],
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-        });
-      }
-      function getPesananForChart() {
-        $.ajax({
-          url: `${apiBaseUrl}/pesanan/histori`,
-          type: 'GET',
-          headers: { 'Authorization': 'Bearer ' + token },
-          success: function (response) {
-            console.log(response); // Debugging untuk memeriksa data API
-            if (response.orders && response.orders.length > 0) {
-              const labels = response.orders.map(order => order.order_date || 'Unknown');
-              const profits = response.orders.map(order => parseFloat(order.total_price) || 0);
-
-              generateChart(labels, profits);
-            } else {
-              alert('Tidak ada data pesanan untuk ditampilkan.');
-            }
-          },
-          error: function () {
-            alert('Gagal memuat data histori pesanan.');
-          }
-        });
-      }
-
-      // Fungsi untuk menampilkan chart histori pesanan
-      function generateChart(labels, profits) {
+      function generateHistoryChart(labels, profits) {
         const ctx = document.getElementById('historyChart').getContext('2d');
         new Chart(ctx, {
           type: 'bar',
@@ -391,18 +347,21 @@
           options: {
             responsive: true,
             scales: {
-              y: {
-                beginAtZero: true,
-              },
+              y: { beginAtZero: true },
             },
           },
         });
       }
 
-      // Memanggil fungsi untuk memuat histori pesanan
+      // Panggil fungsi untuk memuat data
+      getUserData();
+      getTotalProfit();
+      getTotalProductsSold();
       getPesananForChart();
     });
   </script>
+
+
 
 
 </body>

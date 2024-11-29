@@ -106,21 +106,21 @@
               <div class="card">
               <div class="card-body">
               <div class="d-flex justify-content-between align-items-center">
-    <h4 class="card-title">
-        <i class="fas fa-box-open"></i> List Produk Anda
-    </h4>
-    <div class="d-flex justify-content-end align-items-center">
-        <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm" style="margin-right: 15px;">
-            <i class="fas fa-plus-circle"></i> Tambah Produk Baru
-        </a>
-        <button id="exportExcelProduk" class="btn btn-success btn-sm" style="margin-right: 15px;">
-            <i class="fas fa-file-excel"></i> Export to Excel
-        </button>
-        <button id="exportPdfProduk" class="btn btn-danger btn-sm">
-            <i class="fas fa-file-pdf"></i> Export to PDF
-        </button>
-    </div>
-</div>
+                    <h4 class="card-title">
+                        <i class="fas fa-box-open"></i> List Produk Anda
+                    </h4>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm" style="margin-right: 15px;">
+                            <i class="fas fa-plus-circle"></i> Tambah Produk Baru
+                        </a>
+                        <button id="exportExcelProduk" class="btn btn-success btn-sm" style="margin-right: 15px;">
+                            <i class="fas fa-file-excel"></i> Export to Excel
+                        </button>
+                        <button id="exportPdfProduk" class="btn btn-danger btn-sm">
+                            <i class="fas fa-file-pdf"></i> Export to PDF
+                        </button>
+                    </div>
+                </div>
 
                 <div class="row mt-4" id="productList"></div>
               </div>
