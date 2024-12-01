@@ -121,6 +121,42 @@
             </div>
         </div>
 
+        <div class="class">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="titlepage text_align_center">
+                            <h2>Mengapa Memilih Kami</h2>
+                            <div class="line-dec"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 margi_bottom">
+                        <div class="class_box">
+                            <img src="landing-page/assets/images/mancing.png" alt="#" />
+                            <h3>Ikan Segar Langsung dari Sumbernya</h3>
+                            <p>Menjamin kesegaran produk dengan distribusi langsung dari supplier.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 margi_bottom">
+                        <div class="class_box blue">
+                            <img src="landing-page/assets/images/mancing2.png" alt="#" />
+                            <h3>Kemudahan Berbelanja <br> <br> </h3>
+                            <p>Fitur kategori memudahkan konsumen memilih produk sesuai kebutuhan.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 margi_bottom">
+                        <div class="class_box">
+                            <img src="landing-page/assets/images/mancing3.png" alt="#" />
+                            <h3>Solusi untuk Konsumen dan Supplier</h3>
+                            <p>Mengatasi tantangan akses konsumen dan pemasaran supplier.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="services" class="services section">
             <div class="container">
                 <div class="row">
@@ -133,7 +169,7 @@
                 </div>
             </div>
 
-            <div class="container">
+            <div class="container wow fadeInDown" data-wow-duration="1s" data-wow-delay="1.5s">
                 <div class="row justify-content-center">
                     <div class="col-md-4 mb-4">
                         <div class="position-relative overflow-hidden" style="height: 250px;">
