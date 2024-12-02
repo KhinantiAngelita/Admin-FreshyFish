@@ -10,25 +10,88 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
         body {
             background-color: #e0faff;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Navbar */
-        .navbar {
-            background-color: #0096c8 !important;
+        /* Header */
+        /* Styling untuk Header dan Navbar */
+        .header-area {
+            position: sticky;
+            top: 0;
+            background-color: #0096c8; /* Sesuaikan dengan warna background navbar */
+            padding: 10px 0; /* Mengurangi jarak vertikal navbar */
+            z-index: 999; /* Pastikan navbar berada di atas */
+            box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Menyusun Navbar secara fleksibel */
+        .main-nav {
+            display: flex;
+            justify-content: space-between; /* Menyusun logo dan menu navbar dengan jarak */
+            align-items: center; /* Menyusun elemen navbar secara vertikal */
+            height: 60px; /* Sesuaikan tinggi navbar agar lebih tinggi */
+            max-width: 1200px;
+            margin: 0 auto; /* Agar navbar tetap di tengah */
         }
 
-        .navbar-brand {
-            margin-left: -40px;
+        /* Menyusun logo */
+        .main-nav .logo img {
+            height: 70px; /* Sesuaikan ukuran logo */
+            width: auto;
+            padding-top: 2px; /* Memberikan sedikit ruang di atas logo agar lebih ke atas */
         }
 
-        .navbar-brand img {
-            height: 50px;
+        /* Menyusun menu navbar */
+        .main-nav .nav {
+            display: flex;
+            align-items: center; /* Menyusun menu secara vertikal di tengah */
+            margin: 0;
         }
+
+        .main-nav .nav li {
+            list-style: none;
+            margin: 0 17px; /* Memberikan jarak antara menu */
+        }
+
+        .main-nav .nav a {
+            font-size: 16px; /* Ukuran font menu */
+            color: #ffffff; /* Warna teks menu */
+            text-decoration: none;
+            text-transform: capitalize; /* Membuat teks menjadi kapital */
+            padding: 10px;
+            transition: all 0.3s ease; /* Efek transisi saat hover */
+        }
+
+        .main-nav .nav li a.active,
+        .main-nav .nav li a:hover {
+            color: #4ae2ff; 
+        }
+
+        /* Efek Hover */
+        .main-nav .nav li a:hover {
+            background-color: rgba(0, 0, 0, 0.2); /* Memberikan efek latar belakang transparan saat hover */
+            border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-nav .nav {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            .header-area .logo img {
+                height: 60px;
+            }
+        }
+
 
         /* Carousel */
         .carousel {
@@ -153,22 +216,30 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="../../images/rororo.png" alt="FreshyFish Logo">
-            </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto"> <!-- Tambahkan ms-auto di sini -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('auth.login') }}">
-                            <i class="fa fa-user" aria-hidden="true"></i> Admin
-                        </a>
-                    </li>
-                </ul>
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- Logo -->
+                    <a href="{{ route('welcome') }}" class="logo">
+                        <img src="../../images/rororo.png" alt="Logo FreshyFish">
+                    </a>
+                    <!-- Menu -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="{{ route('welcome') }}">Home</a></li>
+                        <li class="scroll-to-section"><a href="{{ route('articles.index') }}" class="active">Artikel</a></li>
+                        <li class="scroll-to-section"><a href="{{ route('auth.login') }}">Login</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
-    </nav>
+    </div>
+</header>
+
+        <!-- ***** Header Area End ***** -->
+
 
     <!-- Carousel -->
     <div id="articleCarousel" class="carousel slide" data-bs-ride="carousel">
