@@ -12,31 +12,87 @@
   <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
   <style>
-    body {
-      background-color: #eaf4fc;
-      font-family: Arial, sans-serif;
-    }
+     body {
+            background-color: #e0faff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-    .header {
-      background-color: #0096c8;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+        /* Header */
+        /* Styling untuk Header dan Navbar */
+        .header-area {
+            position: sticky;
+            top: 0;
+            background-color: #0096c8; /* Sesuaikan dengan warna background navbar */
+            padding: 10px 0; /* Mengurangi jarak vertikal navbar */
+            z-index: 999; /* Pastikan navbar berada di atas */
+            box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Menyusun Navbar secara fleksibel */
+        .main-nav {
+            display: flex;
+            justify-content: space-between; /* Menyusun logo dan menu navbar dengan jarak */
+            align-items: center; /* Menyusun elemen navbar secara vertikal */
+            height: 60px; /* Sesuaikan tinggi navbar agar lebih tinggi */
+            max-width: 1200px;
+            margin: 0 auto; /* Agar navbar tetap di tengah */
+        }
 
-    .header img {
-      height: 40px;
-    }
+        /* Menyusun logo */
+        .main-nav .logo img {
+            height: 70px; /* Sesuaikan ukuran logo */
+            width: auto;
+            padding-top: 2px; /* Memberikan sedikit ruang di atas logo agar lebih ke atas */
+        }
 
-    .header h1 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: bold;
-    }
+        /* Menyusun menu navbar */
+        .main-nav .nav {
+            display: flex;
+            align-items: center; /* Menyusun menu secara vertikal di tengah */
+            margin: 0;
+        }
+
+        .main-nav .nav li {
+            list-style: none;
+            margin: 0 17px; /* Memberikan jarak antara menu */
+        }
+
+        .main-nav .nav a {
+            font-size: 16px; /* Ukuran font menu */
+            color: #ffffff; /* Warna teks menu */
+            text-decoration: none;
+            text-transform: capitalize; /* Membuat teks menjadi kapital */
+            padding: 10px;
+            transition: all 0.3s ease; /* Efek transisi saat hover */
+        }
+
+        .main-nav .nav li a.active,
+        .main-nav .nav li a:hover {
+            color: #4ae2ff; 
+        }
+
+        /* Efek Hover */
+        .main-nav .nav li a:hover {
+            background-color: rgba(0, 0, 0, 0.2); /* Memberikan efek latar belakang transparan saat hover */
+            border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-nav .nav {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            .header-area .logo img {
+                height: 60px;
+            }
+        }
 
     .content {
       margin: 40px auto;
@@ -128,12 +184,27 @@
 </head>
 
 <body>
-  <div class="header">
-    <a href="{{ route('articles.index') }}">
-      <img src="../../images/rororo.png" alt="Logo">
-    </a>
-    <h1>Edit Artikel</h1>
-  </div>
+ <!-- Navbar -->
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- Logo -->
+                    <a href="{{ route('welcome') }}" class="logo">
+                        <img src="../../images/rororo.png" alt="Logo FreshyFish">
+                    </a>
+                    <!-- Menu -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="{{ route('welcome') }}">Home</a></li>
+                        <li class="scroll-to-section"><a href="{{ route('articles.index') }}" class="active">Artikel</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
 
   <div class="content">
     <h3>Edit Artikel</h3>
