@@ -407,6 +407,35 @@
         });
       }
 
+      $('#logoutButton').on('click', function() {
+                const token = localStorage.getItem('token');  // Pastikan token didefinisikan
+                if (!token) {
+                    alert('Anda tidak terautentikasi!');
+                    return;
+                }
+                
+                $.ajax({
+                    url: 'https://freshyfishapi.ydns.eu/api/auth/logout',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
+                    },
+                    success: function() {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('ID_toko');
+                        alert('Logout berhasil. Anda akan diarahkan ke halaman login.');
+                        window.location.href = '/auth/login';
+                    },
+                    error: function(xhr) {
+                        console.log('Logout Error:', xhr);
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('ID_toko');
+                        window.location.href = '/auth/login';
+                    }
+                });
+            });
+            
       // Panggil fungsi untuk memuat data
       getUserData();
       getTotalProfit();
