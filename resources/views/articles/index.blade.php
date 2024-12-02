@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="{{ asset('js/articles.js') }}"></script>
 
     <style>
@@ -20,37 +21,61 @@
         }
 
         /* Header */
-        .header {
+        .header-area {
+            position: sticky;
+            top: 0;
             background-color: #0096c8;
-            color: white;
-            padding: 15px 20px;
+            padding: 10px 0;
+            z-index: 999;
+            box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Menyusun Navbar secara fleksibel */
+        .main-nav {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Menyusun logo dan menu navbar dengan jarak */
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .header img {
-            height: 50px;
+        /* Menyusun logo */
+        .main-nav .logo img {
+            height: 70px;
+            width: auto;
+            padding-top: 2px;
         }
 
-        /* Navbar */
-        .navbar {
+        /* Menyusun menu navbar */
+        .main-nav .nav {
             display: flex;
-            gap: 15px;
             align-items: center;
+            margin: 0;
         }
 
-        .navbar .nav-link {
-            text-decoration: none;
-            color: white;
+        .main-nav .nav li {
+            list-style: none;
+            margin: 0 17px;
+        }
+
+        .main-nav .nav a {
             font-size: 16px;
-            font-weight: bold;
-            transition: color 0.3s;
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: capitalize;
+            padding: 10px;
+            transition: all 0.3s ease;
         }
 
-        .navbar .nav-link:hover {
-            color: #f5fafd;
+        .main-nav .nav li a.active,
+        .main-nav .nav li a:hover {
+            color: #4ae2ff;
+        }
+
+        .main-nav .nav li a:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
         }
 
         /* Search Bar */
@@ -66,7 +91,7 @@
         .search-bar input {
             border: none;
             outline: none;
-            width: 300px;
+            width: 250px; /* Ukuran input pencarian */
             padding: 8px;
             font-size: 16px;
             color: #333;
@@ -87,6 +112,27 @@
 
         .search-bar button:hover {
             color: #007ba5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-nav .nav {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .search-bar {
+                margin-top: 10px;
+            }
+
+            .header-area .logo img {
+                height: 60px;
+            }
+
+            .search-bar input {
+                width: 200px; /* Lebih kecil pada perangkat mobile */
+            }
         }
 
         /* Welcome Section */
@@ -226,20 +272,29 @@
 </head>
 
 <body>
-    <div class="header">
-        <div class="navbar">
-            <a href="{{ route('welcome') }}" class="nav-link">Welcome</a>
-            <a href="{{ route('auth.login') }}" class="nav-link">Login</a>
-        </div>
-        <a href="{{ route('articles.index') }}">
-            <img src="../../images/rororo.png" alt="Logo">
-        </a>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Cari artikel..." onkeyup="filterArticles()">
-            <button><i class="fas fa-search"></i></button>
+    <div class="header-area">
+        <div class="main-nav">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/">
+                    <img src="../../images/rororo.png" alt="Logo">
+                </a>
+            </div>
+
+            <!-- Menu Navbar -->
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/articles">Artikel</a></li>
+                <li><a href="/auth/login">Login</a></li>
+            </ul>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Cari artikel...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
         </div>
     </div>
-
 
     <div class="welcome-message">
         <h2>Artikel Resep Ikan</h2>
