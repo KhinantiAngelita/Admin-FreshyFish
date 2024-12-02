@@ -22,26 +22,91 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 </head>
+<style>
+    .navbar {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .navbar-nav .nav-link {
+      font-weight: 500;
+      font-size: 1rem;
+      margin-left: 20px;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #FFB327;
+    }
+
+    .navbar-toggler-icon {
+      background-color: white;
+    }
+
+    .navbar-nav.mx-auto {
+      justify-content: center;
+    }
+
+    .navbar-nav.ms-auto {
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 10px 15px;
+      }
+
+      .navbar-nav .nav-link {
+        font-size: 0.9rem;
+      }
+    }
+
+    .container-fluid.page-body-wrapper {
+      margin-top: 20px;
+    }
+
+  </style>
 
 <body>
-    <div class="container-scroller">
-        <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/rororo.png" alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/lololo.png" alt="logo" /></a>
-    </div>
-    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul class="navbar-nav navbar-nav-right">
-            <!-- Logout Button -->
-            <li class="nav-item">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #0096c8;">
+        <div class="container-fluid">
+          <!-- Logo di sebelah kiri -->
+          <a class="navbar-brand" href="index.html">
+            <img src="../../images/rororo.png" alt="logo" style="height: 60px; margin-right: 20px;" />
+          </a>
+
+          <!-- Tombol toggle untuk mobile -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Menu Navigasi -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+              <!-- Menu Home dan Artikel di tengah -->
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{{ route('welcome') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{{ route('articles.index') }}">Artikel</a>
+              </li>
+            </ul>
+
+            <!-- Menu Logout di sebelah kanan -->
+            <ul class="navbar-nav ms-auto">
+              <!-- Tombol Logout di sebelah kanan -->
+              <li class="nav-item">
                 <a class="nav-link btn btn-danger text-white px-4 py-2 rounded-pill shadow-sm" href="javascript:void(0)" id="logoutButton">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                  <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
-            </li>
-        </ul>
-    </div>
-</nav>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
@@ -380,14 +445,19 @@
                     url: 'https://freshyfishapi.ydns.eu/api/auth/logout',
                     type: 'POST',
                     headers: {
-                        'Authorization': 'Bearer ' + token
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
                     },
                     success: function() {
                         localStorage.removeItem('token');
                         localStorage.removeItem('ID_toko');
+                        alert('Logout berhasil. Anda akan diarahkan ke halaman login.');
                         window.location.href = '/auth/login';
                     },
-                    error: function() {
+                    error: function(xhr) {
+                        console.log('Logout Error:', xhr);
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('ID_toko');
                         window.location.href = '/auth/login';
                     }
                 });
